@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja Tivoli - Generador de Recibos</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; padding: 15px; color: #333; margin: 0; }
+        .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .panel { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { color: #1a73e8; margin-top: 0; font-size: 18px; margin-bottom: 10px; }
+        textarea { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-bottom: 10px; font-family: inherit; resize: vertical; }
+        button { background: #1a73e8; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 15px; width: 100%; margin-bottom: 10px; }
+        button:hover { background: #1557b0; }
+        .btn-green { background: #25d366; }
+        .btn-green:hover { background: #1da851; }
+        
+        /* Estilos del Talonario */
+        .ticket-wrapper { overflow-x: auto; background: #e8eaed; padding: 15px; border-radius: 8px; display: flex; justify-content: center; }
+        #ticket_imprimible { background: white; padding: 20px; border: 2px dashed #000; width: 750px; min-width: 750px; display: flex; font-family: Arial, "PingFang TC", "Microsoft JhengHei", sans-serif; color: black; box-sizing: border-box; }
+        
+        .mitad-cliente { width: 65%; padding-right: 20px; border-right: 2px dashed #999; text-align: left; }
+        .mitad-caja { width: 35%; padding-left: 20px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        .t-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px;}
+        
+        @media print {
+            body * { visibility: hidden; }
+            #ticket_imprimible, #ticket_imprimible * { visibility: visible; }
+            #ticket_imprimible { position: absolute; left: 0; top: 0; width: 100%; border: none; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="panel">
+        <h2>📥 1. Pegar mensaje de WhatsApp</h2>
+        <textarea id="texto_wa" placeholder="Pegá acá el mensaje completo de la inscripción..."></textarea>
+        <button onclick="generarDesdeTexto()">⚡ Extraer Datos al Talonario</button>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button class="btn-green" onclick="descargarImagen()">💾 Bajar como Imagen / Compartir</button>
+            <button style="background: #333;" onclick="window.print()">🖨️ Imprimir</button>
+        </div>
+    </div>
+
+    <div class="panel ticket-wrapper">
+        <div id="ticket_imprimible">
+            <!-- MITAD CLIENTE -->
+            <div class="mitad-cliente">
+                <h2 style="margin: 0 0 5px 0; color: #1a73e8; font-size: 20px;">🎫 Recibo de Inscripción (報名收據) - Tivoli Park</h2>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px;">
+                    <p style="margin: 0; font-weight: bold; font-size: 18px;">N°: <span id="tk_num_cli" style="color: #d93025; font-size: 22px;">TIV-XXXX</span></p>
+                    <p style="margin: 0; font-size: 13px; color: #555;" id="tk_fecha_cli">Fecha (日期): --/--/----</p>
+                </div>
+                
+                <div style="background: #fafafa; padding: 10px; border-radius: 6px; border: 1px solid #eee;">
+                    <div class="t-row"><span>Adultos / Mayores 5a (5歲以上):</span> <strong id="tk_adultos">0</strong></div>
+                    <div class="t-row"><span>Menores Gratis (5歲以下免費):</span> <strong id="tk_menores">0</strong></div>
+                    <div class="t-row"><span>Combos Comida (餐點套餐):</span> <strong id="tk_comida">Sin combos</strong></div>
+                    
+                    <div style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 10px;">
+                        <span style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #1a73e8;">Detalle de Participantes (參與者明細):</span>
+                        <div id="tk_juegos" style="color: #333; font-size: 13px; line-height: 1.4;"></div>
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid #ccc; margin: 10px 0;">
+                    <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #1557b0;">
+                        <span>TOTAL ABONADO (實付總額):</span> <span id="tk_total_cli">$0</span>
+                    </div>
+                </div>
+                
+                <!-- CAJA DE REGLAS BILINGÜE -->
+                <div style="margin-top: 15px; font-size: 12px; background: #f8d7da; color: #721c24; padding: 10px; border-radius: 8px; border: 1px solid #f5c6cb; line-height: 1.4;">
+                    <strong>📍 Dirección (地址):</strong> Calle 312 y RP6, B1983 Coronel Brandsen.<br>
+                    <strong>🗺️ Mapa (地圖):</strong> https://maps.app.goo.gl/DGyWfMRt5DS9mirF7<br><br>
+                    <strong style="font-size: 13px;">⚠️ REGLAS DEL PREDIO (園區重要規定):</strong><br>
+                    Estrictamente prohibido ingresar con (依規定嚴禁攜帶以下物品入場):<br>
+                    🚫 Mascotas (寵物).<br>
+                    🚫 Bebidas alcohólicas (酒精飲料).<br>
+                    🚫 Anafes o equipos para cocinar (瓦斯爐或烹飪器具).<br>
+                    🌧️ <em>En caso de lluvia, el evento se posterga (若遇雨天，活動將自動延期).</em>
+                </div>
+                
+                <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
+                    <div style="text-align: center; width: 220px;">
+                        <div style="height: 40px; border-bottom: 1px solid #000; position: relative;">
+                            <!-- Espacio vacío para firmar a mano -->
+                        </div>
+                        <div style="font-size: 12px; margin-top: 4px; color: #555;">Firma / Recibí conforme (簽名 / 確認收款)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MITAD CAJA BILINGÜE -->
+            <div class="mitad-caja">
+                <div style="font-size: 24px; margin-bottom: 5px; color: #999;">✂️</div>
+                <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #555; letter-spacing: 1px;">TALÓN CONTROL<br><span style="font-size: 13px;">(存根聯)</span></h3>
+                <p style="font-size: 20px; font-weight: bold; margin: 10px 0;">N°: <span id="tk_num_caja" style="color: #d93025;">TIV-XXXX</span></p>
+                <div style="font-size: 24px; font-weight: bold; margin: 10px 0; color: #1557b0;" id="tk_total_caja">$0</div>
+                
+                <div style="text-align: left; font-size: 14px; background: #fafafa; padding: 10px; border-radius: 6px; border: 1px solid #eee; margin-top: 10px;">
+                    <p style="margin: 0 0 5px 0; font-weight: bold;">Titular (報名者):</p>
+                    <p style="margin: 0; color: #444; word-break: break-word;" id="tk_responsable_caja">----------</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const hoy = new Date();
+    document.getElementById('tk_fecha_cli').innerText = "Fecha (日期): " + hoy.toLocaleDateString('es-AR');
+
+    function generarDesdeTexto() {
+        const txt = document.getElementById('texto_wa').value;
+        if (!txt) { alert("Pegá el mensaje de WhatsApp primero."); return; }
+
+        const matchComp = txt.match(/TIV-[A-Z0-9]+/i);
+        const comp = matchComp ? matchComp[0] : "TIV-XXXX";
+
+        // Detecta "Responsable", "Nombre", "姓名", "負責人" y "Encargado"
+        const matchNombre = txt.match(/\*(?:Responsable|負責人|Encargado|Nombre|姓名[^*]*):\*\s*(.+)/i);
+        const responsable = matchNombre ? matchNombre[1].trim() : "No especificado";
+
+        const matchMonto = txt.match(/\*(?:TOTAL A PAGAR|TOTAL GRUPO FAMILIAR|應付總額[^*]*|全家總額[^*]*):\*\s*(\$[0-9.,]+)/i);
+        const monto = matchMonto ? matchMonto[1].trim() : "$0";
+
+        let adultos = "0";
+        let menores = "0";
+        let detalleJuegosHTML = "";
+        
+        if (txt.includes("INSCRIPCIÓN INDIVIDUAL") || txt.includes("1 Persona (Individual)")) {
+            const matchEdad = txt.match(/\*Edad:\*\s*(\d+)|\*年齡\s*\(Edad\):\*\s*(\d+)/i);
+            const edad = matchEdad ? parseInt(matchEdad[1] || matchEdad[2]) : 20;
+            if (edad < 5) { adultos = "0"; menores = "1"; } else { adultos = "1"; menores = "0"; }
+            
+            const matchTipo = txt.match(/\*(?:Tipo de Entrada|門票[^*]*):\*\s*(.+)/i);
+            const tipo = matchTipo ? matchTipo[1].trim() : "Sin especificar";
+
+            const matchJuegosInd = txt.match(/\*(?:Juegos elegidos|設施 \(Juegos\))[^*]*:\*\s*(.+)/i);
+            const juegos = matchJuegosInd ? matchJuegosInd[1].trim() : "";
+
+            let nombreNinoMatch = txt.match(/\*(?:Niño\/a|幼童[^*]*):\*\s*(.+)/i);
+            let nombreMostrar = responsable;
+            if (edad < 5 && nombreNinoMatch) { nombreMostrar = nombreNinoMatch[1].trim(); }
+
+            if (juegos) { detalleJuegosHTML = `<div style="margin-bottom:4px;">• ${nombreMostrar}: ${tipo} -> Juegos: ${juegos}</div>`; } 
+            else { detalleJuegosHTML = `<div style="margin-bottom:4px;">• ${nombreMostrar}: ${tipo}</div>`; }
+        } else {
+            const matchInt = txt.match(/\*(?:Integrantes|成員[^*]*):\*\s*(\d+).*?\|\s*(\d+)/i);
+            if (matchInt) { adultos = matchInt[1]; menores = matchInt[2]; }
+            
+            const bloqueJuegosMatch = txt.match(/\*(?:Entradas y Juegos de Aventura|門票與設施選擇[^*]*):\*\s*\n([\s\S]*?)\n.*(?:Combos Comida|餐點)/i);
+            if (bloqueJuegosMatch) {
+                const lineas = bloqueJuegosMatch[1].trim().split('\n');
+                detalleJuegosHTML = lineas.map(l => `<div style="margin-bottom: 4px;">${l}</div>`).join('');
+            } else {
+                detalleJuegosHTML = "<div style='color: #666; font-style: italic;'>Sin detalles especificados</div>";
+            }
+        }
+
+        const matchComida = txt.match(/\*(?:Combos Comida|餐點[^*]*):\*\s*(.+)/i);
+        const comida = matchComida ? matchComida[1].trim() : "Sin combos";
+
+        document.getElementById('tk_num_cli').innerText = comp;
+        document.getElementById('tk_num_caja').innerText = comp;
+        document.getElementById('tk_responsable_caja').innerText = responsable;
+        document.getElementById('tk_total_cli').innerText = monto;
+        document.getElementById('tk_total_caja').innerText = monto;
+        document.getElementById('tk_adultos').innerText = adultos;
+        document.getElementById('tk_menores').innerText = menores;
+        document.getElementById('tk_comida').innerText = comida;
+        document.getElementById('tk_juegos').innerHTML = detalleJuegosHTML;
+    }
+
+    function descargarImagen() {
+        const ticket = document.getElementById('ticket_imprimible');
+        
+        html2canvas(ticket, { 
+            scale: 2, 
+            backgroundColor: "#ffffff",
+            useCORS: true 
+        }).then(canvas => {
+            canvas.toBlob(function(blob) {
+                const comp = document.getElementById('tk_num_cli').innerText;
+                const file = new File([blob], `Recibo_${comp}.jpg`, { type: 'image/jpeg' });
+
+                // Detecta si es un celular y abre el menú nativo
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    navigator.share({
+                        files: [file],
+                        title: `Recibo ${comp}`,
+                        text: '¡Acá tenés tu recibo de inscripción (報名收據)!'
+                    }).catch(err => console.log('Intercambio cancelado o fallido:', err));
+                } else {
+                    // Si es una PC, hace la descarga normal
+                    const link = document.createElement('a');
+                    link.download = `Recibo_${comp}.jpg`;
+                    link.href = canvas.toDataURL('image/jpeg', 0.9);
+                    link.click();
+                }
+            }, 'image/jpeg', 0.9);
+        });
+    }
+</script>
+
+</body>
+</html>
