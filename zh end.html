@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tivoli Park 家庭日一日遊報名表</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --success: #25d366;
+            --bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --text: #202124;
+            --text-muted: #5f6368;
+            --border: #dadce0;
+            --accent-bg: #e8f0fe;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .lang-switch {
+            text-align: right;
+            margin-bottom: 12px;
+        }
+
+        .lang-btn {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0 0 4px 0;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .date-badge {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #d93025;
+            margin-bottom: 12px;
+        }
+
+        .tab-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0 0 12px 0;
+            border-bottom: 2px solid var(--accent-bg);
+            padding-bottom: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        label.field-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"], input[type="tel"], input[type="number"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+            background: #fff;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, input[type="tel"]:focus, input[type="number"]:focus, select:focus {
+            border-color: var(--primary);
+        }
+
+        .counter-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: #fafafa;
+        }
+
+        .counter-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .counter-label small {
+            display: block;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-qty {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-qty:active {
+            background: var(--accent-bg);
+        }
+
+        .qty-val {
+            font-size: 15px;
+            font-weight: bold;
+            width: 20px;
+            text-align: center;
+        }
+
+        .member-box {
+            background: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .member-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: #fff;
+            transition: background-color 0.2s;
+        }
+
+        .option-card:hover {
+            background-color: var(--accent-bg);
+        }
+
+        .option-card input[type="radio"],
+        .option-card input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .option-text {
+            font-size: 14px;
+            flex-grow: 1;
+        }
+
+        .badge-price {
+            font-weight: bold;
+            font-size: 13px;
+            color: var(--primary-dark);
+        }
+
+        .sub-box {
+            background: #fff;
+            border: 1px dashed var(--primary);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 8px;
+        }
+
+        .sub-box-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #d93025;
+            margin-bottom: 6px;
+        }
+
+        .food-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding: 10px 0;
+        }
+
+        .food-item:last-child {
+            border-bottom: none;
+        }
+
+        .food-info {
+            font-size: 14px;
+        }
+
+        .food-price {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .summary-box {
+            background: var(--accent-bg);
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .payment-info {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+            margin-top: 14px;
+            color: #5d4037;
+            line-height: 1.5;
+        }
+
+        .btn-group-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .btn-whatsapp {
+            width: 100%;
+            background-color: var(--success);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-whatsapp:active {
+            transform: scale(0.99);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- Estilos para el Pop-up de Imagen --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.85); 
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .icon-photo {
+            cursor: pointer;
+            margin-left: 6px;
+            font-size: 16px;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .icon-photo:hover {
+            transform: scale(1.2);
+        }
+    </style>
+    </head>
+<body>
+
+<!-- Modal para el Mapa -->
+<div id="mapModal" class="modal" onclick="cerrarMapa(event)">
+    <div class="modal-content" style="background: white; padding: 12px; width: 90%; max-width: 600px; height: 70%; display: flex; flex-direction: column; position: relative;" onclick="event.stopPropagation()">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h3 style="margin: 0; font-size: 16px; color: #1a73e8;">📍 Tivoli Park</h3>
+            <div style="cursor: pointer; font-size: 20px; color: #555;" onclick="cerrarMapa(event)">❌</div>
+        </div>
+        <iframe src="https://maps.google.com/maps?q=Tivoli+Park,+Brandsen,+Provincia+de+Buenos+Aires&output=embed" width="100%" height="100%" style="border:0; flex-grow: 1; border-radius: 8px;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+</div>
+
+<!-- Modal para ver imágenes de los juegos -->
+<div id="imageModal" class="modal" onclick="cerrarFoto()">
+    <img class="modal-content" id="modalImg">
+</div>
+
+<div class="container">
+    <div class="lang-switch">
+        <a href="index.html" class="lang-btn">🌐 Cambiar a Español</a>
+    </div>
+
+    <div class="card">
+        <h1>🚌 Tivoli Park 家庭日一日遊</h1>
+        <div class="date-badge">📅 20/09/2026</div>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <a href="#" onclick="abrirMapa(event)" style="text-decoration: none; background: #e8eaed; color: #1a73e8; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">📍 查看地點地圖 (Coronel Brandsen)</a>
+        </div>
+
+        <!-- CARTEL DE CUPOS AGOTADOS (Oculto por defecto) -->
+        <div id="mensaje_agotado" style="display: none; text-align: center; padding: 30px 10px; background: #f8d7da; border: 2px solid #f5c6cb; border-radius: 12px; margin-top: 20px;">
+            <h2 style="color: #721c24; margin-top: 0; font-size: 24px;">🚨 報名已額滿！ 🚨</h2>
+            <p style="font-size: 16px; color: #721c24; margin-bottom: 0;">本次活動報名人數已達場地容納上限，目前不再接受新報名。感謝您的支持與體諒！</p>
+        </div>
+
+        <!-- CUERPO DEL FORMULARIO (Se oculta si no hay cupos) -->
+        <div id="cuerpo_formulario">
+            <form name="inscripcion_tivoli_unificada" method="POST" data-netlify="true" id="formUnificado">
+                <input type="hidden" name="form-name" value="inscripcion_tivoli_unificada" />
+                <input type="hidden" name="idioma" value="Chino" />
+                <input type="hidden" name="tipo_modo" id="tipo_modo" value="Individuo" />
+                <input type="hidden" name="contacto_seleccionado" id="contacto_seleccionado" value="" />
+                <input type="hidden" name="resumen_integrantes" id="resumen_integrantes" value="" />
+                <input type="hidden" name="resumen_comidas" id="resumen_comidas" value="" />
+                <input type="hidden" name="monto_total_guardado" id="monto_total_guardado" value="" />
+                <input type="hidden" name="hora_envio" id="hora_envio" value="" />
+                <input type="hidden" name="numero_inscripcion" id="numero_inscripcion" value="" />
+                <input type="hidden" name="detalle_edades_sexo" id="detalle_edades_sexo" value="" />
+
+                <div class="tab-group">
+                    <button type="button" class="tab-btn active" id="tab_ind" onclick="seleccionarModo('ind')">👤 個人報名 (Individual)</button>
+                    <button type="button" class="tab-btn" id="tab_fam" onclick="seleccionarModo('fam')">👨‍👩‍👧‍👦 家庭/團體 (Familiar)</button>
+                </div>
+
+                <!-- 1. DATOS PERSONALES / RESPONSABLE -->
+                <div class="section-title" id="sec_title_datos">1. 基本資料 (Datos Personales)</div>
+                <div class="form-group">
+                    <label class="field-label" for="nombre">姓名 (Nombre y Apellido) *</label>
+                    <input type="text" id="nombre" name="nombre_apellido" placeholder="例如: 張小明" required>
+                </div>
+                <div class="form-group">
+                    <label class="field-label" for="telefono">聯絡電話 / WhatsApp *</label>
+                    <input type="tel" id="telefono" name="telefono_whatsapp" placeholder="例如: 11 1234-5678" required>
+                </div>
+
+                <!-- MODO INDIVIDUAL: EDAD Y SEXO -->
+                <div id="bloque_datos_ind">
+                    <div class="grid-2 form-group">
+                        <div>
+                            <label class="field-label" for="edad_ind">年齡 (Edad) *</label>
+                            <input type="number" id="edad_ind" name="edad_ind" min="1" max="100" placeholder="例如: 25" oninput="validarEdadInd()">
+                        </div>
+                        <div>
+                            <label class="field-label" for="sexo_ind">性別 (Sexo) *</label>
+                            <select id="sexo_ind" name="sexo_ind">
+                                <option value="Masculino (男)">男 (Masculino)</option>
+                                <option value="Femenino (女)">女 (Femenino)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="bloque_nombre_nino_ind" class="form-group hidden">
+                        <label class="field-label" for="nombre_nino_ind">幼童姓名 (Nombre del niño/niña) *</label>
+                        <input type="text" id="nombre_nino_ind" name="nombre_nino_ind" placeholder="例如: 小明">
+                    </div>
+                    <div class="form-group dni-group" style="display: none; margin-top: 10px;">
+                        <label class="field-label" for="dni_ind">身分證號 (DNI) *</label>
+                        <input type="number" id="dni_ind" name="dni_ind" placeholder="例如: 12345678">
+                    </div>
+                </div>
+
+                <!-- 2. SECCION FAMILIAR: CANTIDAD INTEGRANTES -->
+                <div id="bloque_cantidades_fam" class="hidden">
+                    <div class="section-title">2. 團體成員人數 (Integrantes)</div>
+                    <div class="counter-row">
+                        <div class="counter-label">
+                            5歲以上成員 (>= 5歲)
+                            <small>須購買門票 ($10.000 / $20.000)</small>
+                        </div>
+                        <div class="counter-controls">
+                            <button type="button" class="btn-qty" onclick="cambiarCantidad('mayores', -1)">-</button>
+                            <span class="qty-val" id="qty_mayores">1</span>
+                            <button type="button" class="btn-qty" onclick="cambiarCantidad('mayores', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="counter-row">
+                        <div class="counter-label">
+                            5歲以下幼童 (0至4歲)
+                            <small>免費入場 ($0)</small>
+                        </div>
+                        <div class="counter-controls">
+                            <button type="button" class="btn-qty" onclick="cambiarCantidad('menores', -1)">-</button>
+                            <span class="qty-val" id="qty_menores">0</span>
+                            <button type="button" class="btn-qty" onclick="cambiarCantidad('menores', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. CONFIGURACION DE ENTRADAS Y JUEGOS -->
+                <div class="section-title" style="margin-top: 20px;" id="sec_title_entradas">2. 門票類型 (Tipo de Entrada)</div>
+                
+                <div id="aviso_gratis_ind" class="payment-info" style="display: none; background: #e8f5e9; border-color: #a5d6a7; color: #1b5e20; margin-top: 12px; margin-bottom: 12px;">
+                    🎉 <strong>免費入場 (Entrada Gratis)!</strong><br>
+                    5歲以下幼童（0至4歲）免費入場，無需購買冒險設施門票。
+                </div>
+
+                <div id="bloque_entrada_ind">
+                    <div class="option-group">
+                        <label class="option-card">
+                            <input type="radio" name="tipo_entrada_ind" value="Sin juegos ($10.000)" data-precio="10000" checked onchange="calcularTotal()">
+                            <span class="option-text">不含冒險遊樂 (Sin juegos)</span>
+                            <span class="badge-price">$10.000</span>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" id="ind_con_juegos" name="tipo_entrada_ind" value="Con juegos ($20.000)" data-precio="20000" onchange="calcularTotal()">
+                            <span class="option-text">含冒險遊樂 (Con juegos)</span>
+                            <span class="badge-price">$20.000</span>
+                        </label>
+                    </div>
+
+                    <div id="sec_juegos_ind" class="sub-box hidden">
+                        <div class="sub-box-title">🎯 請恰好選擇 2 項優先體驗設施:</div>
+                        <div style="font-size: 13px; color: #1557b0; margin-bottom: 8px; font-weight: 500;">💡 <em>備註：設施體驗可轉讓，當天可將 1 或 2 項設施額度讓給他人使用。</em></div>
+                        <div class="option-group">
+                            <label class="option-card"><input type="checkbox" name="juegos_ind" value="Tirolesa" onchange="validarJuegosInd(this)"><span class="option-text">高空滑索 (Tirolesa) - 8歲以上 <span class="icon-photo" onclick="abrirFoto('tirolesa.png', event)">📷</span></span></label>
+                            <label class="option-card"><input type="checkbox" name="juegos_ind" value="Palestra" onchange="validarJuegosInd(this)"><span class="option-text">攀岩牆 (Palestra) - 5歲以上 <span class="icon-photo" onclick="abrirFoto('escalada.png', event)">📷</span></span></label>
+                            <label class="option-card"><input type="checkbox" name="juegos_ind" value="Arquería" onchange="validarJuegosInd(this)"><span class="option-text">射箭 (Arquería) - 5歲以上 <span class="icon-photo" onclick="abrirFoto('arqueria.png', event)">📷</span></span></label>
+                            <label class="option-card"><input type="checkbox" name="juegos_ind" value="Puentes aéreos" onchange="validarJuegosInd(this)"><span class="option-text">高空繩索橋 (Puentes aéreos) - 10歲以上 <span class="icon-photo" onclick="abrirFoto('puentes.png', event)">📷</span></span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="contenedor_mayores_fam" class="hidden"></div>
+
+                <!-- 4. COMBOS DE COMIDA -->
+                <div class="section-title" style="margin-top: 20px;" id="sec_title_comida">3. Tivoli Park 餐點套餐 (自由選購 / 可不訂)</div>
+                <div class="subtitle" style="text-align: left; margin-bottom: 8px;">若不需用餐，維持 0 即可 (無餐點)。每份套餐 $15.000 (不含飲料 Sin bebida)。</div>
+                <div style="font-size: 13px; color: #1557b0; margin-bottom: 12px; background: #e8f0fe; padding: 8px; border-radius: 6px;">🥤 <strong>備註：</strong> 現場將有販賣部販售飲料，您也可以自行攜帶飲品。</div>
+
+                <div class="food-item">
+                    <div class="food-info">
+                        <strong>牛肉漢堡套餐 + 薯條 (Hamburguesa)</strong>
+                        <div class="food-price">每份 $15.000</div>
+                    </div>
+                    <div class="counter-controls">
+                        <button type="button" class="btn-qty" onclick="cambiarComida('hamburguesa', -1)">-</button>
+                        <span class="qty-val" id="qty_hamburguesa">0</span>
+                        <button type="button" class="btn-qty" onclick="cambiarComida('hamburguesa', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="food-item">
+                    <div class="food-info">
+                        <strong>梅花肉三明治套餐 + 薯條 (Bondiola)</strong>
+                        <div class="food-price">每份 $15.000</div>
+                    </div>
+                    <div class="counter-controls">
+                        <button type="button" class="btn-qty" onclick="cambiarComida('bondiola', -1)">-</button>
+                        <span class="qty-val" id="qty_bondiola">0</span>
+                        <button type="button" class="btn-qty" onclick="cambiarComida('bondiola', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="food-item">
+                    <div class="food-info">
+                        <strong>炸肉排三明治套餐 + 薯條 (Milanesa)</strong>
+                        <div class="food-price">每份 $15.000</div>
+                    </div>
+                    <div class="counter-controls">
+                        <button type="button" class="btn-qty" onclick="cambiarComida('milanesa', -1)">-</button>
+                        <span class="qty-val" id="qty_milanesa">0</span>
+                        <button type="button" class="btn-qty" onclick="cambiarComida('milanesa', 1)">+</button>
+                    </div>
+                </div>
+
+                <!-- 5. TRANSPORTE -->
+                <div class="section-title" style="margin-top: 20px;" id="sec_title_transporte">4. 交通方式 (Transporte)</div>
+                <div class="option-group">
+                    <label class="option-card">
+                        <input type="radio" name="transporte" value="Micro de la iglesia" onchange="toggleMicro()">
+                        <span class="option-text">搭乘教會遊覽車 (Micro)</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="transporte" value="Voy manejando / Auto propio" checked onchange="toggleMicro()">
+                        <span class="option-text">自行開車 (Auto propio)</span>
+                    </label>
+                </div>
+                
+                <div id="aviso_seguro_micro" class="payment-info" style="display: none; background: #fff3cd; border-color: #ffeeba; color: #856404; margin-top: 12px;">
+                    ⚠️ <strong>保險與安全須知 (Aviso de Seguro):</strong><br>
+                    基於安全與旅遊保險規定，選擇搭乘遊覽車時，必須填寫每位乘客的 <strong>完整姓名與身分證號 (DNI)</strong>。
+                </div>
+
+                <!-- REGLAS DEL PREDIO -->
+                <div class="payment-info" style="background: #f8d7da; border-color: #f5c6cb; color: #721c24; margin-top: 20px;">
+                    <strong style="font-size: 14px;">⚠️ 園區重要規定 (Reglas del Predio):</strong><br>
+                    依據 Tivoli Park 園區規定，<strong>嚴禁攜帶</strong>以下物品入場：<br>
+                    🚫 寵物 (Mascotas)<br>
+                    🚫 酒精飲料 (Bebidas alcohólicas)<br>
+                    🚫 瓦斯爐或任何烹飪器具 (Anafes a gas para cocinar)
+                </div>
+
+                <!-- CÓMO TE ENTERASTE -->
+                <div class="form-group" style="margin-top: 20px;">
+                    <label class="field-label" for="como_te_enteraste" style="color: #856404; font-size: 15px; background: #fff3cd; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; display: inline-block; border: 1px solid #ffeeba;">您是如何得知此活動的？ (¿Cómo te enteraste de este evento?) *</label>
+                    <select id="como_te_enteraste" name="como_te_enteraste" required style="padding: 14px; font-size: 15px; border: 2px solid #ffca28; border-radius: 8px; background-color: #fffdf7; cursor: pointer;">
+                        <option value="" disabled selected>請選擇 (Seleccioná una opción)...</option>
+                        <option value="Colegio">學校 (Colegio)</option>
+                        <option value="Iglesia">教會 (Iglesia)</option>
+                        <option value="Amigo">朋友 (Amigo)</option>
+                        <option value="Red Social">社群媒體 (Red Social)</option>
+                        <option value="Otro">其他 (Otro)</option>
+                    </select>
+                </div>
+
+                <!-- RESUMEN Y TOTAL -->
+                <div class="summary-box">
+                    <div class="summary-row" id="row_resumen_entradas">
+                        <span id="lbl_resumen_entradas">個人門票</span>
+                        <span id="prc_resumen_entradas">$10.000</span>
+                    </div>
+                    <div class="summary-row hidden" id="row_resumen_menores">
+                        <span>5歲以下幼童 (<span id="lbl_cant_menores">0</span>人)</span>
+                        <span>$0 (免費)</span>
+                    </div>
+                    <div class="summary-row" id="row_resumen_comida" style="display:none;">
+                        <span id="lbl_resumen_comida">餐點套餐 (0份)</span>
+                        <span id="prc_resumen_comida">$0</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>應付總金額 (Total)</span>
+                        <span id="monto_total">$10.000</span>
+                    </div>
+                </div>
+
+                <!-- INFORMACION DE PAGO -->
+                <div class="payment-info">
+                    💳 <strong>繳費說明 (Pago):</strong><br>
+                    請於下方選擇欲聯絡送出報名與繳費的負責人。
+                </div>
+
+                <div class="btn-group-container">
+                    <button type="button" class="btn-whatsapp" onclick="enviarInscripcionDirecta('Willy (曾立緯)', '5491151175494')">
+                        📲 發送報名給 Willy (曾立緯)
+                    </button>
+                    <button type="button" class="btn-whatsapp" style="background-color: #00a884;" onclick="enviarInscripcionDirecta('Jenny Lee (李佳珍)', '5491122886604')">
+                        📲 發送報名給 Jenny Lee (李佳珍)
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // --- BOTÓN DE APAGADO DE INSCRIPCIONES ---
+    // Cambiar a "true" cuando se llegue al límite de capacidad
+    const CUPOS_AGOTADOS = false; 
+
+    let modoActual = 'ind';
+    let cantMayores = 1;
+    let cantMenores = 0;
+    let comidas = { hamburguesa: 0, bondiola: 0, milanesa: 0 };
+
+    /* --- Funciones del Mapa --- */
+    function abrirMapa(event) {
+        event.preventDefault();
+        document.getElementById("mapModal").style.display = "flex";
+    }
+
+    function cerrarMapa(event) {
+        if(event) event.stopPropagation();
+        document.getElementById("mapModal").style.display = "none";
+    }
+
+    /* --- Funciones del Pop-up de Imágenes --- */
+    function abrirFoto(src, event) {
+        event.preventDefault(); 
+        event.stopPropagation(); 
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImg");
+        modal.style.display = "flex";
+        modalImg.src = src;
+    }
+
+    function cerrarFoto() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+
+    function seleccionarModo(modo) {
+        modoActual = modo;
+        document.getElementById('tipo_modo').value = modo === 'ind' ? 'Individuo' : 'Grupo Familiar';
+
+        document.getElementById('tab_ind').classList.toggle('active', modo === 'ind');
+        document.getElementById('tab_fam').classList.toggle('active', modo === 'fam');
+
+        document.getElementById('sec_title_datos').innerText = modo === 'ind' ? '1. 基本資料 (Datos Personales)' : '1. 家庭負責人資料 ( Responsable )';
+        document.getElementById('sec_title_entradas').innerText = modo === 'ind' ? '2. 門票類型 (Tipo de Entrada)' : '3. 門票與設施選擇 (所有成員)';
+        document.getElementById('sec_title_comida').innerText = modo === 'ind' ? '3. Tivoli Park 餐點套餐 (選購)' : '4. Tivoli Park 餐點套餐 (自由選購數量)';
+        document.getElementById('sec_title_transporte').innerText = modo === 'ind' ? '4. 交通方式 (Transporte)' : '5. 交通方式 (Transporte)';
+
+        document.getElementById('bloque_datos_ind').classList.toggle('hidden', modo === 'fam');
+        document.getElementById('bloque_cantidades_fam').classList.toggle('hidden', modo === 'ind');
+        document.getElementById('bloque_entrada_ind').classList.toggle('hidden', modo === 'fam');
+        document.getElementById('contenedor_mayores_fam').classList.toggle('hidden', modo === 'ind');
+        document.getElementById('row_resumen_menores').classList.toggle('hidden', modo === 'ind');
+
+        if (modo === 'fam') {
+            renderizarIntegrantesFam();
+        } else {
+            validarEdadInd();
+        }
+
+        calcularTotal();
+    }
+
+    function cambiarCantidad(tipo, delta) {
+        if (tipo === 'mayores') {
+            cantMayores = Math.max(1, cantMayores + delta);
+            document.getElementById('qty_mayores').innerText = cantMayores;
+            renderizarIntegrantesFam();
+        } else {
+            cantMenores = Math.max(0, cantMenores + delta);
+            document.getElementById('qty_menores').innerText = cantMenores;
+            document.getElementById('lbl_cant_menores').innerText = cantMenores;
+            renderizarIntegrantesFam();
+        }
+        calcularTotal();
+    }
+
+    function cambiarComida(tipo, delta) {
+        comidas[tipo] = Math.max(0, comidas[tipo] + delta);
+        document.getElementById('qty_' + tipo).innerText = comidas[tipo];
+        calcularTotal();
+    }
+
+    function renderizarIntegrantesFam() {
+        const contenedorMayores = document.getElementById('contenedor_mayores_fam');
+        
+        let prevMayores = [];
+        for (let i = 0; i < cantMayores; i++) {
+            const radCon = document.getElementById(`m_${i}_con`);
+            const checkedCon = radCon ? radCon.checked : false;
+            const edad = document.getElementById(`edad_m_${i}`) ? document.getElementById(`edad_m_${i}`).value : '';
+            const sexo = document.getElementById(`sexo_m_${i}`) ? document.getElementById(`sexo_m_${i}`).value : 'Masculino (男)';
+            const nombreM = document.getElementById(`nombre_m_${i}`) ? document.getElementById(`nombre_m_${i}`).value : '';
+            const dniM = document.getElementById(`dni_m_${i}`) ? document.getElementById(`dni_m_${i}`).value : '';
+            
+            let juegos = [];
+            document.querySelectorAll(`input[name="juegos_m_${i}"]:checked`).forEach(cb => juegos.push(cb.value));
+            prevMayores.push({ conJuegos: checkedCon, juegos: juegos, edad: edad, sexo: sexo, nombre: nombreM, dni: dniM });
+        }
+
+        let prevMenores = [];
+        for (let j = 0; j < cantMenores; j++) {
+            const edadMenor = document.getElementById(`edad_menor_${j}`) ? document.getElementById(`edad_menor_${j}`).value : '';
+            const sexoMenor = document.getElementById(`sexo_menor_${j}`) ? document.getElementById(`sexo_menor_${j}`).value : 'Masculino (男)';
+            const nombreMenor = document.getElementById(`nombre_menor_${j}`) ? document.getElementById(`nombre_menor_${j}`).value : '';
+            const dniMenor = document.getElementById(`dni_menor_${j}`) ? document.getElementById(`dni_menor_${j}`).value : '';
+            prevMenores.push({ edad: edadMenor, sexo: sexoMenor, nombre: nombreMenor, dni: dniMenor });
+        }
+
+        contenedorMayores.innerHTML = '';
+
+        for (let i = 0; i < cantMayores; i++) {
+            const conJuego = prevMayores[i] ? prevMayores[i].conJuegos : false;
+            const juegosElegidos = prevMayores[i] ? prevMayores[i].juegos : [];
+            const edadVal = prevMayores[i] ? prevMayores[i].edad : '';
+            const sexoVal = prevMayores[i] ? prevMayores[i].sexo : 'Masculino (男)';
+            const nombreVal = prevMayores[i] ? prevMayores[i].nombre : '';
+            const dniVal = prevMayores[i] ? prevMayores[i].dni : '';
+
+            const div = document.createElement('div');
+            div.className = 'member-box';
+            div.innerHTML = `
+                <div class="member-title">成員 ${i + 1} (>= 5歲)</div>
+                <div class="form-group">
+                    <label class="field-label">完整姓名 (Nombre Completo) *</label>
+                    <input type="text" id="nombre_m_${i}" placeholder="例如: 張小明" value="${nombreVal}">
+                </div>
+                <div class="form-group dni-group" style="display: none;">
+                    <label class="field-label">身分證號 (DNI) *</label>
+                    <input type="number" id="dni_m_${i}" placeholder="例如: 12345678" value="${dniVal}">
+                </div>
+                <div class="grid-2 form-group">
+                    <div>
+                        <label class="field-label">年齡 (Edad) *</label>
+                        <input type="number" id="edad_m_${i}" min="5" max="100" placeholder="例如: 12" value="${edadVal}">
+                    </div>
+                    <div>
+                        <label class="field-label">性別 (Sexo) *</label>
+                        <select id="sexo_m_${i}">
+                            <option value="Masculino (男)" ${sexoVal.includes('Masculino') ? 'selected' : ''}>男 (Masculino)</option>
+                            <option value="Femenino (女)" ${sexoVal.includes('Femenino') ? 'selected' : ''}>女 (Femenino)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="option-group">
+                    <label class="option-card">
+                        <input type="radio" name="tipo_m_${i}" value="sin_juegos" data-precio="10000" ${!conJuego ? 'checked' : ''} onchange="toggleJuegosMember(${i})">
+                        <span class="option-text">不含冒險遊樂 (Sin juegos)</span>
+                        <span class="badge-price">$10.000</span>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" id="m_${i}_con" name="tipo_m_${i}" value="con_juegos" data-precio="20000" ${conJuego ? 'checked' : ''} onchange="toggleJuegosMember(${i})">
+                        <span class="option-text">含冒險遊樂 (Con juegos)</span>
+                        <span class="badge-price">$20.000</span>
+                    </label>
+                </div>
+                <div id="sec_juegos_m_${i}" class="sub-box ${!conJuego ? 'hidden' : ''}">
+                    <div class="sub-box-title">🎯 請恰好選擇 2 項設施:</div>
+                    <div style="font-size: 13px; color: #1557b0; margin-bottom: 8px; font-weight: 500;">💡 <em>備註：設施體驗可轉讓，當天可將 1 或 2 項設施額度讓給他人使用。</em></div>
+                    <div class="option-group">
+                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Tirolesa" ${juegosElegidos.includes('Tirolesa') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">高空滑索 (Tirolesa) - 8歲以上 <span class="icon-photo" onclick="abrirFoto('tirolesa.png', event)">📷</span></span></label>
+                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Palestra" ${juegosElegidos.includes('Palestra') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">攀岩牆 (Palestra) - 5歲以上 <span class="icon-photo" onclick="abrirFoto('escalada.png', event)">📷</span></span></label>
+                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Arquería" ${juegosElegidos.includes('Arquería') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">射箭 (Arquería) - 5歲以上 <span class="icon-photo" onclick="abrirFoto('arqueria.png', event)">📷</span></span></label>
+                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Puentes aéreos" ${juegosElegidos.includes('Puentes aéreos') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">高空繩索橋 (Puentes aéreos) - 10歲以上 <span class="icon-photo" onclick="abrirFoto('puentes.png', event)">📷</span></span></label>
+                    </div>
+                </div>
+            `;
+            contenedorMayores.appendChild(div);
+        }
+
+        for (let j = 0; j < cantMenores; j++) {
+            const edadMenorVal = prevMenores[j] ? prevMenores[j].edad : '';
+            const sexoMenorVal = prevMenores[j] ? prevMenores[j].sexo : 'Masculino (男)';
+            const nombreMenorVal = prevMenores[j] ? prevMenores[j].nombre : '';
+            const dniMenorVal = prevMenores[j] ? prevMenores[j].dni : '';
+
+            const div = document.createElement('div');
+            div.className = 'member-box';
+            div.style.background = '#e8f5e9';
+            div.style.borderColor = '#a5d6a7';
+            div.innerHTML = `
+                <div class="member-title" style="color: #1b5e20;">👶 幼童 ${j + 1} (0至4歲 - 免費入場 $0)</div>
+                <div class="form-group">
+                    <label class="field-label">完整姓名 (Nombre Completo) *</label>
+                    <input type="text" id="nombre_menor_${j}" placeholder="例如: 寶寶" value="${nombreMenorVal}">
+                </div>
+                <div class="form-group dni-group" style="display: none;">
+                    <label class="field-label">身分證號 (DNI) *</label>
+                    <input type="number" id="dni_menor_${j}" placeholder="例如: 12345678" value="${dniMenorVal}">
+                </div>
+                <div class="grid-2 form-group">
+                    <div>
+                        <label class="field-label">年齡 (Edad) *</label>
+                        <input type="number" id="edad_menor_${j}" min="0" max="4" placeholder="例如: 3" value="${edadMenorVal}">
+                    </div>
+                    <div>
+                        <label class="field-label">性別 (Sexo) *</label>
+                        <select id="sexo_menor_${j}">
+                            <option value="Masculino (男)" ${sexoMenorVal.includes('Masculino') ? 'selected' : ''}>男 (Masculino)</option>
+                            <option value="Femenino (女)" ${sexoMenorVal.includes('Femenino') ? 'selected' : ''}>女 (Femenino)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="font-size: 12px; color: #2e7d32; font-weight: bold;">
+                    🎉 門票 100% 免費 ($0) (無冒險設施門票)
+                </div>
+            `;
+            contenedorMayores.appendChild(div);
+        }
+        toggleMicro();
+    }
+
+    function toggleJuegosMember(index) {
+        const conJuegos = document.getElementById(`m_${index}_con`).checked;
+        const sec = document.getElementById(`sec_juegos_m_${index}`);
+        if (conJuegos) {
+            sec.classList.remove('hidden');
+        } else {
+            sec.classList.add('hidden');
+            document.querySelectorAll(`input[name="juegos_m_${index}"]`).forEach(cb => cb.checked = false);
+        }
+        calcularTotal();
+    }
+
+    function validarJuegosMember(checkbox, index) {
+        const checked = document.querySelectorAll(`input[name="juegos_m_${index}"]:checked`);
+        if (checked.length > 2) {
+            alert("每人最多只能選擇 2 項設施。");
+            checkbox.checked = false;
+        }
+    }
+
+    function validarJuegosInd(checkbox) {
+        const checked = document.querySelectorAll('input[name="juegos_ind"]:checked');
+        if (checked.length > 2) {
+            alert("最多只能選擇 2 項設施。");
+            checkbox.checked = false;
+        }
+    }
+
+    function validarEdadInd() {
+        const edadInput = document.getElementById('edad_ind');
+        const edad = parseInt(edadInput.value) || 0;
+        const bloqueEntradas = document.getElementById('bloque_entrada_ind');
+        const avisoGratis = document.getElementById('aviso_gratis_ind');
+        const bloqueNombreNino = document.getElementById('bloque_nombre_nino_ind');
+        const radioSinJuegos = document.querySelector('input[name="tipo_entrada_ind"][value*="Sin juegos"]');
+        const badgeSinJuegos = document.getElementById('badge_sin_juegos_ind');
+
+        if (edad > 0 && edad < 5) {
+            bloqueEntradas.style.display = 'none';
+            avisoGratis.style.display = 'block';
+            avisoGratis.classList.remove('hidden');
+            if(bloqueNombreNino) bloqueNombreNino.classList.remove('hidden');
+        } else {
+            bloqueEntradas.style.display = 'block';
+            avisoGratis.style.display = 'none';
+            avisoGratis.classList.add('hidden');
+            if(bloqueNombreNino) bloqueNombreNino.classList.add('hidden');
+            
+            if (radioSinJuegos) {
+                radioSinJuegos.setAttribute('data-precio', '10000');
+                radioSinJuegos.value = 'Sin juegos ($10.000)';
+            }
+            if (badgeSinJuegos) {
+                badgeSinJuegos.innerText = '$10.000';
+            }
+        }
+        calcularTotal();
+    }
+
+    
+    let microAlertMostrado = false;
+    
+    function toggleMicro() {
+        const transporteOpt = document.querySelector('input[name="transporte"]:checked').value;
+        const esMicro = transporteOpt.includes('Micro');
+        document.querySelectorAll('.dni-group').forEach(el => {
+            el.style.display = esMicro ? 'block' : 'none';
+        });
+        
+        const avisoSeguro = document.getElementById('aviso_seguro_micro');
+        if (avisoSeguro) {
+            avisoSeguro.style.display = esMicro ? 'block' : 'none';
+        }
+        
+        if (esMicro && !microAlertMostrado) {
+            alert("⚠️ 基於安全與旅遊保險規定，選擇搭乘遊覽車時必須填寫每位乘客的完整姓名與身分證號 (DNI)。");
+            microAlertMostrado = true;
+        }
+    }
+    
+    // Ejecutar al inicio para setear el estado correcto
+    document.addEventListener('DOMContentLoaded', () => {
+        if (CUPOS_AGOTADOS) {
+            document.getElementById('cuerpo_formulario').style.display = 'none';
+            document.getElementById('mensaje_agotado').style.display = 'block';
+        } else {
+            toggleMicro();
+        }
+    });
+    
+    function calcularTotal() {
+        let totalEntradas = 0;
+
+        if (modoActual === 'ind') {
+            const edadInd = parseInt(document.getElementById('edad_ind').value) || 0;
+            if (edadInd > 0 && edadInd < 5) {
+                totalEntradas = 0;
+                document.getElementById('lbl_resumen_entradas').innerText = '門票 (5歲以下幼童)';
+            } else {
+                const esConJuegosInd = document.getElementById('ind_con_juegos').checked;
+                document.getElementById('sec_juegos_ind').classList.toggle('hidden', !esConJuegosInd);
+                if (!esConJuegosInd) {
+                    document.querySelectorAll('input[name="juegos_ind"]').forEach(cb => cb.checked = false);
+                }
+                const optInd = document.querySelector('input[name="tipo_entrada_ind"]:checked');
+                totalEntradas = optInd ? parseInt(optInd.getAttribute('data-precio')) : 0;
+                document.getElementById('lbl_resumen_entradas').innerText = '個人門票';
+            }
+        } else {
+            for (let i = 0; i < cantMayores; i++) {
+                const opt = document.querySelector(`input[name="tipo_m_${i}"]:checked`);
+                if (opt) totalEntradas += parseInt(opt.getAttribute('data-precio'));
+            }
+            document.getElementById('lbl_resumen_entradas').innerText = `5歲以上門票 (${cantMayores}人)`;
+        }
+
+        document.getElementById('prc_resumen_entradas').innerText = "$" + totalEntradas.toLocaleString("es-AR");
+
+        const totalComidasCant = comidas.hamburguesa + comidas.bondiola + comidas.milanesa;
+        const totalComidasPrecio = totalComidasCant * 15000;
+
+        const rowComida = document.getElementById('row_resumen_comida');
+        if (totalComidasCant > 0) {
+            rowComida.style.display = 'flex';
+            document.getElementById('lbl_resumen_comida').innerText = `餐點套餐 (${totalComidasCant}份)`;
+            document.getElementById('prc_resumen_comida').innerText = "$" + totalComidasPrecio.toLocaleString("es-AR");
+        } else {
+            rowComida.style.display = 'none';
+        }
+
+        const grandTotal = totalEntradas + totalComidasPrecio;
+        const totalTexto = "$" + grandTotal.toLocaleString("es-AR");
+
+        document.getElementById('monto_total').innerText = totalTexto;
+        document.getElementById('monto_total_guardado').value = totalTexto;
+    }
+
+    function enviarInscripcionDirecta(nombreDestino, numDestino) {
+        const nombre = document.getElementById('nombre').value.trim();
+        const telefono = document.getElementById('telefono').value.trim();
+        const comoTeEnteraste = document.getElementById('como_te_enteraste').value;
+
+        if (!nombre || !telefono) {
+            alert("請填寫姓名與聯絡電話。");
+            return;
+        }
+        
+        if (!comoTeEnteraste) {
+            alert("請選擇您是如何得知此活動的。");
+            return;
+        }
+
+        let txtComidas = [];
+        if (comidas.hamburguesa > 0) txtComidas.push(`Hamburguesa x${comidas.hamburguesa}`);
+        if (comidas.bondiola > 0) txtComidas.push(`Bondiola x${comidas.bondiola}`);
+        if (comidas.milanesa > 0) txtComidas.push(`Milanesa x${comidas.milanesa}`);
+        let txtComidasStr = txtComidas.length > 0 ? txtComidas.join(', ') : 'Sin combos';
+
+        const transporteVal = document.querySelector('input[name="transporte"]:checked').value;
+        
+        const esMicro = transporteVal.includes("Micro");
+        const totalVal = document.getElementById('monto_total').innerText;
+
+        document.getElementById('contacto_seleccionado').value = nombreDestino;
+        const ahora = new Date();
+        const fechaHoraFormateada = ahora.toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'medium' });
+        document.getElementById('hora_envio').value = fechaHoraFormateada;
+        const sumaFecha = (ahora.getMonth() + 1) + ahora.getDate();
+        const letra = String.fromCharCode(65 + ((sumaFecha - 1) % 26));
+        const segundos = ahora.getSeconds().toString().padStart(2, '0');
+        const centesimas = Math.floor(ahora.getMilliseconds() / 10).toString().padStart(2, '0');
+        const numTicket = 'TIV-' + letra + segundos + centesimas;
+        document.getElementById('numero_inscripcion').value = numTicket;
+
+        document.getElementById('resumen_comidas').value = txtComidasStr;
+
+        let msg = "";
+
+        if (modoActual === 'ind') {
+            const edadInd = document.getElementById('edad_ind').value.trim();
+            const sexoInd = document.getElementById('sexo_ind').value;
+            let nombreNino = "";
+
+            if (!edadInd) {
+                alert("請填寫年齡。");
+                return;
+            }
+            let dniInd = "";
+            if (esMicro) {
+                dniInd = document.getElementById('dni_ind').value.trim();
+                if (!dniInd) { alert("請填寫身分證號 (DNI)。"); return; }
+            }
+
+            if (parseInt(edadInd) < 5) {
+                nombreNino = document.getElementById('nombre_nino_ind').value.trim();
+                if (!nombreNino) {
+                    alert("請填寫幼童的姓名 (Por favor, ingresá el nombre del niño/niña).");
+                    return;
+                }
+                document.getElementById('detalle_edades_sexo').value = `Niño/a: ${nombreNino} | Edad: ${edadInd} | Sexo: ${sexoInd}`;
+            } else {
+                document.getElementById('detalle_edades_sexo').value = `Edad: ${edadInd} | Sexo: ${sexoInd}`;
+            }
+
+            const entradaOpt = document.querySelector('input[name="tipo_entrada_ind"]:checked');
+            const esConJuegos = document.getElementById('ind_con_juegos').checked;
+            let juegosElegidos = [];
+            if (parseInt(edadInd) >= 5 && esConJuegos) {
+                document.querySelectorAll('input[name="juegos_ind"]:checked').forEach(cb => juegosElegidos.push(cb.value));
+                if (juegosElegidos.length !== 2) {
+                    alert("選擇含冒險設施者，請務必挑選恰好 2 項設施。");
+                    return;
+                }
+            }
+
+            document.getElementById('resumen_integrantes').value = "1 Persona (Individual)";
+
+            msg = `🚌 *INSCRIPCIÓN INDIVIDUAL (中文報名) - TIVOLI PARK FAMILY DAY (20/09/2026)*\n`;
+            msg += `🎫 *報名編號 (N° Comprobante):* ${numTicket}\n\n`;
+            msg += `👤 *姓名 (Nombre):* ${nombre} ${esMicro ? '(DNI: ' + dniInd + ')' : ''}\n`;
+            msg += `📱 *電話 (Teléfono):* ${telefono}\n`;
+
+            if (parseInt(edadInd) < 5) {
+                msg += `👶 *幼童 (Niño/a):* ${nombreNino}\n`;
+            }
+            msg += `🎂 *年齡 (Edad):* ${edadInd}歲 | 👤 *性別 (Sexo):* ${sexoInd}\n\n`;
+            
+            if (parseInt(edadInd) >= 5) {
+                msg += `🎟️ *門票 (Entrada):* ${entradaOpt.value}\n`;
+                if (esConJuegos) {
+                    msg += `🎯 *設施 (Juegos):* ${juegosElegidos.join(', ')}\n`;
+                }
+            } else {
+                msg += `🎟️ *門票 (Entrada):* Menor de 5 años (Gratis)\n`;
+            }
+
+            msg += `🍔 *餐點 (Combos):* ${txtComidasStr}\n`;
+            let infoTransporte = transporteVal;
+            if (transporteVal.includes("Micro")) {
+                infoTransporte += `\n📝 *乘客名單 (Pasajeros):*\n${pasajerosMicro}`;
+            }
+            msg += `🚗 *交通 (Transporte):* ${infoTransporte}\n`;
+            msg += `📢 *得知管道 (Se enteró por):* ${comoTeEnteraste}\n\n`;
+            msg += `💰 *應付總額 (TOTAL):* ${totalVal}\n`;
+            msg += `📌 *付款對象:* ${nombreDestino}`;
+
+        } else {
+            
+            let listaMayoresDetalle = [];
+            let detalleEdadesArray = [];
+
+            for (let i = 0; i < cantMayores; i++) {
+                const edadM = document.getElementById(`edad_m_${i}`).value.trim();
+                const sexoM = document.getElementById(`sexo_m_${i}`).value;
+                const nombreM = document.getElementById(`nombre_m_${i}`).value.trim();
+
+                if (!nombreM || !edadM) {
+                    alert(`請填寫成員 ${i + 1} 的完整姓名與年齡。`);
+                    return;
+                }
+                let dniM = "";
+                if (esMicro) {
+                    dniM = document.getElementById(`dni_m_${i}`).value.trim();
+                    if (!dniM) { alert(`請填寫成員 ${i + 1} 的身分證號 (DNI)。`); return; }
+                }
+
+                const esConJuegos = document.getElementById(`m_${i}_con`).checked;
+                let juegos = [];
+                if (esConJuegos) {
+                    document.querySelectorAll(`input[name="juegos_m_${i}"]:checked`).forEach(cb => juegos.push(cb.value));
+                    if (juegos.length !== 2) {
+                        alert(`成員 ${i + 1} 選擇含設施者，請務必挑選 2 項設施。`);
+                        return;
+                    }
+                }
+
+                const etiquetaNombre = nombreM + (esMicro ? ` (DNI: ${dniM})` : '');
+
+                listaMayoresDetalle.push({
+                    etiqueta: etiquetaNombre,
+                    edad: edadM,
+                    sexo: sexoM,
+                    tipo: esConJuegos ? 'Con juegos ($20.000)' : 'Sin juegos ($10.000)',
+                    juegos: juegos.join(', ')
+                });
+
+                detalleEdadesArray.push(`${etiquetaNombre}: ${edadM}歲, ${sexoM}`);
+            }
+
+            for (let j = 0; j < cantMenores; j++) {
+                const edadMenor = document.getElementById(`edad_menor_${j}`).value.trim();
+                const sexoMenor = document.getElementById(`sexo_menor_${j}`).value;
+                const nombreMenor = document.getElementById(`nombre_menor_${j}`).value.trim();
+
+                if (!nombreMenor || !edadMenor) {
+                    alert(`請填寫幼童 ${j + 1} (<5歲) 的完整姓名與年齡。`);
+                    return;
+                }
+                let dniMenor = "";
+                if (esMicro) {
+                    dniMenor = document.getElementById(`dni_menor_${j}`).value.trim();
+                    if (!dniMenor) { alert(`請填寫幼童 ${j + 1} 的身分證號 (DNI)。`); return; }
+                }
+
+                const etiquetaMenor = nombreMenor + (esMicro ? ` (DNI: ${dniMenor})` : '');
+                detalleEdadesArray.push(`${etiquetaMenor} (<5歲): ${edadMenor}歲, ${sexoMenor}`);
+            }
+
+            let txtIntegrantes = `Mayores (>=5 años): ${cantMayores} | Menores (<5歲): ${cantMenores}`;
+            document.getElementById('resumen_integrantes').value = txtIntegrantes;
+            document.getElementById('detalle_edades_sexo').value = detalleEdadesArray.join('; ');
+
+            msg = `👨‍👩‍👧‍👦 *INSCRIPCIÓN FAMILIAR (中文報名) - TIVOLI PARK FAMILY DAY (20/09/2026)*\n`;
+            msg += `🎫 *報名編號 (N° Comprobante):* ${numTicket}\n\n`;
+            msg += `👤 *負責人 (Encargado):* ${nombre}\n`;
+            msg += `📱 *電話 (Teléfono):* ${telefono}\n\n`;
+            msg += `👥 *成員 (Integrantes):* ${cantMayores}位 5歲以上 | ${cantMenores}位 5歲以下(免費)\n\n`;
+            
+            msg += `📋 *成員資料 (Datos de los Integrantes):*\n`;
+            listaMayoresDetalle.forEach(m => {
+                msg += `👤 ${m.etiqueta}: ${m.edad}歲 (${m.sexo})\n`;
+            });
+            for (let j = 0; j < cantMenores; j++) {
+                const edadMenor = document.getElementById(`edad_menor_${j}`).value.trim();
+                const sexoMenor = document.getElementById(`sexo_menor_${j}`).value;
+                const nombreMenor = document.getElementById(`nombre_menor_${j}`).value.trim();
+                const etiquetaMenor = nombreMenor + (esMicro ? ` (DNI: ${dniMenor})` : '');
+                msg += `👶 ${etiquetaMenor} (< 5歲): ${edadMenor}歲 (${sexoMenor})\n`;
+            }
+
+            msg += `\n🎟️ *門票與設施選擇 (Entradas y Juegos):*\n`;
+            listaMayoresDetalle.forEach(m => {
+                msg += `• ${m.etiqueta}: ${m.tipo}${m.juegos ? ' -> 設施: ' + m.juegos : ''}\n`;
+            });
+
+            msg += `\n🍔 *餐點 (Combos):* ${txtComidasStr}\n`;
+            let infoTransporte = transporteVal;
+            if (transporteVal.includes("Micro")) {
+                infoTransporte += `\n📝 *乘客名單 (Pasajeros):*\n${pasajerosMicro}`;
+            }
+            msg += `🚗 *交通 (Transporte):* ${infoTransporte}\n`;
+            msg += `📢 *得知管道 (Se enteró por):* ${comoTeEnteraste}\n\n`;
+            msg += `💰 *全家總額 (TOTAL):* ${totalVal}\n`;
+            msg += `📌 *付款對象:* ${nombreDestino}`;
+        }
+
+        const formElement = document.getElementById('formUnificado');
+        const formData = new FormData(formElement);
+
+        fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(formData).toString()
+        }).catch(err => console.log('Error Netlify Form:', err));
+
+        const url = `https://api.whatsapp.com/send?phone=${numDestino}&text=${encodeURIComponent(msg)}`;
+        
+        setTimeout(() => {
+                window.location.href = url;
+            }, 300);
+    }
+
+    calcularTotal();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Cupones - Tivoli Park</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* --- Panel de Control (No se imprime) --- */
+        .control-panel {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
+
+        h1 { color: #1a73e8; margin-top: 0; text-align: center; }
+        h2 { font-size: 16px; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafafa;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .input-group label { font-weight: bold; font-size: 14px; }
+        .input-group input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .btn-generar {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .btn-generar:hover { background-color: #1da851; }
+
+        .btn-imprimir {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* --- Plancheta de Cupones (Para Imprimir) --- */
+        #plancheta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            max-width: 21cm; /* Ancho A4 aprox */
+            margin: 0 auto;
+        }
+
+        .cupon {
+            width: 9cm;
+            height: 5.5cm;
+            background: #fff;
+            border: 2px dashed #999;
+            border-radius: 10px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Variantes de Color */
+        .cupon.aventura .header { background-color: #0f9d58; color: white; }
+        .cupon.aventura .titulo { color: #0f9d58; }
+        
+        .cupon.comida .header { background-color: #f29900; color: white; }
+        .cupon.comida .titulo { color: #e65100; }
+
+        .header {
+            padding: 6px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .cuerpo {
+            display: flex;
+            padding: 10px;
+            flex-grow: 1;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .imagen-container {
+            width: 60px;
+            height: 60px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .imagen-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .info {
+            flex-grow: 1;
+        }
+
+        .tipo {
+            font-size: 10px;
+            color: #777;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .titulo {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .subtitulo {
+            font-size: 12px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 10px;
+            color: #999;
+            padding: 5px;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+        }
+
+        .tijera {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            font-size: 16px;
+            color: #999;
+            background: #f0f2f5;
+            border-radius: 50%;
+        }
+
+        /* Ocultar panel al imprimir */
+        @media print {
+            body { background: white; padding: 0; }
+            .control-panel { display: none; }
+            #plancheta { gap: 10px; }
+            .cupon { page-break-inside: avoid; }
+            .tijera { background: white; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="control-panel">
+        <h1>🎟️ Creador de Cupones Tivoli</h1>
+        
+        <h2>🧗‍♂️ Cupones de Aventura</h2>
+        <div class="grid-inputs">
+            <div class="input-group">
+                <label>Tirolesa</label>
+                <input type="number" id="cant_tirolesa" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Palestra</label>
+                <input type="number" id="cant_palestra" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Arquería</label>
+                <input type="number" id="cant_arqueria" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Puentes Aéreos</label>
+                <input type="number" id="cant_puentes" value="0" min="0">
+            </div>
+        </div>
+
+        <h2>🍔 Cupones de Comida</h2>
+        <div class="grid-inputs">
+            <div class="input-group">
+                <label>Hamburguesa</label>
+                <input type="number" id="cant_hambu" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Bondiola</label>
+                <input type="number" id="cant_bondi" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Milanesa</label>
+                <input type="number" id="cant_mila" value="0" min="0">
+            </div>
+        </div>
+
+        <button class="btn-generar" onclick="generarCupones()">⚙️ Generar Plancheta</button>
+        <button class="btn-imprimir" onclick="window.print()">🖨️ Imprimir Cupones</button>
+    </div>
+
+    <div id="plancheta">
+        <!-- Los cupones se generan acá adentro -->
+    </div>
+
+    <script>
+        const bd_cupones = {
+            'tirolesa': { tipo: 'aventura', titulo: 'Tirolesa', sub: 'Pase válido para 1 persona', img: '<img src="tirolesa.jpg" alt="🧗">' },
+            'palestra': { tipo: 'aventura', titulo: 'Palestra', sub: 'Pase válido para 1 persona', img: '<img src="palestra.jpg" alt="🧗‍♂️">' },
+            'arqueria': { tipo: 'aventura', titulo: 'Arquería', sub: 'Pase válido para 1 persona', img: '<img src="arqueria.jpg" alt="🏹">' },
+            'puentes': { tipo: 'aventura', titulo: 'Puentes Aéreos', sub: 'Pase válido para 1 persona', img: '<img src="puentes.jpg" alt="🌉">' },
+            
+            'hambu': { tipo: 'comida', titulo: 'Hamburguesa', sub: '+ Papas Fritas', img: '🍔' },
+            'bondi': { tipo: 'comida', titulo: 'Sándwich Bondiola', sub: '+ Papas Fritas', img: '🥪' },
+            'mila': { tipo: 'comida', titulo: 'Milanesa Completa', sub: '+ Papas Fritas', img: '🥩' }
+        };
+
+        function crearHTMLCupon(id) {
+            const data = bd_cupones[id];
+            const headerText = data.tipo === 'aventura' ? 'TICKET AVENTURA' : 'TICKET MENÚ';
+            
+            return `
+                <div class="cupon ${data.tipo}">
+                    <div class="tijera">✂️</div>
+                    <div class="header">Tivoli Park Family Day</div>
+                    <div class="cuerpo">
+                        <div class="imagen-container">
+                            ${data.img}
+                        </div>
+                        <div class="info">
+                            <div class="tipo">${headerText}</div>
+                            <div class="titulo">${data.titulo}</div>
+                            <div class="subtitulo">${data.sub}</div>
+                        </div>
+                    </div>
+                    <div class="footer">Válido únicamente para el 20/09/2026 - No incluye bebida</div>
+                </div>
+            `;
+        }
+
+        function generarCupones() {
+            const plancheta = document.getElementById('plancheta');
+            plancheta.innerHTML = ''; // Limpiar anteriores
+
+            const ids = ['tirolesa', 'palestra', 'arqueria', 'puentes', 'hambu', 'bondi', 'mila'];
+
+            ids.forEach(id => {
+                let cantidad;
+                if(id === 'hambu' || id === 'bondi' || id === 'mila') {
+                    cantidad = parseInt(document.getElementById(`cant_${id}`).value) || 0;
+                } else {
+                    cantidad = parseInt(document.getElementById(`cant_${id}`).value) || 0;
+                }
+
+                for (let i = 0; i < cantidad; i++) {
+                    plancheta.innerHTML += crearHTMLCupon(id);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
