@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Day - Festejo de Primavera</title>
+    <style>
+        body { 
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            background-color: #ffffff; /* Fondo blanco puro */
+            color: #333; 
+            margin: 0; 
+            padding: 20px 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+        }
+        
+        .container { 
+            max-width: 600px; 
+            width: 100%; 
+        }
+
+        .video-wrapper { 
+            position: relative; 
+            padding-bottom: 56.25%; 
+            height: 0; 
+            overflow: hidden; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .video-wrapper iframe { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+        }
+
+        .intro-card { 
+            background: #ffffff; 
+            padding: 25px 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+            margin-bottom: 25px; 
+            border: 1px solid #f0f0f0; /* Borde muy sutil para separar del fondo blanco */
+        }
+
+        .es-text { 
+            font-size: 1.15rem; 
+            line-height: 1.6; 
+            margin-top: 0;
+            margin-bottom: 15px; 
+            color: #2c3e50;
+        }
+
+        .zh-text { 
+            font-size: 1.15rem; 
+            line-height: 1.6; 
+            margin-bottom: 0;
+            color: #555; 
+        }
+
+        .divider {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+
+        .arrow { 
+            font-size: 2.5rem; 
+            color: #888; 
+            margin-bottom: 10px;
+        }
+
+        .cupos-text { 
+            color: #e74c3c; 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            margin-bottom: 15px; 
+            line-height: 1.4;
+        }
+
+        .btn { 
+            display: inline-block; 
+            background-color: #2e7d32; 
+            color: white; 
+            padding: 16px 20px; 
+            text-decoration: none; 
+            border-radius: 10px; 
+            width: 90%; 
+            max-width: 350px;
+            box-sizing: border-box; 
+            box-shadow: 0 4px 6px rgba(46, 125, 50, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        .btn:active {
+            background-color: #1b5e20;
+        }
+
+        .btn-es {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .btn-zh {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: normal;
+        }
+
+        /* Nueva sección de organizadores */
+        .organizador-section {
+            margin-top: 45px;
+            padding-top: 25px;
+            border-top: 1px solid #eee; /* Línea separadora sutil */
+        }
+
+        .organizador-texto {
+            font-size: 1rem;
+            color: #444;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .organizador-imagen {
+            max-width: 100%; /* Asegura que no se salga de la pantalla en celulares */
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Video -->
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/QAjS4-LhLeQ?rel=0" title="Family Day Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <!-- Texto Introductorio -->
+        <div class="intro-card">
+            <p class="es-text">
+                ¡Vení a <strong>festejar la primavera</strong> y <strong>pasar un día genial en familia y amigos</strong>! <strong>Animate</strong> a disfrutar de <strong>muchos juegos de aventura</strong> y actividades pensadas para todas las edades. Te esperamos este <strong>20 de septiembre</strong>.
+            </p>
+            
+            <hr class="divider">
+            
+            <p class="zh-text">
+                歡迎來<strong>慶祝春季</strong>，與<strong>家人和朋友共度美好的一天</strong>！<strong>快來參加</strong>，享受為所有年齡層設計的<strong>冒險遊戲</strong>和豐富活動。我們在<strong>9月20日</strong>等著您！
+            </p>
+        </div>
+
+        <!-- Flecha -->
+        <div class="arrow">⬇️</div>
+
+        <!-- Aviso de cupos -->
+        <div class="cupos-text">
+            ¡Anotáte! Cupos limitados.<br>
+            心動不如行動！名額有限，立即報名！
+        </div>
+        
+        <!-- Botón de Inscripción -->
+        <a href="https://tivoripark-ipta.netlify.app/" class="btn">
+            <span class="btn-es">¡INSCRIBIRSE!</span>
+            <span class="btn-zh">註冊報名</span>
+        </a>
+
+        <!-- Sección de Organizadores -->
+        <div class="organizador-section">
+            <div class="organizador-texto">Organizado por / 主辦單位：</div>
+            <!-- La imagen debe estar en la misma carpeta que el archivo HTML -->
+            <img src="logo.png" alt="Logos de organizadores" class="organizador-imagen">
+        </div>
+
+    </div>
+
+</body>
+</html>
