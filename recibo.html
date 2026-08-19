@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caja Tivoli - Generador de Recibos</title>
+    <title>Caja Tivoli - Generador de Recibos Apaisado</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; padding: 15px; color: #333; margin: 0; }
         .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
@@ -15,18 +15,30 @@
         .btn-green { background: #25d366; }
         .btn-green:hover { background: #1da851; }
         
-        /* Estilos del Talonario */
-        .ticket-wrapper { overflow-x: auto; background: #e8eaed; padding: 15px; border-radius: 8px; display: flex; justify-content: center; }
-        #ticket_imprimible { background: white; padding: 20px; border: 2px dashed #000; width: 750px; min-width: 750px; display: flex; font-family: Arial, "PingFang TC", "Microsoft JhengHei", sans-serif; color: black; box-sizing: border-box; }
+        /* Estilos del Talonario Apaisado */
+        .ticket-wrapper { overflow-x: auto; background: #e8eaed; padding: 15px; border-radius: 8px; display: flex; justify-content: flex-start; }
         
-        .mitad-cliente { width: 65%; padding-right: 20px; border-right: 2px dashed #999; text-align: left; }
-        .mitad-caja { width: 35%; padding-left: 20px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        /* Contenedor principal estirado a lo ancho y comprimido a lo alto */
+        #ticket_imprimible { 
+            background: white; 
+            padding: 25px 35px; 
+            border: 2px dashed #000; 
+            width: 1100px; /* Estirado horizontalmente */
+            min-width: 1100px; 
+            display: flex; 
+            font-family: Arial, "PingFang TC", "Microsoft JhengHei", sans-serif; 
+            color: black; 
+            box-sizing: border-box; 
+        }
+        
+        .mitad-cliente { width: 70%; padding-right: 30px; border-right: 2px dashed #999; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+        .mitad-caja { width: 30%; padding-left: 30px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
         .t-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px;}
         
         @media print {
             body * { visibility: hidden; }
             #ticket_imprimible, #ticket_imprimible * { visibility: visible; }
-            #ticket_imprimible { position: absolute; left: 0; top: 0; width: 100%; border: none; }
+            #ticket_imprimible { position: absolute; left: 0; top: 0; width: 100%; border: none; transform: scale(0.9); transform-origin: top left; }
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -45,65 +57,70 @@
         </div>
     </div>
 
+    <!-- Scroll horizontal activado por si la pantalla es chica -->
     <div class="panel ticket-wrapper">
         <div id="ticket_imprimible">
             <!-- MITAD CLIENTE -->
             <div class="mitad-cliente">
-                <h2 style="margin: 0 0 5px 0; color: #1a73e8; font-size: 20px;">🎫 Recibo de Inscripción (報名收據) - Tivoli Park</h2>
-                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px;">
-                    <p style="margin: 0; font-weight: bold; font-size: 18px;">N°: <span id="tk_num_cli" style="color: #d93025; font-size: 22px;">TIV-XXXX</span></p>
-                    <p style="margin: 0; font-size: 13px; color: #555;" id="tk_fecha_cli">Fecha (日期): --/--/----</p>
-                </div>
-                
-                <div style="background: #fafafa; padding: 10px; border-radius: 6px; border: 1px solid #eee;">
-                    <div class="t-row"><span>Adultos / Mayores 5a (5歲以上):</span> <strong id="tk_adultos">0</strong></div>
-                    <div class="t-row"><span>Menores Gratis (5歲以下免費):</span> <strong id="tk_menores">0</strong></div>
-                    <div class="t-row"><span>Combos Comida (餐點套餐):</span> <strong id="tk_comida">Sin combos</strong></div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <h2 style="margin: 0; color: #1a73e8; font-size: 22px;">🎫 Recibo de Inscripción (報名收據) - Tivoli Park</h2>
+                        <p style="margin: 0; font-size: 14px; color: #555;" id="tk_fecha_cli">Fecha (日期): --/--/----</p>
+                    </div>
                     
-                    <div style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 10px;">
-                        <span style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #1a73e8;">Detalle de Participantes (參與者明細):</span>
-                        <div id="tk_juegos" style="color: #333; font-size: 13px; line-height: 1.4;"></div>
-                    </div>
-
-                    <hr style="border: 0; border-top: 1px solid #ccc; margin: 10px 0;">
-                    <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #1557b0;">
-                        <span>TOTAL ABONADO (實付總額):</span> <span id="tk_total_cli">$0</span>
-                    </div>
-                </div>
-                
-                <!-- CAJA DE REGLAS BILINGÜE -->
-                <div style="margin-top: 15px; font-size: 12px; background: #f8d7da; color: #721c24; padding: 10px; border-radius: 8px; border: 1px solid #f5c6cb; line-height: 1.4;">
-                    <strong>📍 Dirección (地址):</strong> Calle 312 y RP6, B1983 Coronel Brandsen.<br>
-                    <strong>🗺️ Mapa (地圖):</strong> https://maps.app.goo.gl/DGyWfMRt5DS9mirF7<br><br>
-                    <strong style="font-size: 13px;">⚠️ REGLAS DEL PREDIO (園區重要規定):</strong><br>
-                    Estrictamente prohibido ingresar con (依規定嚴禁攜帶以下物品入場):<br>
-                    🚫 Mascotas (寵物).<br>
-                    🚫 Bebidas alcohólicas (酒精飲料).<br>
-                    🚫 Anafes o equipos para cocinar (瓦斯爐或烹飪器具).<br>
-                    🌧️ <em>En caso de lluvia, el evento se posterga (若遇雨天，活動將自動延期).</em>
-                </div>
-                
-                <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
-                    <div style="text-align: center; width: 220px;">
-                        <div style="height: 40px; border-bottom: 1px solid #000; position: relative;">
-                            <!-- Espacio vacío para firmar a mano -->
+                    <p style="margin: 0 0 12px 0; font-weight: bold; font-size: 18px;">N°: <span id="tk_num_cli" style="color: #d93025; font-size: 22px;">TIV-XXXX</span></p>
+                    
+                    <div style="background: #fafafa; padding: 12px; border-radius: 6px; border: 1px solid #eee;">
+                        <div style="display: flex; gap: 20px;">
+                            <div style="flex: 1;">
+                                <div class="t-row"><span>Adultos / Mayores 5a (5歲以上):</span> <strong id="tk_adultos">0</strong></div>
+                                <div class="t-row"><span>Menores Gratis (5歲以下免費):</span> <strong id="tk_menores">0</strong></div>
+                                <div class="t-row"><span>Combos Comida (餐點套餐):</span> <strong id="tk_comida">Sin combos</strong></div>
+                            </div>
+                            <div style="flex: 1.5; border-left: 1px dashed #ccc; padding-left: 20px;">
+                                <span style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #1a73e8;">Detalle de Participantes (參與者明細):</span>
+                                <div id="tk_juegos" style="color: #333; font-size: 13px; line-height: 1.4;"></div>
+                            </div>
                         </div>
-                        <div style="font-size: 12px; margin-top: 4px; color: #555;">Firma / Recibí conforme (簽名 / 確認收款)</div>
+
+                        <hr style="border: 0; border-top: 1px solid #ccc; margin: 12px 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 18px; font-weight: bold; color: #1557b0;">
+                                <span>TOTAL ABONADO (實付總額):</span> <span id="tk_total_cli" style="font-size: 22px; color: black; margin-left: 10px;">$0</span>
+                            </div>
+                            
+                            <!-- Firma movida al lado del total para ahorrar altura -->
+                            <div style="text-align: center; width: 220px;">
+                                <div style="height: 25px; border-bottom: 1px solid #000; position: relative;"></div>
+                                <div style="font-size: 12px; margin-top: 4px; color: #555;">Firma / Recibí conforme (簽名 / 確認收款)</div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                
+                <!-- CAJA DE REGLAS COMPRIMIDA HORIZONTALMENTE -->
+                <div style="margin-top: 15px; font-size: 13px; background: #f8d7da; color: #721c24; padding: 12px 15px; border-radius: 8px; border: 1px solid #f5c6cb; line-height: 1.4;">
+                    <strong>📍 Dirección (地址):</strong> Calle 312 y RP6, B1983 Coronel Brandsen. | <strong>🗺️ Mapa (地圖):</strong> https://maps.app.goo.gl/DGyWfMRt5DS9mirF7<br>
+                    <div style="margin-top: 6px;">
+                        <strong>⚠️ REGLAS DEL PREDIO (園區重要規定):</strong> Estrictamente prohibido ingresar con (依規定嚴禁攜帶以下物品入場):<br>
+                        🚫 Mascotas (寵物). &nbsp;&nbsp; 🚫 Bebidas alcohólicas (酒精飲料). &nbsp;&nbsp; 🚫 Anafes/Equipos de cocina (瓦斯爐/烹飪器具).
+                    </div>
+                    <div style="margin-top: 4px; color: #d93025;"><em>🌧️ En caso de lluvia, el evento se posterga (若遇雨天，活動將自動延期).</em></div>
                 </div>
             </div>
             
             <!-- MITAD CAJA BILINGÜE -->
             <div class="mitad-caja">
-                <div style="font-size: 24px; margin-bottom: 5px; color: #999;">✂️</div>
-                <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #555; letter-spacing: 1px;">TALÓN CONTROL<br><span style="font-size: 13px;">(存根聯)</span></h3>
-                <p style="font-size: 20px; font-weight: bold; margin: 10px 0;">N°: <span id="tk_num_caja" style="color: #d93025;">TIV-XXXX</span></p>
-                <div style="font-size: 24px; font-weight: bold; margin: 10px 0; color: #1557b0;" id="tk_total_caja">$0</div>
+                <div style="font-size: 28px; margin-bottom: 10px; color: #999;">✂️</div>
+                <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #555; letter-spacing: 1px;">TALÓN CONTROL<br><span style="font-size: 13px;">(存根聯)</span></h3>
+                <p style="font-size: 22px; font-weight: bold; margin: 15px 0;">N°: <span id="tk_num_caja" style="color: #d93025;">TIV-XXXX</span></p>
                 
-                <div style="text-align: left; font-size: 14px; background: #fafafa; padding: 10px; border-radius: 6px; border: 1px solid #eee; margin-top: 10px;">
-                    <p style="margin: 0 0 5px 0; font-weight: bold;">Titular (報名者):</p>
-                    <p style="margin: 0; color: #444; word-break: break-word;" id="tk_responsable_caja">----------</p>
+                <div style="text-align: left; font-size: 14px; background: #fafafa; padding: 12px; border-radius: 6px; border: 1px solid #eee; margin: 15px 0;">
+                    <p style="margin: 0 0 8px 0; font-weight: bold;">Titular (報名者):</p>
+                    <p style="margin: 0; color: #444; word-break: break-word; font-size: 16px;" id="tk_responsable_caja">----------</p>
                 </div>
+
+                <div style="font-size: 28px; font-weight: bold; margin-top: 10px; color: #1557b0;" id="tk_total_caja">$0</div>
             </div>
         </div>
     </div>
@@ -187,7 +204,6 @@
                 const comp = document.getElementById('tk_num_cli').innerText;
                 const file = new File([blob], `Recibo_${comp}.jpg`, { type: 'image/jpeg' });
 
-                // Detecta si es un celular y abre el menú nativo
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     navigator.share({
                         files: [file],
@@ -195,7 +211,6 @@
                         text: '¡Acá tenés tu recibo de inscripción (報名收據)!'
                     }).catch(err => console.log('Intercambio cancelado o fallido:', err));
                 } else {
-                    // Si es una PC, hace la descarga normal
                     const link = document.createElement('a');
                     link.download = `Recibo_${comp}.jpg`;
                     link.href = canvas.toDataURL('image/jpeg', 0.9);
