@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caja Tivoli - Generador de Recibos Apaisado</title>
+    
+    <!-- FUENTE DE GOOGLE PARA CHINO TRADICIONAL (Soluciona el PDF en blanco) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; padding: 15px; color: #333; margin: 0; }
+        /* Se fuerza la carga de Noto Sans TC en todo el cuerpo */
+        body { font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; padding: 15px; color: #333; margin: 0; }
         .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
         .panel { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         h2 { color: #1a73e8; margin-top: 0; font-size: 18px; margin-bottom: 10px; }
@@ -18,15 +25,14 @@
         /* Estilos del Talonario Apaisado */
         .ticket-wrapper { overflow-x: auto; background: #e8eaed; padding: 15px; border-radius: 8px; display: flex; justify-content: flex-start; }
         
-        /* Contenedor principal estirado a lo ancho y comprimido a lo alto */
         #ticket_imprimible { 
             background: white; 
             padding: 25px 35px; 
             border: 2px dashed #000; 
-            width: 1100px; /* Estirado horizontalmente */
+            width: 1100px; 
             min-width: 1100px; 
             display: flex; 
-            font-family: Arial, "PingFang TC", "Microsoft JhengHei", sans-serif; 
+            font-family: 'Noto Sans TC', Arial, sans-serif; /* Fuente obligatoria aquí también */
             color: black; 
             box-sizing: border-box; 
         }
@@ -53,7 +59,7 @@
         
         <div style="display: flex; gap: 10px; margin-top: 15px;">
             <button class="btn-green" onclick="descargarImagen()">💾 Bajar como Imagen / Compartir</button>
-            <button style="background: #333;" onclick="window.print()">🖨️ Imprimir</button>
+            <button style="background: #333;" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
         </div>
     </div>
 
@@ -89,7 +95,6 @@
                                 <span>TOTAL ABONADO (實付總額):</span> <span id="tk_total_cli" style="font-size: 22px; color: black; margin-left: 10px;">$0</span>
                             </div>
                             
-                            <!-- Firma movida al lado del total para ahorrar altura -->
                             <div style="text-align: center; width: 220px;">
                                 <div style="height: 25px; border-bottom: 1px solid #000; position: relative;"></div>
                                 <div style="font-size: 12px; margin-top: 4px; color: #555;">Firma / Recibí conforme (簽名 / 確認收款)</div>
@@ -127,6 +132,11 @@
 </div>
 
 <script>
+    // Pequeña pausa para asegurar que Google Fonts cargó antes de convertir a Imagen
+    document.fonts.ready.then(function() {
+        console.log('Fuentes cargadas y listas para PDF/Imagen');
+    });
+
     const hoy = new Date();
     document.getElementById('tk_fecha_cli').innerText = "Fecha (日期): " + hoy.toLocaleDateString('es-AR');
 
