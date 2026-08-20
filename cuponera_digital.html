@@ -47,15 +47,16 @@
         const matchComp = txt.match(/TIV-[A-Z0-9]+/i);
         const comp = matchComp ? matchComp[0] : "TIV-XXXX";
 
-        const matchNombre = txt.match(/\*(?:Responsable|負責人|Encargado|Nombre|姓名[^*]*):\*\s*(.+)/i);
-        const responsable = matchNombre ? matchNombre[1].trim() : "Desconocido";
+        // Ahora detecta al responsable aunque WhatsApp le haya borrado los asteriscos
+        const matchNombre = txt.match(/(?:Responsable|負責人|Encargado|Nombre|姓名)[^:]*:\s*\*?\s*([^\n]+)/i);
+        const responsable = matchNombre ? matchNombre[1].replace(/\*/g, '').trim() : "Desconocido";
 
         let hambu = 0, bondi = 0, mila = 0;
-        const mHambu = txt.match(/Hamburguesa x(\d+)/i); if (mHambu) hambu = parseInt(mHambu[1]);
-        const mBondi = txt.match(/Bondiola x(\d+)/i); if (mBondi) bondi = parseInt(mBondi[1]);
+        const mHambu = txt.match(/Hamburguesa\s*x\s*(\d+)/i); if (mHambu) hambu = parseInt(mHambu[1]);
+        const mBondi = txt.match(/Bondiola\s*x\s*(\d+)/i); if (mBondi) bondi = parseInt(mBondi[1]);
         
-        // Ahora busca la palabra "Suprema" en el texto extraído del WhatsApp
-        const mMila = txt.match(/Suprema x(\d+)/i); if (mMila) mila = parseInt(mMila[1]);
+        // Ahora es retrocompatible: busca tanto "Suprema" como la vieja "Milanesa"
+        const mMila = txt.match(/(?:Suprema|Milanesa)\s*x\s*(\d+)/i); if (mMila) mila = parseInt(mMila[1]);
 
         const tirolesa = (txt.match(/Tirolesa/gi) || []).length;
         const palestra = (txt.match(/Palestra/gi) || []).length;
@@ -83,8 +84,6 @@
 
         agregarCard('🍔 Hamburguesa + Papas', '牛肉漢堡 + 薯條', hambu, 'hamburguesa.jpg');
         agregarCard('🥪 Bondiola + Papas', '梅花肉三明治 + 薯條', bondi, 'bondiola.jpg');
-        
-        // Se cambió el texto a "Suprema" pero sigue usando la imagen 'milanesa.jpg' internamente para que no se te rompa en GitHub
         agregarCard('🍗 Suprema de Pollo + Papas', '雞排三明治 + 薯條', mila, 'milanesa.jpg');
         
         agregarCard('🧗‍♀️ Tirolesa', '高空滑索', tirolesa, 'tirolesa.jpg');
