@@ -5,400 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscripción Tivoli Park Family Day</title>
     <style>
-        :root {
-            --primary: #1a73e8;
-            --primary-dark: #1557b0;
-            --success: #25d366;
-            --bg: #f4f6f9;
-            --card-bg: #ffffff;
-            --text: #202124;
-            --text-muted: #5f6368;
-            --border: #dadce0;
-            --accent-bg: #e8f0fe;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 16px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .lang-switch {
-            text-align: right;
-            margin-bottom: 12px;
-        }
-
-        .lang-btn {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            cursor: pointer;
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border: 1px solid var(--border);
-        }
-
-        h1 {
-            font-size: 20px;
-            margin: 0 0 4px 0;
-            color: var(--primary);
-            text-align: center;
-        }
-
-        .date-badge {
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-            color: #d93025;
-            margin-bottom: 12px;
-        }
-
-        .tab-group {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 8px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid var(--border);
-            background: #fff;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--text-muted);
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .section-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--primary);
-            margin: 0 0 12px 0;
-            border-bottom: 2px solid var(--accent-bg);
-            padding-bottom: 6px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        label.field-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        input[type="text"], input[type="tel"], input[type="number"], select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            outline: none;
-            background: #fff;
-            transition: border-color 0.2s;
-        }
-
-        input[type="text"]:focus, input[type="tel"]:focus, input[type="number"]:focus, select:focus {
-            border-color: var(--primary);
-        }
-
-        .counter-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            background: #fafafa;
-        }
-
-        .counter-label {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .counter-label small {
-            display: block;
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        .counter-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-qty {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: #fff;
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--primary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-qty:active {
-            background: var(--accent-bg);
-        }
-
-        .qty-val {
-            font-size: 15px;
-            font-weight: bold;
-            width: 20px;
-            text-align: center;
-        }
-
-        .member-box {
-            background: #f8f9fa;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-
-        .member-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--primary-dark);
-            margin-bottom: 8px;
-        }
-
-        .option-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .option-card {
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            background: #fff;
-            transition: background-color 0.2s;
-        }
-
-        .option-card:hover {
-            background-color: var(--accent-bg);
-        }
-
-        .option-card input[type="radio"],
-        .option-card input[type="checkbox"] {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-        }
-
-        .option-text {
-            font-size: 14px;
-            flex-grow: 1;
-        }
-
-        .badge-price {
-            font-weight: bold;
-            font-size: 13px;
-            color: var(--primary-dark);
-        }
-
-        .sub-box {
-            background: #fff;
-            border: 1px dashed var(--primary);
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 8px;
-        }
-
-        .sub-box-title {
-            font-size: 12px;
-            font-weight: bold;
-            color: #d93025;
-            margin-bottom: 6px;
-        }
-
-        .food-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            padding: 10px 0;
-        }
-
-        .food-item:last-child {
-            border-bottom: none;
-        }
-
-        .food-info {
-            font-size: 14px;
-        }
-
-        .food-price {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: normal;
-        }
-
-        .summary-box {
-            background: var(--accent-bg);
-            border-radius: 8px;
-            padding: 14px;
-            margin-top: 10px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            margin-bottom: 6px;
-        }
-
-        .summary-row.total {
-            border-top: 1px solid var(--border);
-            padding-top: 8px;
-            margin-top: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            color: var(--primary-dark);
-        }
-
-        .payment-info {
-            background: #fff8e1;
-            border: 1px solid #ffe082;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 13px;
-            margin-top: 14px;
-            color: #5d4037;
-            line-height: 1.5;
-        }
-
-        .btn-group-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 16px;
-        }
-
-        .btn-whatsapp {
-            width: 100%;
-            background-color: var(--success);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .btn-whatsapp:active {
-            transform: scale(0.99);
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* --- Estilos para el Pop-up de Imagen --- */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 9999; 
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0,0,0,0.85); 
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            max-width: 90%;
-            max-height: 80%;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            animation: fadeIn 0.2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .icon-photo {
-            cursor: pointer;
-            margin-left: 6px;
-            font-size: 16px;
-            display: inline-block;
-            transition: transform 0.2s;
-        }
-
-        .icon-photo:hover {
-            transform: scale(1.2);
-        }
+        :root { --primary: #1a73e8; --primary-dark: #1557b0; --success: #25d366; --bg: #f4f6f9; --card-bg: #ffffff; --text: #202124; --text-muted: #5f6368; --border: #dadce0; --accent-bg: #e8f0fe; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 16px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        .lang-switch { text-align: right; margin-bottom: 12px; }
+        .lang-btn { background: #ffffff; border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; font-size: 13px; cursor: pointer; text-decoration: none; color: var(--primary); font-weight: bold; display: inline-block; }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid var(--border); }
+        h1 { font-size: 20px; margin: 0 0 4px 0; color: var(--primary); text-align: center; }
+        .date-badge { text-align: center; font-size: 14px; font-weight: bold; color: #d93025; margin-bottom: 12px; }
+        .tab-group { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+        .tab-btn { flex: 1; padding: 10px; border: 1px solid var(--border); background: #fff; border-radius: 8px; font-size: 14px; font-weight: bold; color: var(--text-muted); cursor: pointer; text-align: center; transition: all 0.2s; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .section-title { font-size: 15px; font-weight: 600; color: var(--primary); margin: 0 0 12px 0; border-bottom: 2px solid var(--accent-bg); padding-bottom: 6px; }
+        .form-group { margin-bottom: 16px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        label.field-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+        input[type="text"], input[type="tel"], input[type="number"], select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; box-sizing: border-box; outline: none; background: #fff; transition: border-color 0.2s; }
+        input[type="text"]:focus, input[type="tel"]:focus, input[type="number"]:focus, select:focus { border-color: var(--primary); }
+        .counter-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; background: #fafafa; }
+        .counter-label { font-size: 14px; font-weight: 500; }
+        .counter-label small { display: block; color: var(--text-muted); font-size: 12px; }
+        .counter-controls { display: flex; align-items: center; gap: 10px; }
+        .btn-qty { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: #fff; font-size: 18px; font-weight: bold; color: var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-qty:active { background: var(--accent-bg); }
+        .qty-val { font-size: 15px; font-weight: bold; width: 20px; text-align: center; }
+        .member-box { background: #f8f9fa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+        .member-title { font-size: 14px; font-weight: bold; color: var(--primary-dark); margin-bottom: 8px; }
+        .option-group { display: flex; flex-direction: column; gap: 8px; }
+        .option-card { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; cursor: pointer; background: #fff; transition: background-color 0.2s; }
+        .option-card:hover { background-color: var(--accent-bg); }
+        .option-card input[type="radio"], .option-card input[type="checkbox"] { margin-right: 10px; width: 18px; height: 18px; accent-color: var(--primary); }
+        .option-text { font-size: 14px; flex-grow: 1; }
+        .badge-price { font-weight: bold; font-size: 13px; color: var(--primary-dark); }
+        .sub-box { background: #fff; border: 1px dashed var(--primary); border-radius: 8px; padding: 10px; margin-top: 8px; }
+        .sub-box-title { font-size: 12px; font-weight: bold; color: #d93025; margin-bottom: 6px; }
+        .food-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding: 10px 0; }
+        .food-item:last-child { border-bottom: none; }
+        .food-info { font-size: 14px; }
+        .food-price { font-size: 12px; color: var(--text-muted); font-weight: normal; }
+        .summary-box { background: var(--accent-bg); border-radius: 8px; padding: 14px; margin-top: 10px; }
+        .summary-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+        .summary-row.total { border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px; font-size: 16px; font-weight: bold; color: var(--primary-dark); }
+        .payment-info { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px; font-size: 13px; margin-top: 14px; color: #5d4037; line-height: 1.5; }
+        .btn-group-container { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+        .btn-whatsapp { width: 100%; background-color: var(--success); color: white; border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-whatsapp:active { transform: scale(0.99); }
+        .hidden { display: none !important; }
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
+        .modal-content { max-width: 90%; max-height: 80%; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); animation: fadeIn 0.2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .icon-photo { cursor: pointer; margin-left: 6px; font-size: 16px; display: inline-block; transition: transform 0.2s; }
+        .icon-photo:hover { transform: scale(1.2); }
     </style>
-    </head>
+</head>
 <body>
 
-<!-- Modal para el Mapa -->
 <div id="mapModal" class="modal" onclick="cerrarMapa(event)">
     <div class="modal-content" style="background: white; padding: 12px; width: 90%; max-width: 600px; height: 70%; display: flex; flex-direction: column; position: relative;" onclick="event.stopPropagation()">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -409,15 +70,10 @@
     </div>
 </div>
 
-<!-- Modal para ver imágenes de los juegos -->
-<div id="imageModal" class="modal" onclick="cerrarFoto()">
-    <img class="modal-content" id="modalImg">
-</div>
+<div id="imageModal" class="modal" onclick="cerrarFoto()"><img class="modal-content" id="modalImg"></div>
 
 <div class="container">
-    <div class="lang-switch">
-        <a href="zh.html" class="lang-btn">🌐 切換至中文 (Chino)</a>
-    </div>
+    <div class="lang-switch"><a href="zh.html" class="lang-btn">🌐 切換至中文 (Chino)</a></div>
 
     <form name="inscripcion_tivoli_unificada" method="POST" data-netlify="true" id="formUnificado">
         <input type="hidden" name="form-name" value="inscripcion_tivoli_unificada" />
@@ -443,7 +99,6 @@
                 <button type="button" class="tab-btn" id="tab_fam" onclick="seleccionarModo('fam')">👨‍👩‍👧‍👦 Grupo Familiar</button>
             </div>
 
-            <!-- 1. DATOS PERSONALES / RESPONSABLE -->
             <div class="section-title" id="sec_title_datos">1. Datos Personales</div>
             <div class="form-group">
                 <label class="field-label" for="nombre">Nombre y Apellido *</label>
@@ -454,7 +109,6 @@
                 <input type="tel" id="telefono" name="telefono_whatsapp" placeholder="Ej: 11 1234-5678" required>
             </div>
 
-            <!-- MODO INDIVIDUAL: EDAD, SEXO Y DATOS DEL NIÑO -->
             <div id="bloque_datos_ind">
                 <div class="grid-2 form-group">
                     <div>
@@ -463,10 +117,7 @@
                     </div>
                     <div>
                         <label class="field-label" for="sexo_ind">Sexo *</label>
-                        <select id="sexo_ind" name="sexo_ind">
-                            <option value="Masculino">Masculino</option>
-                            <option value="Femenino">Femenino</option>
-                        </select>
+                        <select id="sexo_ind" name="sexo_ind"><option value="Masculino">Masculino</option><option value="Femenino">Femenino</option></select>
                     </div>
                 </div>
                 <div id="bloque_nombre_nino_ind" class="form-group hidden">
@@ -478,59 +129,31 @@
                     <input type="number" id="dni_ind" name="dni_ind" placeholder="Ej: 12345678">
                 </div>
             </div>
-            
-            <!-- 2. SECCION FAMILIAR: CANTIDAD INTEGRANTES -->
+
             <div id="bloque_cantidades_fam" class="hidden">
                 <div class="section-title">2. Integrantes del Grupo Familiar</div>
                 <div class="counter-row">
-                    <div class="counter-label">
-                        Mayores de 5 años (Adultos / Niños >= 5)
-                        <small>Pagan Entrada ($10.000 / $20.000)</small>
-                    </div>
+                    <div class="counter-label">Mayores de 5 años (Adultos / Niños >= 5)<small>Pagan Entrada ($10.000 / $20.000)</small></div>
                     <div class="counter-controls">
-                        <button type="button" class="btn-qty" onclick="cambiarCantidad('mayores', -1)">-</button>
-                        <span class="qty-val" id="qty_mayores">1</span>
-                        <button type="button" class="btn-qty" onclick="cambiarCantidad('mayores', 1)">+</button>
+                        <button type="button" class="btn-qty" onclick="cambiarCantidad('mayores', -1)">-</button><span class="qty-val" id="qty_mayores">1</span><button type="button" class="btn-qty" onclick="cambiarCantidad('mayores', 1)">+</button>
                     </div>
                 </div>
-
                 <div class="counter-row">
-                    <div class="counter-label">
-                        Menores de 5 años (0 a 4 años)
-                        <small>Entrada Gratis ($0)</small>
-                    </div>
+                    <div class="counter-label">Menores de 5 años (0 a 4 años)<small>Entrada Gratis ($0)</small></div>
                     <div class="counter-controls">
-                        <button type="button" class="btn-qty" onclick="cambiarCantidad('menores', -1)">-</button>
-                        <span class="qty-val" id="qty_menores">0</span>
-                        <button type="button" class="btn-qty" onclick="cambiarCantidad('menores', 1)">+</button>
+                        <button type="button" class="btn-qty" onclick="cambiarCantidad('menores', -1)">-</button><span class="qty-val" id="qty_menores">0</span><button type="button" class="btn-qty" onclick="cambiarCantidad('menores', 1)">+</button>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. CONFIGURACION DE ENTRADAS Y JUEGOS -->
             <div class="section-title" style="margin-top: 20px;" id="sec_title_entradas">2. Tipo de Entrada</div>
-            
-            <!-- AVISO MENOR A 5 AÑOS INDIVIDUAL -->
-            <div id="aviso_gratis_ind" class="payment-info" style="display: none; background: #e8f5e9; border-color: #a5d6a7; color: #1b5e20; margin-top: 12px;">
-                🎉 <strong>¡Entrada Gratuita!</strong><br>
-                Los menores de 5 años (0 a 4 años) ingresan gratis al parque y no requieren ticket de juegos de aventura.
-            </div>
+            <div id="aviso_gratis_ind" class="payment-info" style="display: none; background: #e8f5e9; border-color: #a5d6a7; color: #1b5e20; margin-top: 12px;">🎉 <strong>¡Entrada Gratuita!</strong><br>Los menores de 5 años ingresan gratis y no requieren ticket de juegos de aventura.</div>
 
-            <!-- MODO INDIVIDUAL: ENTRADA SINGLE -->
             <div id="bloque_entrada_ind">
                 <div class="option-group">
-                    <label class="option-card">
-                        <input type="radio" name="tipo_entrada_ind" value="Sin juegos ($10.000)" data-precio="10000" checked onchange="calcularTotal()">
-                        <span class="option-text">Sin juegos de aventura</span>
-                        <span class="badge-price" id="badge_sin_juegos_ind">$10.000</span>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" id="ind_con_juegos" name="tipo_entrada_ind" value="Con juegos ($20.000)" data-precio="20000" onchange="calcularTotal()">
-                        <span class="option-text">Con juegos de aventura</span>
-                        <span class="badge-price">$20.000</span>
-                    </label>
+                    <label class="option-card"><input type="radio" name="tipo_entrada_ind" value="Sin juegos ($10.000)" data-precio="10000" checked onchange="calcularTotal()"><span class="option-text">Sin juegos de aventura</span><span class="badge-price" id="badge_sin_juegos_ind">$10.000</span></label>
+                    <label class="option-card"><input type="radio" id="ind_con_juegos" name="tipo_entrada_ind" value="Con juegos ($20.000)" data-precio="20000" onchange="calcularTotal()"><span class="option-text">Con juegos de aventura</span><span class="badge-price">$20.000</span></label>
                 </div>
-
                 <div id="sec_juegos_ind" class="sub-box hidden">
                     <div class="sub-box-title">🎯 Elegí exactamente 2 juegos iniciales:</div>
                     <div style="font-size: 13px; color: #1557b0; margin-bottom: 8px; font-weight: 500;">💡 <em>Nota: Podés cederle 1 o los 2 juegos a otra persona ese mismo día.</em></div>
@@ -543,713 +166,296 @@
                 </div>
             </div>
 
-            <!-- MODO FAMILIAR: ENTRADAS MULTIPLES Y EDADES POR INTEGRANTE -->
-            <div id="contenedor_mayores_fam" class="hidden">
-            </div>
+            <div id="contenedor_mayores_fam" class="hidden"></div>
 
-            <!-- 4. COMBOS DE COMIDA -->
             <div class="section-title" style="margin-top: 20px;" id="sec_title_comida">3. Combo de Comida Tivoli Park (Opcional)</div>
-            <div class="subtitle" style="text-align: left; margin-bottom: 8px;">Si no deseás comer en el parque, podés dejar todos los contadores en 0 (Sin comida). Cada combo cuesta $15.000 (no incluye bebida).</div>
-            <div style="font-size: 13px; color: #1557b0; margin-bottom: 12px; background: #e8f0fe; padding: 8px; border-radius: 6px;">🥤 <strong>Nota:</strong> Habrá Buffet con venta de bebidas en el lugar, o cada uno puede llevar las suyas.</div>
-
+            <div class="subtitle" style="text-align: left; margin-bottom: 8px;">Si no deseás comer en el parque, podés dejar todos los contadores en 0. Cada combo cuesta $15.000 (no incluye bebida).</div>
+            
             <div class="food-item">
-                <div class="food-info">
-                    <strong>Hamburguesa completa + papas</strong>
-                    <div class="food-price">$15.000 c/u</div>
-                </div>
-                <div class="counter-controls">
-                    <button type="button" class="btn-qty" onclick="cambiarComida('hamburguesa', -1)">-</button>
-                    <span class="qty-val" id="qty_hamburguesa">0</span>
-                    <button type="button" class="btn-qty" onclick="cambiarComida('hamburguesa', 1)">+</button>
-                </div>
+                <div class="food-info"><strong>Hamburguesa completa + papas</strong><div class="food-price">$15.000 c/u</div></div>
+                <div class="counter-controls"><button type="button" class="btn-qty" onclick="cambiarComida('hamburguesa', -1)">-</button><span class="qty-val" id="qty_hamburguesa">0</span><button type="button" class="btn-qty" onclick="cambiarComida('hamburguesa', 1)">+</button></div>
+            </div>
+            <div class="food-item">
+                <div class="food-info"><strong>Sándwich de bondiola + papas</strong><div class="food-price">$15.000 c/u</div></div>
+                <div class="counter-controls"><button type="button" class="btn-qty" onclick="cambiarComida('bondiola', -1)">-</button><span class="qty-val" id="qty_bondiola">0</span><button type="button" class="btn-qty" onclick="cambiarComida('bondiola', 1)">+</button></div>
+            </div>
+            <div class="food-item">
+                <!-- ACTUALIZADO MILANESA POR SUPREMA -->
+                <div class="food-info"><strong>Sándwich de Suprema de Pollo + papas</strong><div class="food-price">$15.000 c/u</div></div>
+                <div class="counter-controls"><button type="button" class="btn-qty" onclick="cambiarComida('milanesa', -1)">-</button><span class="qty-val" id="qty_milanesa">0</span><button type="button" class="btn-qty" onclick="cambiarComida('milanesa', 1)">+</button></div>
             </div>
 
-            <div class="food-item">
-                <div class="food-info">
-                    <strong>Sándwich de bondiola + papas</strong>
-                    <div class="food-price">$15.000 c/u</div>
-                </div>
-                <div class="counter-controls">
-                    <button type="button" class="btn-qty" onclick="cambiarComida('bondiola', -1)">-</button>
-                    <span class="qty-val" id="qty_bondiola">0</span>
-                    <button type="button" class="btn-qty" onclick="cambiarComida('bondiola', 1)">+</button>
-                </div>
-            </div>
-
-            <div class="food-item">
-                <div class="food-info">
-                    <strong>Milanesa completa + papas</strong>
-                    <div class="food-price">$15.000 c/u</div>
-                </div>
-                <div class="counter-controls">
-                    <button type="button" class="btn-qty" onclick="cambiarComida('milanesa', -1)">-</button>
-                    <span class="qty-val" id="qty_milanesa">0</span>
-                    <button type="button" class="btn-qty" onclick="cambiarComida('milanesa', 1)">+</button>
-                </div>
-            </div>
-
-            <!-- 5. TRANSPORTE -->
             <div class="section-title" style="margin-top: 20px;" id="sec_title_transporte">4. Transporte</div>
             <div class="option-group">
+                <!-- VALORES ACTUALIZADOS CON HORARIOS -->
                 <label class="option-card">
-                    <input type="radio" name="transporte" value="Micro de la iglesia" onchange="toggleMicro()">
+                    <input type="radio" name="transporte" value="Micro de la iglesia (Encuentro 8:00 AM en IPTA)" onchange="toggleMicro()">
                     <span class="option-text">Micro de la iglesia</span>
                 </label>
                 <label class="option-card">
-                    <input type="radio" name="transporte" value="Voy manejando / Auto propio" checked onchange="toggleMicro()">
+                    <input type="radio" name="transporte" value="Auto propio (Llegar a las 10:00 AM a Tivoli)" checked onchange="toggleMicro()">
                     <span class="option-text">Voy manejando / Auto propio</span>
                 </label>
             </div>
             
-            <div id="aviso_seguro_micro" class="payment-info" style="display: none; background: #fff3cd; border-color: #ffeeba; color: #856404; margin-top: 12px;">
-                ⚠️ <strong>Aviso de Seguro:</strong><br>
-                Por normas de seguridad y seguro de viaje, al seleccionar el micro es obligatorio completar el <strong>Nombre Completo y DNI</strong> de cada pasajero en los campos correspondientes.
-            </div>
-            
-            <!-- REGLAS DEL PREDIO -->
-            <div class="payment-info" style="background: #f8d7da; border-color: #f5c6cb; color: #721c24; margin-top: 20px;">
-                <strong style="font-size: 14px;">⚠️ REGLAS IMPORTANTES DEL PREDIO:</strong><br>
-                Por disposición de Tivoli Park, está <strong>estrictamente prohibido</strong> ingresar con:<br>
-                🚫 Mascotas.<br>
-                🚫 Bebidas alcohólicas.<br>
-                🚫 Anafes a gas o equipos para cocinar.
+            <!-- CAJA DINÁMICA DE HORARIO DE TRANSPORTE -->
+            <div id="aviso_horario_transporte" class="payment-info" style="background: #e3f2fd; border-color: #bbdefb; color: #1557b0; margin-top: 12px;">
+                🕒 <strong>Horario y Punto de Encuentro:</strong><br>
+                <span id="txt_horario">Llegar a las 10:00 AM en la puerta de Tivoli Park.</span>
             </div>
 
-            <!-- CÓMO TE ENTERASTE -->
+            <div id="aviso_seguro_micro" class="payment-info" style="display: none; background: #fff3cd; border-color: #ffeeba; color: #856404; margin-top: 12px;">
+                ⚠️ <strong>Aviso de Seguro:</strong><br>Por normas de seguridad y seguro de viaje, al seleccionar el micro es obligatorio completar el <strong>Nombre Completo y DNI</strong> de cada pasajero.
+            </div>
+            
+            <div class="payment-info" style="background: #f8d7da; border-color: #f5c6cb; color: #721c24; margin-top: 20px;">
+                <strong style="font-size: 14px;">⚠️ REGLAS IMPORTANTES DEL PREDIO:</strong><br>Prohibido ingresar con: 🚫 Mascotas. 🚫 Bebidas alcohólicas. 🚫 Anafes o equipos para cocinar.
+            </div>
+
             <div class="form-group" style="margin-top: 20px;">
                 <label class="field-label" for="como_te_enteraste" style="color: #856404; font-size: 15px; background: #fff3cd; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; display: inline-block; border: 1px solid #ffeeba;">¿Cómo te enteraste de este evento? *</label>
                 <select id="como_te_enteraste" name="como_te_enteraste" required style="padding: 14px; font-size: 15px; border: 2px solid #ffca28; border-radius: 8px; background-color: #fffdf7; cursor: pointer;">
-                    <option value="" disabled selected>Seleccioná una opción...</option>
-                    <option value="Colegio">Colegio</option>
-                    <option value="Iglesia">Iglesia</option>
-                    <option value="Amigo">Amigo</option>
-                    <option value="Red Social">Red Social</option>
-                    <option value="Otro">Otro</option>
+                    <option value="" disabled selected>Seleccioná una opción...</option><option value="Colegio">Colegio</option><option value="Iglesia">Iglesia</option><option value="Amigo">Amigo</option><option value="Red Social">Red Social</option><option value="Otro">Otro</option>
                 </select>
             </div>
 
-            <!-- RESUMEN Y TOTAL -->
             <div class="summary-box">
-                <div class="summary-row" id="row_resumen_entradas">
-                    <span id="lbl_resumen_entradas">Entrada Persona</span>
-                    <span id="prc_resumen_entradas">$10.000</span>
-                </div>
-                <div class="summary-row hidden" id="row_resumen_menores">
-                    <span>Menores &lt; 5 años (<span id="lbl_cant_menores">0</span>)</span>
-                    <span>$0 (Gratis)</span>
-                </div>
-                <div class="summary-row" id="row_resumen_comida" style="display:none;">
-                    <span id="lbl_resumen_comida">Combos Comida (0)</span>
-                    <span id="prc_resumen_comida">$0</span>
-                </div>
-                <div class="summary-row total">
-                    <span>Total a Pagar</span>
-                    <span id="monto_total">$10.000</span>
-                </div>
+                <div class="summary-row" id="row_resumen_entradas"><span id="lbl_resumen_entradas">Entrada Persona</span><span id="prc_resumen_entradas">$10.000</span></div>
+                <div class="summary-row hidden" id="row_resumen_menores"><span>Menores &lt; 5 años (<span id="lbl_cant_menores">0</span>)</span><span>$0 (Gratis)</span></div>
+                <div class="summary-row" id="row_resumen_comida" style="display:none;"><span id="lbl_resumen_comida">Combos Comida (0)</span><span id="prc_resumen_comida">$0</span></div>
+                <div class="summary-row total"><span>Total a Pagar</span><span id="monto_total">$10.000</span></div>
             </div>
 
-            <!-- OPCIÓN DE PAGO -->
             <div class="section-title" style="margin-top: 20px;" id="sec_title_pago">5. ¿Cuándo y a quién vas a pagar? *</div>
             <div class="option-group" style="margin-bottom: 20px;">
-                <label class="option-card">
-                    <input type="radio" name="opcion_pago" value="Sábado en kiosko de Aiyu">
-                    <span class="option-text">Quiero pagar el sábado en el kiosko de Aiyu (愛育學校的 kiosko)</span>
-                </label>
-                <label class="option-card">
-                    <input type="radio" name="opcion_pago" value="Domingo a Lily Huang o Jenny Lee">
-                    <span class="option-text">Quiero pagar el domingo a Lily Huang o Jenny Lee (黃馨儀 o 李佳珍)</span>
-                </label>
+                <label class="option-card"><input type="radio" name="opcion_pago" value="Sábado en kiosko de Aiyu"><span class="option-text">Quiero pagar el sábado en el kiosko de Aiyu (愛育學校的 kiosko)</span></label>
+                <!-- ACTUALIZADO NOMBRE LILIANA JUANG -->
+                <label class="option-card"><input type="radio" name="opcion_pago" value="Domingo a Liliana Juang o Jenny Lee"><span class="option-text">Quiero pagar el domingo a Liliana Juang o Jenny Lee (黃馨儀 o 李佳珍)</span></label>
             </div>
 
-            <!-- AVISO DE CANCELACIÓN VISIBLE EN EL FORMULARIO -->
             <div class="payment-info" style="background: #e8f0fe; border-color: #d2e3fc; color: #1557b0; margin-top: 20px; margin-bottom: 10px;">
                 <strong style="font-size: 14px;">⚠️ Atención / 注意:</strong><br>
-                En caso de cancelación o modificación de datos, escribir a 黃馨儀 (Lily Huang) o 李佳珍 (Jenny Lee).<br>
-                若需取消或修改資料，請聯繫 黃馨儀 (Lily Huang) 或 李佳珍 (Jenny Lee).
+                En caso de cancelación o modificación de datos, escribir a 黃馨儀 (Liliana Juang) o 李佳珍 (Jenny Lee).<br>
+                若需取消或修改資料，請聯繫 黃馨儀 (Liliana Juang) 或 李佳珍 (Jenny Lee).
             </div>
 
             <div class="btn-group-container">
-                <button type="button" class="btn-whatsapp" style="background-color: #00a884;" onclick="enviarInscripcionDirecta('5491122886604')">
-                    📲 Enviar Inscripción por WhatsApp
-                </button>
+                <button type="button" class="btn-whatsapp" style="background-color: #00a884;" onclick="enviarInscripcionDirecta('5491122886604')">📲 Enviar Inscripción por WhatsApp</button>
             </div>
         </div>
     </form>
 </div>
 
 <script>
-    let modoActual = 'ind';
-    let cantMayores = 1;
-    let cantMenores = 0;
-    let comidas = { hamburguesa: 0, bondiola: 0, milanesa: 0 };
-
-    /* --- Funciones del Mapa --- */
-    function abrirMapa(event) {
-        event.preventDefault();
-        document.getElementById("mapModal").style.display = "flex";
-    }
-
-    function cerrarMapa(event) {
-        if(event) event.stopPropagation();
-        document.getElementById("mapModal").style.display = "none";
-    }
-
-    /* --- Funciones del Pop-up de Imágenes --- */
-    function abrirFoto(src, event) {
-        event.preventDefault(); 
-        event.stopPropagation(); 
-        const modal = document.getElementById("imageModal");
-        const modalImg = document.getElementById("modalImg");
-        modal.style.display = "flex";
-        modalImg.src = src;
-    }
-
-    function cerrarFoto() {
-        document.getElementById("imageModal").style.display = "none";
-    }
+    let modoActual = 'ind'; let cantMayores = 1; let cantMenores = 0; let comidas = { hamburguesa: 0, bondiola: 0, milanesa: 0 };
+    function abrirMapa(event) { event.preventDefault(); document.getElementById("mapModal").style.display = "flex"; }
+    function cerrarMapa(event) { if(event) event.stopPropagation(); document.getElementById("mapModal").style.display = "none"; }
+    function abrirFoto(src, event) { event.preventDefault(); event.stopPropagation(); document.getElementById("imageModal").style.display = "flex"; document.getElementById("modalImg").src = src; }
+    function cerrarFoto() { document.getElementById("imageModal").style.display = "none"; }
 
     function seleccionarModo(modo) {
-        modoActual = modo;
-        document.getElementById('tipo_modo').value = modo === 'ind' ? 'Individuo' : 'Grupo Familiar';
-
-        document.getElementById('tab_ind').classList.toggle('active', modo === 'ind');
-        document.getElementById('tab_fam').classList.toggle('active', modo === 'fam');
-
+        modoActual = modo; document.getElementById('tipo_modo').value = modo === 'ind' ? 'Individuo' : 'Grupo Familiar';
+        document.getElementById('tab_ind').classList.toggle('active', modo === 'ind'); document.getElementById('tab_fam').classList.toggle('active', modo === 'fam');
         document.getElementById('sec_title_datos').innerText = modo === 'ind' ? '1. Datos Personales' : '1. Datos del Responsable del Grupo';
         document.getElementById('sec_title_entradas').innerText = modo === 'ind' ? '2. Tipo de Entrada' : '3. Entradas, Juegos y Datos (Todos los integrantes)';
         document.getElementById('sec_title_comida').innerText = modo === 'ind' ? '3. Combo de Comida Tivoli Park (Opcional)' : '4. Combo de Comida Tivoli Park (Cantidad Libre)';
         document.getElementById('sec_title_transporte').innerText = modo === 'ind' ? '4. Transporte' : '5. Transporte del Grupo';
         document.getElementById('sec_title_pago').innerText = modo === 'ind' ? '5. ¿Cuándo y a quién vas a pagar?' : '6. ¿Cuándo y a quién vas a pagar?';
-
-        document.getElementById('bloque_datos_ind').classList.toggle('hidden', modo === 'fam');
-        document.getElementById('bloque_cantidades_fam').classList.toggle('hidden', modo === 'ind');
-        document.getElementById('bloque_entrada_ind').classList.toggle('hidden', modo === 'fam');
-        document.getElementById('contenedor_mayores_fam').classList.toggle('hidden', modo === 'ind');
+        document.getElementById('bloque_datos_ind').classList.toggle('hidden', modo === 'fam'); document.getElementById('bloque_cantidades_fam').classList.toggle('hidden', modo === 'ind');
+        document.getElementById('bloque_entrada_ind').classList.toggle('hidden', modo === 'fam'); document.getElementById('contenedor_mayores_fam').classList.toggle('hidden', modo === 'ind');
         document.getElementById('row_resumen_menores').classList.toggle('hidden', modo === 'ind');
-
-        if (modo === 'fam') {
-            renderizarIntegrantesFam();
-        } else {
-            validarEdadInd();
-        }
-
-        calcularTotal();
+        if (modo === 'fam') { renderizarIntegrantesFam(); } else { validarEdadInd(); } calcularTotal();
     }
 
     function cambiarCantidad(tipo, delta) {
-        if (tipo === 'mayores') {
-            cantMayores = Math.max(1, cantMayores + delta);
-            document.getElementById('qty_mayores').innerText = cantMayores;
-            renderizarIntegrantesFam();
-        } else {
-            cantMenores = Math.max(0, cantMenores + delta);
-            document.getElementById('qty_menores').innerText = cantMenores;
-            document.getElementById('lbl_cant_menores').innerText = cantMenores;
-            renderizarIntegrantesFam();
-        }
-        calcularTotal();
+        if (tipo === 'mayores') { cantMayores = Math.max(1, cantMayores + delta); document.getElementById('qty_mayores').innerText = cantMayores; } 
+        else { cantMenores = Math.max(0, cantMenores + delta); document.getElementById('qty_menores').innerText = cantMenores; document.getElementById('lbl_cant_menores').innerText = cantMenores; }
+        renderizarIntegrantesFam(); calcularTotal();
     }
 
-    function cambiarComida(tipo, delta) {
-        comidas[tipo] = Math.max(0, comidas[tipo] + delta);
-        document.getElementById('qty_' + tipo).innerText = comidas[tipo];
-        calcularTotal();
-    }
-    
+    function cambiarComida(tipo, delta) { comidas[tipo] = Math.max(0, comidas[tipo] + delta); document.getElementById('qty_' + tipo).innerText = comidas[tipo]; calcularTotal(); }
+
     function renderizarIntegrantesFam() {
-        const contenedorMayores = document.getElementById('contenedor_mayores_fam');
-        
-        let prevMayores = [];
+        const contenedor = document.getElementById('contenedor_mayores_fam'); let prevMayores = []; let prevMenores = [];
         for (let i = 0; i < cantMayores; i++) {
             const radCon = document.getElementById(`m_${i}_con`);
-            const checkedCon = radCon ? radCon.checked : false;
-            const edad = document.getElementById(`edad_m_${i}`) ? document.getElementById(`edad_m_${i}`).value : '';
-            const sexo = document.getElementById(`sexo_m_${i}`) ? document.getElementById(`sexo_m_${i}`).value : 'Masculino';
-            const nombreM = document.getElementById(`nombre_m_${i}`) ? document.getElementById(`nombre_m_${i}`).value : '';
-            const dniM = document.getElementById(`dni_m_${i}`) ? document.getElementById(`dni_m_${i}`).value : '';
-            
-            let juegos = [];
-            document.querySelectorAll(`input[name="juegos_m_${i}"]:checked`).forEach(cb => juegos.push(cb.value));
-            prevMayores.push({ conJuegos: checkedCon, juegos: juegos, edad: edad, sexo: sexo, nombre: nombreM, dni: dniM });
+            let juegos = []; document.querySelectorAll(`input[name="juegos_m_${i}"]:checked`).forEach(cb => juegos.push(cb.value));
+            prevMayores.push({ conJuegos: radCon ? radCon.checked : false, juegos: juegos, edad: document.getElementById(`edad_m_${i}`)?.value || '', sexo: document.getElementById(`sexo_m_${i}`)?.value || 'Masculino', nombre: document.getElementById(`nombre_m_${i}`)?.value || '', dni: document.getElementById(`dni_m_${i}`)?.value || '' });
         }
-
-        let prevMenores = [];
-        for (let j = 0; j < cantMenores; j++) {
-            const edadMenor = document.getElementById(`edad_menor_${j}`) ? document.getElementById(`edad_menor_${j}`).value : '';
-            const sexoMenor = document.getElementById(`sexo_menor_${j}`) ? document.getElementById(`sexo_menor_${j}`).value : 'Masculino';
-            const nombreMenor = document.getElementById(`nombre_menor_${j}`) ? document.getElementById(`nombre_menor_${j}`).value : '';
-            const dniMenor = document.getElementById(`dni_menor_${j}`) ? document.getElementById(`dni_menor_${j}`).value : '';
-            prevMenores.push({ edad: edadMenor, sexo: sexoMenor, nombre: nombreMenor, dni: dniMenor });
-        }
-
-        contenedorMayores.innerHTML = '';
-
+        for (let j = 0; j < cantMenores; j++) { prevMenores.push({ edad: document.getElementById(`edad_menor_${j}`)?.value || '', sexo: document.getElementById(`sexo_menor_${j}`)?.value || 'Masculino', nombre: document.getElementById(`nombre_menor_${j}`)?.value || '', dni: document.getElementById(`dni_menor_${j}`)?.value || '' }); }
+        
+        contenedor.innerHTML = '';
         for (let i = 0; i < cantMayores; i++) {
-            const conJuego = prevMayores[i] ? prevMayores[i].conJuegos : false;
-            const juegosElegidos = prevMayores[i] ? prevMayores[i].juegos : [];
-            const edadVal = prevMayores[i] ? prevMayores[i].edad : '';
-            const sexoVal = prevMayores[i] ? prevMayores[i].sexo : 'Masculino';
-            const nombreVal = prevMayores[i] ? prevMayores[i].nombre : '';
-            const dniVal = prevMayores[i] ? prevMayores[i].dni : '';
-
-            const div = document.createElement('div');
-            div.className = 'member-box';
-            div.innerHTML = `
-                <div class="member-title">Persona ${i + 1} (>= 5 años)</div>
-                <div class="form-group">
-                    <label class="field-label">Nombre Completo *</label>
-                    <input type="text" id="nombre_m_${i}" placeholder="Ej: Juan Pérez" value="${nombreVal}">
-                </div>
-                <div class="form-group dni-group" style="display: none;">
-                    <label class="field-label">DNI *</label>
-                    <input type="number" id="dni_m_${i}" placeholder="Ej: 12345678" value="${dniVal}">
-                </div>
-                <div class="grid-2 form-group">
-                    <div>
-                        <label class="field-label">Edad *</label>
-                        <input type="number" id="edad_m_${i}" min="5" max="100" placeholder="Ej: 12" value="${edadVal}">
-                    </div>
-                    <div>
-                        <label class="field-label">Sexo *</label>
-                        <select id="sexo_m_${i}">
-                            <option value="Masculino" ${sexoVal === 'Masculino' ? 'selected' : ''}>Masculino</option>
-                            <option value="Femenino" ${sexoVal === 'Femenino' ? 'selected' : ''}>Femenino</option>
-                        </select>
-                    </div>
-                </div>
+            const m = prevMayores[i];
+            contenedor.innerHTML += `
+                <div class="member-box"><div class="member-title">Persona ${i + 1} (>= 5 años)</div>
+                <div class="form-group"><label class="field-label">Nombre Completo *</label><input type="text" id="nombre_m_${i}" placeholder="Ej: Juan Pérez" value="${m.nombre}"></div>
+                <div class="form-group dni-group" style="display: none;"><label class="field-label">DNI *</label><input type="number" id="dni_m_${i}" placeholder="Ej: 12345678" value="${m.dni}"></div>
+                <div class="grid-2 form-group"><div><label class="field-label">Edad *</label><input type="number" id="edad_m_${i}" min="5" max="100" value="${m.edad}"></div>
+                <div><label class="field-label">Sexo *</label><select id="sexo_m_${i}"><option value="Masculino" ${m.sexo === 'Masculino' ? 'selected' : ''}>Masculino</option><option value="Femenino" ${m.sexo === 'Femenino' ? 'selected' : ''}>Femenino</option></select></div></div>
                 <div class="option-group">
-                    <label class="option-card">
-                        <input type="radio" name="tipo_m_${i}" value="sin_juegos" data-precio="10000" ${!conJuego ? 'checked' : ''} onchange="toggleJuegosMember(${i})">
-                        <span class="option-text">Sin juegos de aventura</span>
-                        <span class="badge-price" id="badge_sin_juegos_ind">$10.000</span>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" id="m_${i}_con" name="tipo_m_${i}" value="con_juegos" data-precio="20000" ${conJuego ? 'checked' : ''} onchange="toggleJuegosMember(${i})">
-                        <span class="option-text">Con juegos de aventura</span>
-                        <span class="badge-price">$20.000</span>
-                    </label>
+                    <label class="option-card"><input type="radio" name="tipo_m_${i}" value="sin_juegos" data-precio="10000" ${!m.conJuegos ? 'checked' : ''} onchange="toggleJuegosMember(${i})"><span class="option-text">Sin juegos de aventura</span><span class="badge-price">$10.000</span></label>
+                    <label class="option-card"><input type="radio" id="m_${i}_con" name="tipo_m_${i}" value="con_juegos" data-precio="20000" ${m.conJuegos ? 'checked' : ''} onchange="toggleJuegosMember(${i})"><span class="option-text">Con juegos de aventura</span><span class="badge-price">$20.000</span></label>
                 </div>
-                <div id="sec_juegos_m_${i}" class="sub-box ${!conJuego ? 'hidden' : ''}">
+                <div id="sec_juegos_m_${i}" class="sub-box ${!m.conJuegos ? 'hidden' : ''}">
                     <div class="sub-box-title">🎯 Elegí exactamente 2 juegos:</div>
-                    <div style="font-size: 13px; color: #1557b0; margin-bottom: 8px; font-weight: 500;">💡 <em>Nota: Podés cederle 1 o los 2 juegos a otra persona ese mismo día.</em></div>
                     <div class="option-group">
-                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Tirolesa" ${juegosElegidos.includes('Tirolesa') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">Tirolesa (A partir de 8 años) <span class="icon-photo" onclick="abrirFoto('tirolesa.png', event)">📷</span></span></label>
-                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Palestra" ${juegosElegidos.includes('Palestra') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">Palestra (A partir de 5 años) <span class="icon-photo" onclick="abrirFoto('escalada.png', event)">📷</span></span></label>
-                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Arquería" ${juegosElegidos.includes('Arquería') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">Arquería (A partir de 5 años) <span class="icon-photo" onclick="abrirFoto('arqueria.png', event)">📷</span></span></label>
-                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Puentes aéreos" ${juegosElegidos.includes('Puentes aéreos') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">Puentes aéreos (A partir de 10 años) <span class="icon-photo" onclick="abrirFoto('puentes.png', event)">📷</span></span></label>
-                    </div>
-                </div>
-            `;
-            contenedorMayores.appendChild(div);
+                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Tirolesa" ${m.juegos.includes('Tirolesa') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">Tirolesa <span class="icon-photo" onclick="abrirFoto('tirolesa.png', event)">📷</span></span></label>
+                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Palestra" ${m.juegos.includes('Palestra') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">Palestra <span class="icon-photo" onclick="abrirFoto('escalada.png', event)">📷</span></span></label>
+                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Arquería" ${m.juegos.includes('Arquería') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">Arquería <span class="icon-photo" onclick="abrirFoto('arqueria.png', event)">📷</span></span></label>
+                        <label class="option-card"><input type="checkbox" name="juegos_m_${i}" value="Puentes aéreos" ${m.juegos.includes('Puentes aéreos') ? 'checked' : ''} onchange="validarJuegosMember(this, ${i})"><span class="option-text">Puentes <span class="icon-photo" onclick="abrirFoto('puentes.png', event)">📷</span></span></label>
+                    </div></div></div>`;
         }
-
         for (let j = 0; j < cantMenores; j++) {
-            const edadMenorVal = prevMenores[j] ? prevMenores[j].edad : '';
-            const sexoMenorVal = prevMenores[j] ? prevMenores[j].sexo : 'Masculino';
-            const nombreMenorVal = prevMenores[j] ? prevMenores[j].nombre : '';
-            const dniMenorVal = prevMenores[j] ? prevMenores[j].dni : '';
-
-            const div = document.createElement('div');
-            div.className = 'member-box';
-            div.style.background = '#e8f5e9';
-            div.style.borderColor = '#a5d6a7';
-            div.innerHTML = `
+            const min = prevMenores[j];
+            contenedor.innerHTML += `
+                <div class="member-box" style="background: #e8f5e9; border-color: #a5d6a7;">
                 <div class="member-title" style="color: #1b5e20;">👶 Menor ${j + 1} (0 a 4 años - Entrada Gratis $0)</div>
-                <div class="form-group">
-                    <label class="field-label">Nombre Completo *</label>
-                    <input type="text" id="nombre_menor_${j}" placeholder="Ej: Lucas" value="${nombreMenorVal}">
-                </div>
-                <div class="form-group dni-group" style="display: none;">
-                    <label class="field-label">DNI *</label>
-                    <input type="number" id="dni_menor_${j}" placeholder="Ej: 12345678" value="${dniMenorVal}">
-                </div>
-                <div class="grid-2 form-group">
-                    <div>
-                        <label class="field-label">Edad *</label>
-                        <input type="number" id="edad_menor_${j}" min="0" max="4" placeholder="Ej: 3" value="${edadMenorVal}">
-                    </div>
-                    <div>
-                        <label class="field-label">Sexo *</label>
-                        <select id="sexo_menor_${j}">
-                            <option value="Masculino" ${sexoMenorVal === 'Masculino' ? 'selected' : ''}>Masculino</option>
-                            <option value="Femenino" ${sexoMenorVal === 'Femenino' ? 'selected' : ''}>Femenino</option>
-                        </select>
-                    </div>
-                </div>
-                <div style="font-size: 12px; color: #2e7d32; font-weight: bold;">
-                    🎉 Entrada 100% gratuita (Sin ticket de juegos de aventura)
-                </div>
-            `;
-            contenedorMayores.appendChild(div);
+                <div class="form-group"><label class="field-label">Nombre Completo *</label><input type="text" id="nombre_menor_${j}" value="${min.nombre}"></div>
+                <div class="form-group dni-group" style="display: none;"><label class="field-label">DNI *</label><input type="number" id="dni_menor_${j}" value="${min.dni}"></div>
+                <div class="grid-2 form-group"><div><label class="field-label">Edad *</label><input type="number" id="edad_menor_${j}" min="0" max="4" value="${min.edad}"></div>
+                <div><label class="field-label">Sexo *</label><select id="sexo_menor_${j}"><option value="Masculino" ${min.sexo === 'Masculino' ? 'selected' : ''}>Masculino</option><option value="Femenino" ${min.sexo === 'Femenino' ? 'selected' : ''}>Femenino</option></select></div></div></div>`;
         }
         toggleMicro();
     }
 
-    function toggleJuegosMember(index) {
-        const conJuegos = document.getElementById(`m_${index}_con`).checked;
-        const sec = document.getElementById(`sec_juegos_m_${index}`);
-        if (conJuegos) {
-            sec.classList.remove('hidden');
-        } else {
-            sec.classList.add('hidden');
-            document.querySelectorAll(`input[name="juegos_m_${index}"]`).forEach(cb => cb.checked = false);
-        }
-        calcularTotal();
-    }
-
-    function validarJuegosMember(checkbox, index) {
-        const checked = document.querySelectorAll(`input[name="juegos_m_${index}"]:checked`);
-        if (checked.length > 2) {
-            alert("Solo podés seleccionar hasta 2 juegos por persona.");
-            checkbox.checked = false;
-        }
-    }
-
-    function validarJuegosInd(checkbox) {
-        const checked = document.querySelectorAll('input[name="juegos_ind"]:checked');
-        if (checked.length > 2) {
-            alert("Solo podés seleccionar hasta 2 juegos.");
-            checkbox.checked = false;
-        }
-    }
+    function toggleJuegosMember(index) { const conJuegos = document.getElementById(`m_${index}_con`).checked; const sec = document.getElementById(`sec_juegos_m_${index}`); if (conJuegos) { sec.classList.remove('hidden'); } else { sec.classList.add('hidden'); document.querySelectorAll(`input[name="juegos_m_${index}"]`).forEach(cb => cb.checked = false); } calcularTotal(); }
+    function validarJuegosMember(checkbox, index) { if (document.querySelectorAll(`input[name="juegos_m_${index}"]:checked`).length > 2) { alert("Solo 2 juegos."); checkbox.checked = false; } }
+    function validarJuegosInd(checkbox) { if (document.querySelectorAll('input[name="juegos_ind"]:checked').length > 2) { alert("Solo 2 juegos."); checkbox.checked = false; } }
 
     function validarEdadInd() {
-        const edadInput = document.getElementById('edad_ind');
-        const edad = parseInt(edadInput.value) || 0;
-        const bloqueEntradas = document.getElementById('bloque_entrada_ind');
-        const avisoGratis = document.getElementById('aviso_gratis_ind');
-        const bloqueNombreNino = document.getElementById('bloque_nombre_nino_ind');
-        const radioSinJuegos = document.querySelector('input[name="tipo_entrada_ind"][value*="Sin juegos"]');
-        const badgeSinJuegos = document.getElementById('badge_sin_juegos_ind');
-
-        if (edad > 0 && edad < 5) {
-            bloqueEntradas.style.display = 'none';
-            avisoGratis.style.display = 'block';
-            avisoGratis.classList.remove('hidden');
-            if(bloqueNombreNino) bloqueNombreNino.classList.remove('hidden');
-        } else {
-            bloqueEntradas.style.display = 'block';
-            avisoGratis.style.display = 'none';
-            avisoGratis.classList.add('hidden');
-            if(bloqueNombreNino) bloqueNombreNino.classList.add('hidden');
-            
-            if (radioSinJuegos) {
-                radioSinJuegos.setAttribute('data-precio', '10000');
-                radioSinJuegos.value = 'Sin juegos ($10.000)';
-            }
-            if (badgeSinJuegos) {
-                badgeSinJuegos.innerText = '$10.000';
-            }
-        }
+        const edad = parseInt(document.getElementById('edad_ind').value) || 0;
+        const gratis = edad > 0 && edad < 5;
+        document.getElementById('bloque_entrada_ind').style.display = gratis ? 'none' : 'block';
+        document.getElementById('aviso_gratis_ind').style.display = gratis ? 'block' : 'none';
+        document.getElementById('bloque_nombre_nino_ind').classList.toggle('hidden', !gratis);
         calcularTotal();
     }
 
     let microAlertMostrado = false;
-    
     function toggleMicro() {
         const transporteOpt = document.querySelector('input[name="transporte"]:checked').value;
         const esMicro = transporteOpt.includes('Micro');
-        document.querySelectorAll('.dni-group').forEach(el => {
-            el.style.display = esMicro ? 'block' : 'none';
-        });
         
+        document.querySelectorAll('.dni-group').forEach(el => el.style.display = esMicro ? 'block' : 'none');
         const avisoSeguro = document.getElementById('aviso_seguro_micro');
-        if (avisoSeguro) {
-            avisoSeguro.style.display = esMicro ? 'block' : 'none';
-        }
+        if (avisoSeguro) avisoSeguro.style.display = esMicro ? 'block' : 'none';
         
-        if (esMicro && !microAlertMostrado) {
-            alert("⚠️ Por normas de seguridad y seguros de viaje, se necesita completar el Nombre Completo y DNI de cada pasajero al seleccionar Micro.");
-            microAlertMostrado = true;
+        // ACTUALIZACIÓN DE HORARIOS DINÁMICOS
+        const txtHorario = document.getElementById('txt_horario');
+        if (txtHorario) {
+            txtHorario.innerHTML = esMicro ? "Juntarse a las <strong>8:00 AM en IPTA</strong>." : "Llegar a las <strong>10:00 AM en la puerta de Tivoli Park</strong>.";
         }
+
+        if (esMicro && !microAlertMostrado) { alert("⚠️ Se necesita completar Nombre y DNI de cada pasajero al seleccionar Micro."); microAlertMostrado = true; }
     }
-    
-    // Ejecutar al inicio para setear el estado correcto
     document.addEventListener('DOMContentLoaded', toggleMicro);
     
     function calcularTotal() {
         let totalEntradas = 0;
-
         if (modoActual === 'ind') {
             const edadInd = parseInt(document.getElementById('edad_ind').value) || 0;
-            if (edadInd > 0 && edadInd < 5) {
-                totalEntradas = 0;
-                document.getElementById('lbl_resumen_entradas').innerText = 'Entrada (Menor < 5 años)';
-            } else {
+            if (edadInd > 0 && edadInd < 5) { document.getElementById('lbl_resumen_entradas').innerText = 'Entrada (Menor < 5 años)'; } 
+            else {
                 const esConJuegosInd = document.getElementById('ind_con_juegos').checked;
                 document.getElementById('sec_juegos_ind').classList.toggle('hidden', !esConJuegosInd);
-                if (!esConJuegosInd) {
-                    document.querySelectorAll('input[name="juegos_ind"]').forEach(cb => cb.checked = false);
-                }
+                if (!esConJuegosInd) document.querySelectorAll('input[name="juegos_ind"]').forEach(cb => cb.checked = false);
                 const optInd = document.querySelector('input[name="tipo_entrada_ind"]:checked');
                 totalEntradas = optInd ? parseInt(optInd.getAttribute('data-precio')) : 0;
                 document.getElementById('lbl_resumen_entradas').innerText = 'Entrada Persona';
             }
         } else {
-            for (let i = 0; i < cantMayores; i++) {
-                const opt = document.querySelector(`input[name="tipo_m_${i}"]:checked`);
-                if (opt) totalEntradas += parseInt(opt.getAttribute('data-precio'));
-            }
+            for (let i = 0; i < cantMayores; i++) { const opt = document.querySelector(`input[name="tipo_m_${i}"]:checked`); if (opt) totalEntradas += parseInt(opt.getAttribute('data-precio')); }
             document.getElementById('lbl_resumen_entradas').innerText = `Entradas Mayores (${cantMayores})`;
         }
-
         document.getElementById('prc_resumen_entradas').innerText = "$" + totalEntradas.toLocaleString("es-AR");
 
         const totalComidasCant = comidas.hamburguesa + comidas.bondiola + comidas.milanesa;
         const totalComidasPrecio = totalComidasCant * 15000;
-
         const rowComida = document.getElementById('row_resumen_comida');
-        if (totalComidasCant > 0) {
-            rowComida.style.display = 'flex';
-            document.getElementById('lbl_resumen_comida').innerText = `Combos Comida (${totalComidasCant})`;
-            document.getElementById('prc_resumen_comida').innerText = "$" + totalComidasPrecio.toLocaleString("es-AR");
-        } else {
-            rowComida.style.display = 'none';
-        }
-
-        const grandTotal = totalEntradas + totalComidasPrecio;
-        const totalTexto = "$" + grandTotal.toLocaleString("es-AR");
-
-        document.getElementById('monto_total').innerText = totalTexto;
-        document.getElementById('monto_total_guardado').value = totalTexto;
+        if (totalComidasCant > 0) { rowComida.style.display = 'flex'; document.getElementById('lbl_resumen_comida').innerText = `Combos Comida (${totalComidasCant})`; document.getElementById('prc_resumen_comida').innerText = "$" + totalComidasPrecio.toLocaleString("es-AR"); } else { rowComida.style.display = 'none'; }
+        
+        const totalTexto = "$" + (totalEntradas + totalComidasPrecio).toLocaleString("es-AR");
+        document.getElementById('monto_total').innerText = totalTexto; document.getElementById('monto_total_guardado').value = totalTexto;
     }
 
     function enviarInscripcionDirecta(numDestino) {
-        const nombre = document.getElementById('nombre').value.trim();
-        const telefono = document.getElementById('telefono').value.trim();
-        const comoTeEnteraste = document.getElementById('como_te_enteraste').value;
-
-        if (!nombre || !telefono) {
-            alert("Por favor, completá tu Nombre y Teléfono antes de continuar.");
-            return;
-        }
-
-        if (!comoTeEnteraste) {
-            alert("Por favor, indicanos cómo te enteraste del evento.");
-            return;
-        }
+        const nombre = document.getElementById('nombre').value.trim(); const telefono = document.getElementById('telefono').value.trim(); const comoTeEnteraste = document.getElementById('como_te_enteraste').value;
+        if (!nombre || !telefono) { alert("Completá Nombre y Teléfono."); return; } if (!comoTeEnteraste) { alert("Indicá cómo te enteraste."); return; }
 
         let txtComidas = [];
         if (comidas.hamburguesa > 0) txtComidas.push(`Hamburguesa x${comidas.hamburguesa}`);
         if (comidas.bondiola > 0) txtComidas.push(`Bondiola x${comidas.bondiola}`);
-        if (comidas.milanesa > 0) txtComidas.push(`Milanesa x${comidas.milanesa}`);
+        // ACTUALIZADO MILANESA POR SUPREMA EN EL MENSAJE
+        if (comidas.milanesa > 0) txtComidas.push(`Suprema x${comidas.milanesa}`);
         let txtComidasStr = txtComidas.length > 0 ? txtComidas.join(', ') : 'Sin combos';
 
         const transporteVal = document.querySelector('input[name="transporte"]:checked').value;
-        
         const opcionPagoEl = document.querySelector('input[name="opcion_pago"]:checked');
-        if (!opcionPagoEl) {
-            alert("Por favor, elegí cuándo y a quién le vas a pagar.");
-            return;
-        }
+        if (!opcionPagoEl) { alert("Elegí cuándo pagar."); return; }
         const opcionPagoVal = opcionPagoEl.value;
-        const receptorPago = opcionPagoVal.includes("Sábado") ? "Kiosco de Aiyu (愛育學校)" : "Lily Huang o Jenny Lee";
+        // ACTUALIZADO NOMBRE LILIANA JUANG
+        const receptorPago = opcionPagoVal.includes("Sábado") ? "Kiosco de Aiyu (愛育學校)" : "Liliana Juang o Jenny Lee";
         
-        const esMicro = transporteVal.includes("Micro");
-        const totalVal = document.getElementById('monto_total').innerText;
-
+        const esMicro = transporteVal.includes("Micro"); const totalVal = document.getElementById('monto_total').innerText;
         document.getElementById('contacto_seleccionado').value = receptorPago;
-        const ahora = new Date();
-        const fechaHoraFormateada = ahora.toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'medium' });
-        document.getElementById('hora_envio').value = fechaHoraFormateada;
-        
-        const sumaRotativa = ahora.getDate() + ahora.getHours() + ahora.getMinutes();
-        const letra = String.fromCharCode(65 + (sumaRotativa % 26));
-        const minFinal = (ahora.getMinutes() % 10).toString();
-        const segundos = ahora.getSeconds().toString().padStart(2, '0');
-        const numRandom = Math.floor(Math.random() * 10).toString();
-        
-        const numTicket = 'TIV-' + letra + minFinal + segundos + numRandom;
-        document.getElementById('numero_inscripcion').value = numTicket;
-
-        document.getElementById('resumen_comidas').value = txtComidasStr;
+        const ahora = new Date(); document.getElementById('hora_envio').value = ahora.toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'medium' });
+        const numTicket = 'TIV-' + String.fromCharCode(65 + ((ahora.getDate()+ahora.getHours()+ahora.getMinutes()) % 26)) + (ahora.getMinutes() % 10) + ahora.getSeconds().toString().padStart(2, '0') + Math.floor(Math.random() * 10);
+        document.getElementById('numero_inscripcion').value = numTicket; document.getElementById('resumen_comidas').value = txtComidasStr;
 
         let msg = "";
-
         if (modoActual === 'ind') {
-            const edadInd = document.getElementById('edad_ind').value.trim();
-            const sexoInd = document.getElementById('sexo_ind').value;
+            const edadInd = document.getElementById('edad_ind').value.trim(); const sexoInd = document.getElementById('sexo_ind').value;
+            if (!edadInd) { alert("Ingresá tu Edad."); return; }
+            let dniInd = ""; if (esMicro) { dniInd = document.getElementById('dni_ind').value.trim(); if (!dniInd) { alert("Ingresá tu DNI."); return; } }
             let nombreNino = "";
+            if (parseInt(edadInd) < 5) { nombreNino = document.getElementById('nombre_nino_ind').value.trim(); if (!nombreNino) { alert("Ingresá nombre del niño."); return; } document.getElementById('detalle_edades_sexo').value = `Niño: ${nombreNino} | Edad: ${edadInd} | Sexo: ${sexoInd}`; } else { document.getElementById('detalle_edades_sexo').value = `Edad: ${edadInd} | Sexo: ${sexoInd}`; }
 
-            if (!edadInd) {
-                alert("Por favor, ingresá tu Edad.");
-                return;
-            }
-            let dniInd = "";
-            if (esMicro) {
-                dniInd = document.getElementById('dni_ind').value.trim();
-                if (!dniInd) { alert("Por favor, ingresá tu DNI."); return; }
-            }
-
-            if (parseInt(edadInd) < 5) {
-                nombreNino = document.getElementById('nombre_nino_ind').value.trim();
-                if (!nombreNino) {
-                    alert("Por favor, ingresá el nombre del niño/niña.");
-                    return;
-                }
-                document.getElementById('detalle_edades_sexo').value = `Niño/a: ${nombreNino} | Edad: ${edadInd} | Sexo: ${sexoInd}`;
-            } else {
-                document.getElementById('detalle_edades_sexo').value = `Edad: ${edadInd} | Sexo: ${sexoInd}`;
-            }
-
-            const entradaOpt = document.querySelector('input[name="tipo_entrada_ind"]:checked');
-            const esConJuegos = document.getElementById('ind_con_juegos').checked;
-            let juegosElegidos = [];
-            if (parseInt(edadInd) >= 5 && esConJuegos) {
-                document.querySelectorAll('input[name="juegos_ind"]:checked').forEach(cb => juegosElegidos.push(cb.value));
-                if (juegosElegidos.length !== 2) {
-                    alert("Por favor, elegí exactamente 2 juegos de aventura antes de continuar.");
-                    return;
-                }
-            }
+            const entradaOpt = document.querySelector('input[name="tipo_entrada_ind"]:checked'); const esConJuegos = document.getElementById('ind_con_juegos').checked;
+            let juegosElegidos = []; if (parseInt(edadInd) >= 5 && esConJuegos) { document.querySelectorAll('input[name="juegos_ind"]:checked').forEach(cb => juegosElegidos.push(cb.value)); if (juegosElegidos.length !== 2) { alert("Elegí 2 juegos."); return; } }
 
             document.getElementById('resumen_integrantes').value = "1 Persona (Individual)";
-
-            msg = `🚌 *INSCRIPCIÓN INDIVIDUAL - TIVOLI PARK FAMILY DAY (20/09/2026)*\n`;
-            msg += `🎫 *N° de Comprobante:* ${numTicket}\n\n`;
-            msg += `👤 *Responsable:* ${nombre} ${esMicro ? '(DNI: ' + dniInd + ')' : ''}\n`;
-            msg += `📱 *Teléfono:* ${telefono}\n`;
-
-            if (parseInt(edadInd) < 5) {
-                msg += `👶 *Niño/a:* ${nombreNino}\n`;
-            }
+            msg = `🚌 *INSCRIPCIÓN INDIVIDUAL - TIVOLI PARK FAMILY DAY (20/09/2026)*\n🎫 *N° de Comprobante:* ${numTicket}\n\n👤 *Responsable:* ${nombre} ${esMicro ? '(DNI: '+dniInd+')' : ''}\n📱 *Teléfono:* ${telefono}\n`;
+            if (parseInt(edadInd) < 5) msg += `👶 *Niño/a:* ${nombreNino}\n`;
             msg += `🎂 *Edad:* ${edadInd} años | 👤 *Sexo:* ${sexoInd}\n\n`;
-            
-            if(parseInt(edadInd) >= 5) {
-                msg += `🎟️ *Tipo de Entrada:* ${entradaOpt.value}\n`;
-                if (esConJuegos) {
-                    msg += `🎯 *Juegos elegidos:* ${juegosElegidos.join(', ')}\n`;
-                }
-            } else {
-                msg += `🎟️ *Tipo de Entrada:* Menor de 5 años (Gratis)\n`;
-            }
-
-            msg += `🍔 *Combos Comida:* ${txtComidasStr}\n`;
-            msg += `🚗 *Transporte:* ${transporteVal}\n`;
-            msg += `📢 *Se enteró por:* ${comoTeEnteraste}\n\n`;
-            msg += `💰 *TOTAL A PAGAR:* ${totalVal}\n`;
-            msg += `💳 *Pagará:* ${opcionPagoVal}\n`;
-            msg += `📌 *Entregar a:* ${receptorPago}\n\n`;
-            msg += `⚠️ *Atención / 注意:*\nEn caso de cancelación o modificación de datos, escribir a 黃馨儀 (Lily Huang) o 李佳珍 (Jenny Lee).\n若需取消或修改資料，請聯繫 黃馨儀 (Lily Huang) 或 李佳珍 (Jenny Lee).`;
-
+            if(parseInt(edadInd) >= 5) { msg += `🎟️ *Tipo de Entrada:* ${entradaOpt.value}\n`; if (esConJuegos) msg += `🎯 *Juegos elegidos:* ${juegosElegidos.join(', ')}\n`; } else { msg += `🎟️ *Tipo de Entrada:* Menor de 5 años (Gratis)\n`; }
+            msg += `🍔 *Combos Comida:* ${txtComidasStr}\n🚗 *Transporte:* ${transporteVal}\n📢 *Se enteró por:* ${comoTeEnteraste}\n\n💰 *TOTAL A PAGAR:* ${totalVal}\n💳 *Pagará:* ${opcionPagoVal}\n📌 *Entregar a:* ${receptorPago}\n\n⚠️ *Atención / 注意:*\nEn caso de cancelación o modificación de datos, escribir a 黃馨儀 (Liliana Juang) o 李佳珍 (Jenny Lee).\n若需取消或修改資料，請聯繫 黃馨儀 (Liliana Juang) 或 李佳珍 (Jenny Lee).`;
         } else {
-            let listaMayoresDetalle = [];
-            let detalleEdadesArray = [];
-
+            let listaMayoresDetalle = []; let detalleEdadesArray = [];
             for (let i = 0; i < cantMayores; i++) {
-                const edadM = document.getElementById(`edad_m_${i}`).value.trim();
-                const sexoM = document.getElementById(`sexo_m_${i}`).value;
-                const nombreM = document.getElementById(`nombre_m_${i}`).value.trim();
-
-                if (!nombreM || !edadM) {
-                    alert(`Por favor, completá el Nombre Completo y la Edad de la Persona ${i + 1}.`);
-                    return;
-                }
-                let dniM = "";
-                if (esMicro) {
-                    dniM = document.getElementById(`dni_m_${i}`).value.trim();
-                    if (!dniM) { alert(`Por favor, completá el DNI de la Persona ${i + 1}.`); return; }
-                }
-
-                const esConJuegos = document.getElementById(`m_${i}_con`).checked;
-                let juegos = [];
-                if (esConJuegos) {
-                    document.querySelectorAll(`input[name="juegos_m_${i}"]:checked`).forEach(cb => juegos.push(cb.value));
-                    if (juegos.length !== 2) {
-                        alert(`Por favor, elegí exactamente 2 juegos para la Persona ${i + 1}.`);
-                        return;
-                    }
-                }
-
-                const etiquetaNombre = nombreM + (esMicro ? ` (DNI: ${dniM})` : '');
-
-                listaMayoresDetalle.push({
-                    etiqueta: etiquetaNombre,
-                    edad: edadM,
-                    sexo: sexoM,
-                    tipo: esConJuegos ? 'Con juegos ($20.000)' : 'Sin juegos ($10.000)',
-                    juegos: juegos.join(', ')
-                });
-
-                detalleEdadesArray.push(`${etiquetaNombre}: ${edadM}a, ${sexoM}`);
+                const edadM = document.getElementById(`edad_m_${i}`).value.trim(); const sexoM = document.getElementById(`sexo_m_${i}`).value; const nombreM = document.getElementById(`nombre_m_${i}`).value.trim();
+                if (!nombreM || !edadM) { alert(`Completá Persona ${i+1}.`); return; }
+                let dniM = ""; if (esMicro) { dniM = document.getElementById(`dni_m_${i}`).value.trim(); if (!dniM) { alert(`Falta DNI Persona ${i+1}.`); return; } }
+                const esConJuegos = document.getElementById(`m_${i}_con`).checked; let juegos = [];
+                if (esConJuegos) { document.querySelectorAll(`input[name="juegos_m_${i}"]:checked`).forEach(cb => juegos.push(cb.value)); if (juegos.length !== 2) { alert(`Elegí 2 juegos para Persona ${i+1}.`); return; } }
+                const etiqueta = nombreM + (esMicro ? ` (DNI: ${dniM})` : '');
+                listaMayoresDetalle.push({ etiqueta, edad: edadM, sexo: sexoM, tipo: esConJuegos ? 'Con juegos ($20.000)' : 'Sin juegos ($10.000)', juegos: juegos.join(', ') });
+                detalleEdadesArray.push(`${etiqueta}: ${edadM}a, ${sexoM}`);
             }
-
             for (let j = 0; j < cantMenores; j++) {
-                const edadMenor = document.getElementById(`edad_menor_${j}`).value.trim();
-                const sexoMenor = document.getElementById(`sexo_menor_${j}`).value;
-                const nombreMenor = document.getElementById(`nombre_menor_${j}`).value.trim();
-
-                if (!nombreMenor || !edadMenor) {
-                    alert(`Por favor, completá el nombre completo y la edad del Menor ${j + 1} (<5 años).`);
-                    return;
-                }
-                let dniMenor = "";
-                if (esMicro) {
-                    dniMenor = document.getElementById(`dni_menor_${j}`).value.trim();
-                    if (!dniMenor) { alert(`Por favor, completá el DNI del Menor ${j + 1}.`); return; }
-                }
-
-                const etiquetaMenor = nombreMenor + (esMicro ? ` (DNI: ${dniMenor})` : '');
-                detalleEdadesArray.push(`${etiquetaMenor} (<5a): ${edadMenor}a, ${sexoMenor}`);
+                const edadMin = document.getElementById(`edad_menor_${j}`).value.trim(); const sexoMin = document.getElementById(`sexo_menor_${j}`).value; const nombreMin = document.getElementById(`nombre_menor_${j}`).value.trim();
+                if (!nombreMin || !edadMin) { alert(`Completá Menor ${j+1}.`); return; }
+                let dniMin = ""; if (esMicro) { dniMin = document.getElementById(`dni_menor_${j}`).value.trim(); if (!dniMin) { alert(`Falta DNI Menor ${j+1}.`); return; } }
+                const etiqueta = nombreMin + (esMicro ? ` (DNI: ${dniMin})` : '');
+                detalleEdadesArray.push(`${etiqueta} (<5a): ${edadMin}a, ${sexoMin}`);
             }
 
-            let txtIntegrantes = `Mayores (>=5 años): ${cantMayores} | Menores (<5 años): ${cantMenores}`;
-            document.getElementById('resumen_integrantes').value = txtIntegrantes;
+            document.getElementById('resumen_integrantes').value = `Mayores: ${cantMayores} | Menores: ${cantMenores}`;
             document.getElementById('detalle_edades_sexo').value = detalleEdadesArray.join('; ');
 
-            msg = `👨‍👩‍👧‍👦 *INSCRIPCIÓN FAMILIAR - TIVOLI PARK FAMILY DAY (20/09/2026)*\n`;
-            msg += `🎫 *N° de Comprobante:* ${numTicket}\n\n`;
-            msg += `👤 *Responsable:* ${nombre}\n`;
-            msg += `📱 *Teléfono:* ${telefono}\n\n`;
-            msg += `👥 *Integrantes:* ${cantMayores} mayores (>=5 años) | ${cantMenores} menores (<5 años gratis)\n\n`;
-            
-            msg += `📋 *Datos de los Integrantes:*\n`;
-            listaMayoresDetalle.forEach(m => {
-                msg += `👤 ${m.etiqueta}: ${m.edad} años (${m.sexo})\n`;
-            });
-            for (let j = 0; j < cantMenores; j++) {
-                const edadMenor = document.getElementById(`edad_menor_${j}`).value.trim();
-                const sexoMenor = document.getElementById(`sexo_menor_${j}`).value;
-                const nombreMenor = document.getElementById(`nombre_menor_${j}`).value.trim();
-                let dniMenor = esMicro ? document.getElementById(`dni_menor_${j}`).value.trim() : "";
-                const etiquetaMenor = nombreMenor + (esMicro ? ` (DNI: ${dniMenor})` : '');
-                msg += `👶 ${etiquetaMenor} (< 5 años): ${edadMenor} años (${sexoMenor})\n`;
-            }
-
-            msg += `\n🎟️ *Entradas y Juegos de Aventura:*\n`;
-            listaMayoresDetalle.forEach(m => {
-                msg += `• ${m.etiqueta}: ${m.tipo}${m.juegos ? ' -> Juegos: ' + m.juegos : ''}\n`;
-            });
-
-            msg += `\n🍔 *Combos Comida:* ${txtComidasStr}\n`;
-            msg += `🚗 *Transporte:* ${transporteVal}\n`;
-            msg += `📢 *Se enteró por:* ${comoTeEnteraste}\n\n`;
-            msg += `💰 *TOTAL GRUPO FAMILIAR:* ${totalVal}\n`;
-            msg += `💳 *Pagará:* ${opcionPagoVal}\n`;
-            msg += `📌 *Entregar a:* ${receptorPago}\n\n`;
-            msg += `⚠️ *Atención / 注意:*\nEn caso de cancelación o modificación de datos, escribir a 黃馨儀 (Lily Huang) o 李佳珍 (Jenny Lee).\n若需取消或修改資料，請聯繫 黃馨儀 (Lily Huang) 或 李佳珍 (Jenny Lee).`;
+            msg = `👨‍👩‍👧‍👦 *INSCRIPCIÓN FAMILIAR - TIVOLI PARK FAMILY DAY (20/09/2026)*\n🎫 *N° de Comprobante:* ${numTicket}\n\n👤 *Responsable:* ${nombre}\n📱 *Teléfono:* ${telefono}\n\n👥 *Integrantes:* ${cantMayores} mayores (>=5) | ${cantMenores} menores (<5 gratis)\n\n📋 *Datos:*\n`;
+            listaMayoresDetalle.forEach(m => msg += `👤 ${m.etiqueta}: ${m.edad} años (${m.sexo})\n`);
+            for (let j = 0; j < cantMenores; j++) { msg += `👶 ${document.getElementById(`nombre_menor_${j}`).value} (< 5 años): ${document.getElementById(`edad_menor_${j}`).value} años (${document.getElementById(`sexo_menor_${j}`).value})\n`; }
+            msg += `\n🎟️ *Entradas y Juegos:*\n`; listaMayoresDetalle.forEach(m => msg += `• ${m.etiqueta}: ${m.tipo}${m.juegos ? ' -> Juegos: ' + m.juegos : ''}\n`);
+            msg += `\n🍔 *Combos Comida:* ${txtComidasStr}\n🚗 *Transporte:* ${transporteVal}\n📢 *Se enteró por:* ${comoTeEnteraste}\n\n💰 *TOTAL GRUPO FAMILIAR:* ${totalVal}\n💳 *Pagará:* ${opcionPagoVal}\n📌 *Entregar a:* ${receptorPago}\n\n⚠️ *Atención / 注意:*\nEn caso de cancelación o modificación de datos, escribir a 黃馨儀 (Liliana Juang) o 李佳珍 (Jenny Lee).\n若需取消或修改資料，請聯繫 黃馨儀 (Liliana Juang) 或 李佳珍 (Jenny Lee).`;
         }
 
-        const formElement = document.getElementById('formUnificado');
-        const formData = new FormData(formElement);
+        const formData = new FormData(document.getElementById('formUnificado'));
         const url = `https://api.whatsapp.com/send?phone=${numDestino}&text=${encodeURIComponent(msg)}`;
-
-        fetch("/", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(formData).toString()
-        })
-        .then(() => {
-            window.location.href = url;
-        })
-        .catch(err => {
-            console.log('Error Netlify Form:', err);
-            window.location.href = url;
-        });
+        fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(formData).toString() })
+        .then(() => window.location.href = url).catch(() => window.location.href = url);
     }
-
     calcularTotal();
 </script>
-
 </body>
 </html>

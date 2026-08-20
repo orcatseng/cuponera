@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuponera Digital - Tivoli Park</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #121212; color: #fff; padding: 15px; margin: 0; }
+        .panel { background: #1e1e1e; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: center; margin-bottom: 20px;}
+        textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid #444; border-radius: 6px; box-sizing: border-box; margin-bottom: 10px; background: #2a2a2a; color: white; }
+        button { background: #1a73e8; color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; margin-bottom: 10px;}
+        .btn-green { background: #25d366; }
+        #ticket_digital { background: #1e1e1e; padding: 20px; border-radius: 16px; border: 1px solid #333; }
+        .tk-header { border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 15px; }
+        .item-card { background: #2a2a2a; border-radius: 10px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #444; }
+        .item-name { font-weight: bold; font-size: 18px; color: #fff; }
+        .item-zh { font-size: 13px; color: #aaa; margin-top: 4px; }
+        .item-qty { font-size: 24px; font-weight: bold; color: #1a73e8; background: rgba(26,115,232,0.1); padding: 5px 15px; border-radius: 8px; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div class="panel">
+    <h2 style="margin-top:0;">🎟️ Generador de Cupones</h2>
+    <textarea id="texto_wa" placeholder="Pegá acá el mensaje de WhatsApp..."></textarea>
+    <button onclick="extraerCupones()">⚡ Generar Tickets</button>
+    <button class="btn-green" onclick="descargarTicket()">📲 Guardar / Enviar a WhatsApp</button>
+</div>
+
+<div id="ticket_digital">
+    <div class="tk-header">
+        <div style="color: #1a73e8; font-weight: bold; font-size: 14px;">TIVOLI PARK - CUPONERA</div>
+        <div id="tk_num" style="font-size: 28px; font-weight: bold; margin: 5px 0;">TIV-XXXX</div>
+        <div id="tk_titular" style="color: #aaa; font-size: 15px;">Titular: -</div>
+    </div>
+    <div id="tk_items">
+        <div style="text-align: center; color: #666; margin-top: 30px;">Esperando mensaje...</div>
+    </div>
+</div>
+
+<script>
+    function extraerCupones() {
+        const txt = document.getElementById('texto_wa').value;
+        if (!txt) { alert("¡Falta pegar el texto de WhatsApp!"); return; }
+
+        const matchComp = txt.match(/TIV-[A-Z0-9]+/i);
+        const comp = matchComp ? matchComp[0] : "TIV-XXXX";
+
+        const matchNombre = txt.match(/\*(?:Responsable|負責人|Encargado|Nombre|姓名[^*]*):\*\s*(.+)/i);
+        const responsable = matchNombre ? matchNombre[1].trim() : "Desconocido";
+
+        let hambu = 0, bondi = 0, mila = 0;
+        const mHambu = txt.match(/Hamburguesa x(\d+)/i); if (mHambu) hambu = parseInt(mHambu[1]);
+        const mBondi = txt.match(/Bondiola x(\d+)/i); if (mBondi) bondi = parseInt(mBondi[1]);
+        
+        // ACTUALIZADO PARA BUSCAR "Suprema" en vez de Milanesa
+        const mMila = txt.match(/Suprema x(\d+)/i); if (mMila) mila = parseInt(mMila[1]);
+
+        const tirolesa = (txt.match(/Tirolesa/gi) || []).length;
+        const palestra = (txt.match(/Palestra/gi) || []).length;
+        const arqueria = (txt.match(/Arquería/gi) || []).length; 
+        const puentes  = (txt.match(/Puentes/gi) || []).length;
+
+        document.getElementById('tk_titular').innerHTML = `Titular: <strong>${responsable}</strong>`;
+        document.getElementById('tk_num').innerText = comp;
+
+        const contenedor = document.getElementById('tk_items'); contenedor.innerHTML = '';
+
+        function agregarCard(nombreES, nombreZH, cantidad, archivoImg) {
+            if (cantidad > 0) {
+                const fondo = `linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 100%), url('${archivoImg}')`;
+                contenedor.innerHTML += `
+                    <div class="item-card" style="background-image: ${fondo}; background-size: cover; background-position: center;">
+                        <div><div class="item-name">${nombreES}</div><div class="item-zh">${nombreZH}</div></div>
+                        <div class="item-qty">x${cantidad}</div>
+                    </div>`;
+            }
+        }
+
+        agregarCard('🍔 Hamburguesa + Papas', '牛肉漢堡 + 薯條', hambu, 'hamburguesa.jpg');
+        agregarCard('🥪 Bondiola + Papas', '梅花肉三明治 + 薯條', bondi, 'bondiola.jpg');
+        
+        // ACTUALIZADO TÍTULO A SÁNDWICH DE SUPREMA
+        agregarCard('🍗 Suprema de Pollo + Papas', '雞排三明治 + 薯條', mila, 'milanesa.jpg');
+        
+        agregarCard('🧗‍♀️ Tirolesa', '高空滑索', tirolesa, 'tirolesa.jpg');
+        agregarCard('🧗‍♂️ Palestra', '攀岩牆', palestra, 'palestra.jpg');
+        agregarCard('🏹 Arquería', '射箭', arqueria, 'arqueria.jpg');
+        agregarCard('🌉 Puentes Aéreos', '高空繩索橋', puentes, 'puentes.jpg');
+
+        if (contenedor.innerHTML === '') contenedor.innerHTML = '<div style="text-align: center; color: #999; margin-top: 40px;">No hay cupones.</div>';
+    }
+
+    function descargarTicket() {
+        const ticket = document.getElementById('ticket_digital');
+        html2canvas(ticket, { scale: 2, useCORS: true, backgroundColor: "#1e1e1e" }).then(canvas => {
+            canvas.toBlob(function(blob) {
+                const comp = document.getElementById('tk_num').innerText;
+                const file = new File([blob], `Cuponera_${comp}.jpg`, { type: 'image/jpeg' });
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    navigator.share({ files: [file], title: `Cuponera ${comp}`, text: '¡Acá tenés tus cupones!' }).catch(e => console.log(e));
+                } else {
+                    const link = document.createElement('a'); link.download = `Cuponera_${comp}.jpg`; link.href = canvas.toDataURL('image/jpeg', 0.9); link.click();
+                }
+            }, 'image/jpeg', 0.9);
+        });
+    }
+</script>
+</body>
+</html>
