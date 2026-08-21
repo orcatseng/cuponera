@@ -3,109 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuponera Digital - Tivoli Park</title>
+    <title>Generador de Cupones - Tivoli Park</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #121212; color: #fff; padding: 15px; margin: 0; }
-        .panel { background: #1e1e1e; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: center; margin-bottom: 20px;}
-        textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid #444; border-radius: 6px; box-sizing: border-box; margin-bottom: 10px; background: #2a2a2a; color: white; }
-        button { background: #1a73e8; color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; margin-bottom: 10px;}
-        .btn-green { background: #25d366; }
-        #ticket_digital { background: #1e1e1e; padding: 20px; border-radius: 16px; border: 1px solid #333; }
-        .tk-header { border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 15px; }
-        .item-card { background: #2a2a2a; border-radius: 10px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #444; }
-        .item-name { font-weight: bold; font-size: 18px; color: #fff; }
-        .item-zh { font-size: 13px; color: #aaa; margin-top: 4px; }
-        .item-qty { font-size: 24px; font-weight: bold; color: #1a73e8; background: rgba(26,115,232,0.1); padding: 5px 15px; border-radius: 8px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* --- Panel de Control (No se imprime) --- */
+        .control-panel {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
+
+        h1 { color: #1a73e8; margin-top: 0; text-align: center; }
+        h2 { font-size: 16px; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafafa;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .input-group label { font-weight: bold; font-size: 14px; }
+        .input-group input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .btn-generar {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .btn-generar:hover { background-color: #1da851; }
+
+        .btn-imprimir {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* --- Plancheta de Cupones (Para Imprimir) --- */
+        #plancheta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            max-width: 21cm; /* Ancho A4 aprox */
+            margin: 0 auto;
+        }
+
+        .cupon {
+            width: 9cm;
+            height: 5.5cm;
+            background: #fff;
+            border: 2px dashed #999;
+            border-radius: 10px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Variantes de Color */
+        .cupon.aventura .header { background-color: #0f9d58; color: white; }
+        .cupon.aventura .titulo { color: #0f9d58; }
+        
+        .cupon.comida .header { background-color: #f29900; color: white; }
+        .cupon.comida .titulo { color: #e65100; }
+
+        .header {
+            padding: 6px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .cuerpo {
+            display: flex;
+            padding: 10px;
+            flex-grow: 1;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .imagen-container {
+            width: 60px;
+            height: 60px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .imagen-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .info {
+            flex-grow: 1;
+        }
+
+        .tipo {
+            font-size: 10px;
+            color: #777;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .titulo {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .subtitulo {
+            font-size: 12px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 10px;
+            color: #999;
+            padding: 5px;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+        }
+
+        .tijera {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            font-size: 16px;
+            color: #999;
+            background: #f0f2f5;
+            border-radius: 50%;
+        }
+
+        /* Ocultar panel al imprimir */
+        @media print {
+            body { background: white; padding: 0; }
+            .control-panel { display: none; }
+            #plancheta { gap: 10px; }
+            .cupon { page-break-inside: avoid; }
+            .tijera { background: white; }
+        }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
-<div class="panel">
-    <h2 style="margin-top:0;">🎟️ Generador de Cupones</h2>
-    <textarea id="texto_wa" placeholder="Pegá acá el mensaje de WhatsApp..."></textarea>
-    <button onclick="extraerCupones()">⚡ Generar Tickets</button>
-    <button class="btn-green" onclick="descargarTicket()">📲 Guardar / Enviar a WhatsApp</button>
-</div>
-
-<div id="ticket_digital">
-    <div class="tk-header">
-        <div style="color: #1a73e8; font-weight: bold; font-size: 14px;">TIVOLI PARK - CUPONERA</div>
-        <div id="tk_num" style="font-size: 28px; font-weight: bold; margin: 5px 0;">TIV-XXXX</div>
-        <div id="tk_titular" style="color: #aaa; font-size: 15px;">Titular: -</div>
-    </div>
-    <div id="tk_items">
-        <div style="text-align: center; color: #666; margin-top: 30px;">Esperando mensaje...</div>
-    </div>
-</div>
-
-<script>
-    function extraerCupones() {
-        const txt = document.getElementById('texto_wa').value;
-        if (!txt) { alert("¡Falta pegar el texto de WhatsApp!"); return; }
-
-        const matchComp = txt.match(/TIV-[A-Z0-9]+/i);
-        const comp = matchComp ? matchComp[0] : "TIV-XXXX";
-
-        const matchNombre = txt.match(/\*(?:Responsable|負責人|Encargado|Nombre|姓名[^*]*):\*\s*(.+)/i);
-        const responsable = matchNombre ? matchNombre[1].trim() : "Desconocido";
-
-        let hambu = 0, bondi = 0, mila = 0;
-        const mHambu = txt.match(/Hamburguesa x(\d+)/i); if (mHambu) hambu = parseInt(mHambu[1]);
-        const mBondi = txt.match(/Bondiola x(\d+)/i); if (mBondi) bondi = parseInt(mBondi[1]);
+    <div class="control-panel">
+        <h1>🎟️ Creador de Cupones Tivoli</h1>
         
-        // ACTUALIZADO PARA BUSCAR "Suprema" en vez de Milanesa
-        const mMila = txt.match(/Suprema x(\d+)/i); if (mMila) mila = parseInt(mMila[1]);
+        <h2>🧗‍♂️ Cupones de Aventura</h2>
+        <div class="grid-inputs">
+            <div class="input-group">
+                <label>Tirolesa</label>
+                <input type="number" id="cant_tirolesa" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Palestra</label>
+                <input type="number" id="cant_palestra" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Arquería</label>
+                <input type="number" id="cant_arqueria" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Puentes Aéreos</label>
+                <input type="number" id="cant_puentes" value="0" min="0">
+            </div>
+        </div>
 
-        const tirolesa = (txt.match(/Tirolesa/gi) || []).length;
-        const palestra = (txt.match(/Palestra/gi) || []).length;
-        const arqueria = (txt.match(/Arquería/gi) || []).length; 
-        const puentes  = (txt.match(/Puentes/gi) || []).length;
+        <h2>🍔 Cupones de Comida</h2>
+        <div class="grid-inputs">
+            <div class="input-group">
+                <label>Hamburguesa</label>
+                <input type="number" id="cant_hambu" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Bondiola</label>
+                <input type="number" id="cant_bondi" value="0" min="0">
+            </div>
+            <div class="input-group">
+                <label>Milanesa</label>
+                <input type="number" id="cant_mila" value="0" min="0">
+            </div>
+        </div>
 
-        document.getElementById('tk_titular').innerHTML = `Titular: <strong>${responsable}</strong>`;
-        document.getElementById('tk_num').innerText = comp;
+        <button class="btn-generar" onclick="generarCupones()">⚙️ Generar Plancheta</button>
+        <button class="btn-imprimir" onclick="window.print()">🖨️ Imprimir Cupones</button>
+    </div>
 
-        const contenedor = document.getElementById('tk_items'); contenedor.innerHTML = '';
+    <div id="plancheta">
+        <!-- Los cupones se generan acá adentro -->
+    </div>
 
-        function agregarCard(nombreES, nombreZH, cantidad, archivoImg) {
-            if (cantidad > 0) {
-                const fondo = `linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 100%), url('${archivoImg}')`;
-                contenedor.innerHTML += `
-                    <div class="item-card" style="background-image: ${fondo}; background-size: cover; background-position: center;">
-                        <div><div class="item-name">${nombreES}</div><div class="item-zh">${nombreZH}</div></div>
-                        <div class="item-qty">x${cantidad}</div>
-                    </div>`;
-            }
+    <script>
+        const bd_cupones = {
+            'tirolesa': { tipo: 'aventura', titulo: 'Tirolesa', sub: 'Pase válido para 1 persona', img: '<img src="tirolesa.jpg" alt="🧗">' },
+            'palestra': { tipo: 'aventura', titulo: 'Palestra', sub: 'Pase válido para 1 persona', img: '<img src="palestra.jpg" alt="🧗‍♂️">' },
+            'arqueria': { tipo: 'aventura', titulo: 'Arquería', sub: 'Pase válido para 1 persona', img: '<img src="arqueria.jpg" alt="🏹">' },
+            'puentes': { tipo: 'aventura', titulo: 'Puentes Aéreos', sub: 'Pase válido para 1 persona', img: '<img src="puentes.jpg" alt="🌉">' },
+            
+            'hambu': { tipo: 'comida', titulo: 'Hamburguesa', sub: '+ Papas Fritas', img: '🍔' },
+            'bondi': { tipo: 'comida', titulo: 'Sándwich Bondiola', sub: '+ Papas Fritas', img: '🥪' },
+            'mila': { tipo: 'comida', titulo: 'Milanesa Completa', sub: '+ Papas Fritas', img: '🥩' }
+        };
+
+        function crearHTMLCupon(id) {
+            const data = bd_cupones[id];
+            const headerText = data.tipo === 'aventura' ? 'TICKET AVENTURA' : 'TICKET MENÚ';
+            
+            return `
+                <div class="cupon ${data.tipo}">
+                    <div class="tijera">✂️</div>
+                    <div class="header">Tivoli Park Family Day</div>
+                    <div class="cuerpo">
+                        <div class="imagen-container">
+                            ${data.img}
+                        </div>
+                        <div class="info">
+                            <div class="tipo">${headerText}</div>
+                            <div class="titulo">${data.titulo}</div>
+                            <div class="subtitulo">${data.sub}</div>
+                        </div>
+                    </div>
+                    <div class="footer">Válido únicamente para el 20/09/2026 - No incluye bebida</div>
+                </div>
+            `;
         }
 
-        agregarCard('🍔 Hamburguesa + Papas', '牛肉漢堡 + 薯條', hambu, 'hamburguesa.jpg');
-        agregarCard('🥪 Bondiola + Papas', '梅花肉三明治 + 薯條', bondi, 'bondiola.jpg');
-        
-        // ACTUALIZADO TÍTULO A SÁNDWICH DE SUPREMA
-        agregarCard('🍗 Suprema de Pollo + Papas', '雞排三明治 + 薯條', mila, 'milanesa.jpg');
-        
-        agregarCard('🧗‍♀️ Tirolesa', '高空滑索', tirolesa, 'tirolesa.jpg');
-        agregarCard('🧗‍♂️ Palestra', '攀岩牆', palestra, 'palestra.jpg');
-        agregarCard('🏹 Arquería', '射箭', arqueria, 'arqueria.jpg');
-        agregarCard('🌉 Puentes Aéreos', '高空繩索橋', puentes, 'puentes.jpg');
+        function generarCupones() {
+            const plancheta = document.getElementById('plancheta');
+            plancheta.innerHTML = ''; // Limpiar anteriores
 
-        if (contenedor.innerHTML === '') contenedor.innerHTML = '<div style="text-align: center; color: #999; margin-top: 40px;">No hay cupones.</div>';
-    }
+            const ids = ['tirolesa', 'palestra', 'arqueria', 'puentes', 'hambu', 'bondi', 'mila'];
 
-    function descargarTicket() {
-        const ticket = document.getElementById('ticket_digital');
-        html2canvas(ticket, { scale: 2, useCORS: true, backgroundColor: "#1e1e1e" }).then(canvas => {
-            canvas.toBlob(function(blob) {
-                const comp = document.getElementById('tk_num').innerText;
-                const file = new File([blob], `Cuponera_${comp}.jpg`, { type: 'image/jpeg' });
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    navigator.share({ files: [file], title: `Cuponera ${comp}`, text: '¡Acá tenés tus cupones!' }).catch(e => console.log(e));
+            ids.forEach(id => {
+                let cantidad;
+                if(id === 'hambu' || id === 'bondi' || id === 'mila') {
+                    cantidad = parseInt(document.getElementById(`cant_${id}`).value) || 0;
                 } else {
-                    const link = document.createElement('a'); link.download = `Cuponera_${comp}.jpg`; link.href = canvas.toDataURL('image/jpeg', 0.9); link.click();
+                    cantidad = parseInt(document.getElementById(`cant_${id}`).value) || 0;
                 }
-            }, 'image/jpeg', 0.9);
-        });
-    }
-</script>
+
+                for (let i = 0; i < cantidad; i++) {
+                    plancheta.innerHTML += crearHTMLCupon(id);
+                }
+            });
+        }
+    </script>
 </body>
 </html>

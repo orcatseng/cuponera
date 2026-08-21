@@ -180,16 +180,15 @@
                 <div class="counter-controls"><button type="button" class="btn-qty" onclick="cambiarComida('bondiola', -1)">-</button><span class="qty-val" id="qty_bondiola">0</span><button type="button" class="btn-qty" onclick="cambiarComida('bondiola', 1)">+</button></div>
             </div>
             <div class="food-item">
-                <!-- ACTUALIZADO MILANESA POR SUPREMA -->
                 <div class="food-info"><strong>Sándwich de Suprema de Pollo + papas</strong><div class="food-price">$15.000 c/u</div></div>
                 <div class="counter-controls"><button type="button" class="btn-qty" onclick="cambiarComida('milanesa', -1)">-</button><span class="qty-val" id="qty_milanesa">0</span><button type="button" class="btn-qty" onclick="cambiarComida('milanesa', 1)">+</button></div>
             </div>
 
             <div class="section-title" style="margin-top: 20px;" id="sec_title_transporte">4. Transporte</div>
             <div class="option-group">
-                <!-- VALORES ACTUALIZADOS CON HORARIOS -->
+                <!-- Se actualizó el valor de envío -->
                 <label class="option-card">
-                    <input type="radio" name="transporte" value="Micro de la iglesia (Encuentro 8:00 AM en IPTA)" onchange="toggleMicro()">
+                    <input type="radio" name="transporte" value="Micro de la iglesia (El micro sale a las 8:00 AM desde IPTA)" onchange="toggleMicro()">
                     <span class="option-text">Micro de la iglesia</span>
                 </label>
                 <label class="option-card">
@@ -198,7 +197,6 @@
                 </label>
             </div>
             
-            <!-- CAJA DINÁMICA DE HORARIO DE TRANSPORTE -->
             <div id="aviso_horario_transporte" class="payment-info" style="background: #e3f2fd; border-color: #bbdefb; color: #1557b0; margin-top: 12px;">
                 🕒 <strong>Horario y Punto de Encuentro:</strong><br>
                 <span id="txt_horario">Llegar a las 10:00 AM en la puerta de Tivoli Park.</span>
@@ -229,7 +227,6 @@
             <div class="section-title" style="margin-top: 20px;" id="sec_title_pago">5. ¿Cuándo y a quién vas a pagar? *</div>
             <div class="option-group" style="margin-bottom: 20px;">
                 <label class="option-card"><input type="radio" name="opcion_pago" value="Sábado en kiosko de Aiyu"><span class="option-text">Quiero pagar el sábado en el kiosko de Aiyu (愛育學校的 kiosko)</span></label>
-                <!-- ACTUALIZADO NOMBRE LILIANA JUANG -->
                 <label class="option-card"><input type="radio" name="opcion_pago" value="Domingo a Liliana Juang o Jenny Lee"><span class="option-text">Quiero pagar el domingo a Liliana Juang o Jenny Lee (黃馨儀 o 李佳珍)</span></label>
             </div>
 
@@ -341,10 +338,10 @@
         const avisoSeguro = document.getElementById('aviso_seguro_micro');
         if (avisoSeguro) avisoSeguro.style.display = esMicro ? 'block' : 'none';
         
-        // ACTUALIZACIÓN DE HORARIOS DINÁMICOS
+        // Se actualizó para reflejar el texto requerido
         const txtHorario = document.getElementById('txt_horario');
         if (txtHorario) {
-            txtHorario.innerHTML = esMicro ? "Juntarse a las <strong>8:00 AM en IPTA</strong>." : "Llegar a las <strong>10:00 AM en la puerta de Tivoli Park</strong>.";
+            txtHorario.innerHTML = esMicro ? "El micro sale a las <strong>8:00 AM desde IPTA</strong>." : "Llegar a las <strong>10:00 AM en la puerta de Tivoli Park</strong>.";
         }
 
         if (esMicro && !microAlertMostrado) { alert("⚠️ Se necesita completar Nombre y DNI de cada pasajero al seleccionar Micro."); microAlertMostrado = true; }
@@ -386,7 +383,6 @@
         let txtComidas = [];
         if (comidas.hamburguesa > 0) txtComidas.push(`Hamburguesa x${comidas.hamburguesa}`);
         if (comidas.bondiola > 0) txtComidas.push(`Bondiola x${comidas.bondiola}`);
-        // ACTUALIZADO MILANESA POR SUPREMA EN EL MENSAJE
         if (comidas.milanesa > 0) txtComidas.push(`Suprema x${comidas.milanesa}`);
         let txtComidasStr = txtComidas.length > 0 ? txtComidas.join(', ') : 'Sin combos';
 
@@ -394,7 +390,6 @@
         const opcionPagoEl = document.querySelector('input[name="opcion_pago"]:checked');
         if (!opcionPagoEl) { alert("Elegí cuándo pagar."); return; }
         const opcionPagoVal = opcionPagoEl.value;
-        // ACTUALIZADO NOMBRE LILIANA JUANG
         const receptorPago = opcionPagoVal.includes("Sábado") ? "Kiosco de Aiyu (愛育學校)" : "Liliana Juang o Jenny Lee";
         
         const esMicro = transporteVal.includes("Micro"); const totalVal = document.getElementById('monto_total').innerText;

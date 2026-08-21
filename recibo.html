@@ -67,6 +67,11 @@
                                 <div class="t-row"><span>Adultos / Mayores 5a (5歲以上):</span> <strong id="tk_adultos">0</strong></div>
                                 <div class="t-row"><span>Menores Gratis (5歲以下免費):</span> <strong id="tk_menores">0</strong></div>
                                 <div class="t-row"><span>Combos Comida (餐點套餐):</span> <strong id="tk_comida">Sin combos</strong></div>
+                                <!-- Nueva fila dinámica que muestra el Transporte -->
+                                <div class="t-row" style="margin-top: 5px; border-top: 1px dashed #ccc; padding-top: 5px;">
+                                    <span>Transporte (交通):</span> 
+                                    <strong id="tk_transporte" style="color: #d93025; font-size: 12px; text-align: right; max-width: 65%; line-height: 1.2;">-</strong>
+                                </div>
                             </div>
                             <div style="flex: 1.5; border-left: 1px dashed #ccc; padding-left: 20px;">
                                 <span style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #1a73e8;">Detalle de Participantes (參與者明細):</span>
@@ -117,31 +122,47 @@
 
     function generarDesdeTexto() {
         const txt = document.getElementById('texto_wa').value; if (!txt) { alert("Pegá el mensaje de WhatsApp primero."); return; }
+        
         const matchComp = txt.match(/TIV-[A-Z0-9]+/i); const comp = matchComp ? matchComp[0] : "TIV-XXXX";
-        const matchNombre = txt.match(/\*(?:Responsable|負責人|Encargado|Nombre|姓名[^*]*):\*\s*(.+)/i); const responsable = matchNombre ? matchNombre[1].trim() : "No especificado";
-        const matchMonto = txt.match(/\*(?:TOTAL A PAGAR|TOTAL GRUPO FAMILIAR|應付總額[^*]*|全家總額[^*]*):\*\s*(\$[0-9.,]+)/i); const monto = matchMonto ? matchMonto[1].trim() : "$0";
+        
+        const matchNombre = txt.match(/(?:Responsable|負責人|Encargado|Nombre|姓名)[^:]*:\s*\*?\s*([^\n]+)/i); 
+        const responsable = matchNombre ? matchNombre[1].replace(/\*/g, '').trim() : "No especificado";
+
+        const matchMonto = txt.match(/(?:TOTAL A PAGAR|TOTAL GRUPO FAMILIAR|應付總額|全家總額)[^:]*:\s*\*?\s*(\$[0-9.,]+)/i); 
+        const monto = matchMonto ? matchMonto[1].replace(/\*/g, '').trim() : "$0";
 
         let adultos = "0"; let menores = "0"; let detalleJuegosHTML = "";
         
         if (txt.includes("INSCRIPCIÓN INDIVIDUAL") || txt.includes("1 Persona (Individual)")) {
-            const matchEdad = txt.match(/\*Edad:\*\s*(\d+)|\*年齡\s*\(Edad\):\*\s*(\d+)/i); const edad = matchEdad ? parseInt(matchEdad[1] || matchEdad[2]) : 20;
+            const matchEdad = txt.match(/(?:Edad|年齡)[^:]*:\s*(\d+)/i); const edad = matchEdad ? parseInt(matchEdad[1]) : 20;
             if (edad < 5) { adultos = "0"; menores = "1"; } else { adultos = "1"; menores = "0"; }
-            const matchTipo = txt.match(/\*(?:Tipo de Entrada|門票[^*]*):\*\s*(.+)/i); const tipo = matchTipo ? matchTipo[1].trim() : "Sin especificar";
-            const matchJuegosInd = txt.match(/\*(?:Juegos elegidos|設施 \(Juegos\))[^*]*:\*\s*(.+)/i); const juegos = matchJuegosInd ? matchJuegosInd[1].trim() : "";
-            let nombreNinoMatch = txt.match(/\*(?:Niño\/a|幼童[^*]*):\*\s*(.+)/i); let nombreMostrar = responsable;
-            if (edad < 5 && nombreNinoMatch) { nombreMostrar = nombreNinoMatch[1].trim(); }
+            
+            const matchTipo = txt.match(/(?:Tipo de Entrada|門票)[^:]*:\s*([^\n]+)/i); const tipo = matchTipo ? matchTipo[1].replace(/\*/g, '').trim() : "Sin especificar";
+            const matchJuegosInd = txt.match(/(?:Juegos elegidos|設施)[^:]*:\s*([^\n]+)/i); const juegos = matchJuegosInd ? matchJuegosInd[1].replace(/\*/g, '').trim() : "";
+            
+            let nombreNinoMatch = txt.match(/(?:Niño\/a|幼童)[^:]*:\s*([^\n]+)/i); let nombreMostrar = responsable;
+            if (edad < 5 && nombreNinoMatch) { nombreMostrar = nombreNinoMatch[1].replace(/\*/g, '').trim(); }
             if (juegos) { detalleJuegosHTML = `<div style="margin-bottom:4px;">• ${nombreMostrar}: ${tipo} -> Juegos: ${juegos}</div>`; } else { detalleJuegosHTML = `<div style="margin-bottom:4px;">• ${nombreMostrar}: ${tipo}</div>`; }
         } else {
-            const matchInt = txt.match(/\*(?:Integrantes|成員[^*]*):\*\s*(\d+).*?\|\s*(\d+)/i); if (matchInt) { adultos = matchInt[1]; menores = matchInt[2]; }
-            const bloqueJuegosMatch = txt.match(/\*(?:Entradas y Juegos de Aventura|門票與設施選擇[^*]*):\*\s*\n([\s\S]*?)\n.*(?:Combos Comida|餐點)/i);
-            if (bloqueJuegosMatch) { detalleJuegosHTML = bloqueJuegosMatch[1].trim().split('\n').map(l => `<div style="margin-bottom: 4px;">${l}</div>`).join(''); } else { detalleJuegosHTML = "<div style='color: #666; font-style: italic;'>Sin detalles especificados</div>"; }
+            const matchInt = txt.match(/(?:Integrantes|成員)[^:]*:\s*(\d+).*?\|\s*(\d+)/i); if (matchInt) { adultos = matchInt[1]; menores = matchInt[2]; }
+            const bloqueJuegosMatch = txt.match(/(?:Entradas y Juegos|門票與設施選擇)[^:]*:\s*\n([\s\S]*?)\n.*(?:Combos|餐點)/i);
+            if (bloqueJuegosMatch) { detalleJuegosHTML = bloqueJuegosMatch[1].replace(/\*/g, '').trim().split('\n').map(l => `<div style="margin-bottom: 4px;">${l}</div>`).join(''); } else { detalleJuegosHTML = "<div style='color: #666; font-style: italic;'>Sin detalles especificados</div>"; }
         }
 
-        const matchComida = txt.match(/\*(?:Combos Comida|餐點[^*]*):\*\s*(.+)/i); const comida = matchComida ? matchComida[1].trim() : "Sin combos";
+        const matchComida = txt.match(/(?:Combos Comida|餐點|Combos)[^:]*:\s*([^\n]+)/i); 
+        const comida = matchComida ? matchComida[1].replace(/\*/g, '').trim() : "Sin combos";
+
+        // Ahora extraemos la línea de Transporte y la mostramos
+        const matchTransporte = txt.match(/(?:Transporte|交通)[^:]*:\s*\*?\s*([^\n]+)/i); 
+        const transporte = matchTransporte ? matchTransporte[1].replace(/\*/g, '').trim() : "No especificado";
 
         document.getElementById('tk_num_cli').innerText = comp; document.getElementById('tk_num_caja').innerText = comp;
         document.getElementById('tk_responsable_caja').innerText = responsable; document.getElementById('tk_total_cli').innerText = monto; document.getElementById('tk_total_caja').innerText = monto;
-        document.getElementById('tk_adultos').innerText = adultos; document.getElementById('tk_menores').innerText = menores; document.getElementById('tk_comida').innerText = comida; document.getElementById('tk_juegos').innerHTML = detalleJuegosHTML;
+        document.getElementById('tk_adultos').innerText = adultos; document.getElementById('tk_menores').innerText = menores; 
+        document.getElementById('tk_comida').innerText = comida; document.getElementById('tk_juegos').innerHTML = detalleJuegosHTML;
+        
+        // Asignamos el valor extraído de Transporte al renglón
+        document.getElementById('tk_transporte').innerText = transporte;
     }
 
     function descargarImagen() {
