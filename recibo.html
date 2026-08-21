@@ -27,8 +27,6 @@
         
         .mitad-cliente { width: 70%; padding-right: 30px; border-right: 2px dashed #999; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
         .mitad-caja { width: 30%; padding-left: 30px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
-        
-        /* Ajuste para que los renglones no quiebren títulos */
         .t-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; font-size: 13px; gap: 10px; }
         .t-row span { white-space: nowrap; }
         
@@ -66,7 +64,6 @@
                     
                     <div style="background: #fafafa; padding: 12px; border-radius: 6px; border: 1px solid #eee;">
                         <div style="display: flex; gap: 20px;">
-                            <!-- Columna 1 agrandada (flex: 1.35) para que no corte texto -->
                             <div style="flex: 1.35;">
                                 <div class="t-row"><span>Adultos / Mayores 5a (5歲以上):</span> <strong id="tk_adultos">0</strong></div>
                                 <div class="t-row"><span>Menores Gratis (5歲以下免費):</span> <strong id="tk_menores">0</strong></div>
@@ -76,7 +73,6 @@
                                     <strong id="tk_transporte" style="color: #d93025; font-size: 12px; text-align: right; line-height: 1.2;">-</strong>
                                 </div>
                             </div>
-                            <!-- Columna 2 ajustada proporcionalmente -->
                             <div style="flex: 1; border-left: 1px dashed #ccc; padding-left: 20px;">
                                 <span style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #1a73e8;">Detalle de Participantes (參與者明細):</span>
                                 <div id="tk_juegos" style="color: #333; font-size: 13px; line-height: 1.4;"></div>
@@ -95,7 +91,6 @@
                     </div>
                 </div>
                 
-                <!-- DIRECCIÓN Y MAPA SEPARADOS EN 2 RENGLONES LIMPIOS -->
                 <div style="margin-top: 15px; font-size: 13px; background: #f8d7da; color: #721c24; padding: 12px 15px; border-radius: 8px; border: 1px solid #f5c6cb; line-height: 1.5;">
                     📍 <strong>Dirección (地址):</strong> Calle 312 y RP6, B1983 Coronel Brandsen.<br>
                     🗺️ <strong>Mapa (地圖):</strong> https://maps.app.goo.gl/DGyWfMRt5DS9mirF7
@@ -127,9 +122,11 @@
     const hoy = new Date(); document.getElementById('tk_fecha_cli').innerText = "Fecha (日期): " + hoy.toLocaleDateString('es-AR');
 
     function generarDesdeTexto() {
-        const txt = document.getElementById('texto_wa').value; if (!txt) { alert("Pegá el mensaje de WhatsApp primero."); return; }
+        const txt = document.getElementById('texto_wa').value; 
+        if (!txt) { alert("Pegá el mensaje de WhatsApp primero."); return; }
         
-        const matchComp = txt.match(/TIV-[A-Z0-9]+/i); const comp = matchComp ? matchComp[0] : "TIV-XXXX";
+        const matchComp = txt.match(/TIV-[A-Z0-9]+/i); 
+        const comp = matchComp ? matchComp[0] : "TIV-XXXX";
         
         const matchNombre = txt.match(/(?:Responsable|負責人|Encargado|Nombre|姓名)[^:]*:\s*\*?\s*([^\n]+)/i); 
         const responsable = matchNombre ? matchNombre[1].replace(/\*/g, '').trim() : "No especificado";
@@ -139,7 +136,7 @@
 
         let adultos = "0"; let menores = "0"; let detalleJuegosHTML = "";
         
-        if (txt.includes("INSCRIPCIÓN INDIVIDUAL") || txt.includes("1 Persona (Individual)")) {
+        if (txt.includes("INSCRIPCIÓN INDIVIDUAL") || txt.includes("1 Persona (Individual)") || txt.includes("個人報名")) {
             const matchEdad = txt.match(/(?:Edad|年齡)[^:]*:\s*(\d+)/i); const edad = matchEdad ? parseInt(matchEdad[1]) : 20;
             if (edad < 5) { adultos = "0"; menores = "1"; } else { adultos = "1"; menores = "0"; }
             
@@ -150,9 +147,44 @@
             if (edad < 5 && nombreNinoMatch) { nombreMostrar = nombreNinoMatch[1].replace(/\*/g, '').trim(); }
             if (juegos) { detalleJuegosHTML = `<div style="margin-bottom:4px;">• ${nombreMostrar}: ${tipo} -> Juegos: ${juegos}</div>`; } else { detalleJuegosHTML = `<div style="margin-bottom:4px;">• ${nombreMostrar}: ${tipo}</div>`; }
         } else {
-            const matchInt = txt.match(/(?:Integrantes|成員)[^:]*:\s*(\d+).*?\|\s*(\d+)/i); if (matchInt) { adultos = matchInt[1]; menores = matchInt[2]; }
-            const bloqueJuegosMatch = txt.match(/(?:Entradas y Juegos|門票與設施選擇)[^:]*:\s*\n([\s\S]*?)\n.*(?:Combos|餐點)/i);
-            if (bloqueJuegosMatch) { detalleJuegosHTML = bloqueJuegosMatch[1].replace(/\*/g, '').trim().split('\n').map(l => `<div style="margin-bottom: 4px;">${l}</div>`).join(''); } else { detalleJuegosHTML = "<div style='color: #666; font-style: italic;'>Sin detalles especificados</div>"; }
+            const intLine = txt.match(/(?:Integrantes|成員)[^\n]+/i);
+            if (intLine) {
+                const partes = intLine[0].split('|');
+                if (partes.length > 1) {
+                    const matchA = partes[0].match(/\d+/); if(matchA) adultos = matchA[0];
+                    const matchM = partes[1].match(/\d+/); if(matchM) menores = matchM[0];
+                }
+            }
+            
+            // NUEVO MOTOR LÍNEA POR LÍNEA (A prueba de saltos y espacios vacíos)
+            let lineas = txt.split('\n');
+            let extrayendoJuegos = false;
+            let bloqueJuegos = [];
+            
+            for (let i = 0; i < lineas.length; i++) {
+                let linea = lineas[i].trim();
+                
+                // Si ya estamos extrayendo juegos y nos chocamos con cualquier icono o título de abajo, frenamos el motor
+                if (extrayendoJuegos && (linea.includes('🍔') || linea.includes('🚗') || linea.includes('Combos') || linea.includes('餐點') || linea.includes('Transporte') || linea.includes('交通') || linea.includes('💰') || linea.includes('TOTAL'))) {
+                    break;
+                }
+                
+                // Si el renglón no está vacío, guardamos el participante limpiando los asteriscos
+                if (extrayendoJuegos && linea !== '') {
+                    bloqueJuegos.push(linea.replace(/\*/g, ''));
+                }
+                
+                // Si detecta la palabra Entradas y Juegos, prende el motor para la siguiente vuelta
+                if (linea.includes('Entradas y Juegos') || linea.includes('門票與設施選擇')) {
+                    extrayendoJuegos = true;
+                }
+            }
+            
+            if (bloqueJuegos.length > 0) { 
+                detalleJuegosHTML = bloqueJuegos.map(l => `<div style="margin-bottom: 4px;">${l}</div>`).join(''); 
+            } else { 
+                detalleJuegosHTML = "<div style='color: #666; font-style: italic;'>Sin detalles especificados</div>"; 
+            }
         }
 
         const matchComida = txt.match(/(?:Combos Comida|餐點|Combos)[^:]*:\s*([^\n]+)/i); 
