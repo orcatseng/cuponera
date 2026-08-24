@@ -46,7 +46,6 @@
             page-break-inside: avoid;
         }
         
-        /* Solución para que las imágenes salgan en PDF: Usar img en lugar de background */
         .food-img-container {
             width: 140px;
             border-right: 2px dashed #ccc;
@@ -57,7 +56,7 @@
         .food-img-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Esto hace que la foto se recorte lindo sin deformarse */
+            object-fit: cover;
         }
         
         .food-details {
@@ -71,9 +70,13 @@
         .food-title { margin: 0; font-size: 19px; color: #333; font-weight: bold; }
         .food-zh { margin: 5px 0 0 0; font-size: 15px; color: #666; }
         
+        /* SISTEMA ANTI-PHOTOSHOP */
         .food-qty-box {
-            width: 110px;
-            background: #f4f6f9;
+            width: 120px;
+            background-color: #f4f6f9;
+            /* Patrón de puntitos de fondo para que sea difícil clonar o borrar */
+            background-image: radial-gradient(#cbd2d9 1px, transparent 1px);
+            background-size: 10px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -81,8 +84,32 @@
             border-left: 2px dashed #ccc;
         }
         
-        .qty-label { font-size: 12px; color: #777; font-weight: bold; margin-bottom: 2px; }
-        .qty-number { font-size: 34px; font-weight: bold; color: #1a73e8; line-height: 1; }
+        .qty-label { 
+            font-size: 11px; 
+            color: #555; 
+            font-weight: bold; 
+            margin-bottom: 6px; 
+            background: rgba(255,255,255,0.85); /* Fondo semitransparente para que se lea bien sobre los puntos */
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
+        .qty-number { 
+            font-size: 28px; 
+            font-weight: bold; 
+            color: white; 
+            /* Círculo con degradado, borde y sombra */
+            background: linear-gradient(135deg, #1a73e8 0%, #1152a3 100%);
+            border: 2px solid #aecbfa;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+        }
 
         @media print {
             body * { visibility: hidden; }
