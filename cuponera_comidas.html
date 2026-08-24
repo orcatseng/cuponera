@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupones de Comida - Tivoli Park</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; padding: 15px; color: #333; margin: 0; }
+        .container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .panel { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { color: #1a73e8; margin-top: 0; font-size: 18px; margin-bottom: 10px; }
+        textarea { width: 100%; height: 90px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-bottom: 10px; font-family: inherit; resize: vertical; }
+        button { background: #1a73e8; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 15px; width: 100%; margin-bottom: 10px; }
+        button:hover { background: #1557b0; }
+        .btn-green { background: #25d366; }
+        .btn-green:hover { background: #1da851; }
+        .btn-dark { background: #333; }
+        .btn-dark:hover { background: #111; }
+        
+        /* Contenedor imprimible de los cupones */
+        .ticket-wrapper { overflow-x: auto; background: #e8eaed; padding: 15px; border-radius: 8px; display: flex; justify-content: center; }
+        
+        #hoja_imprimible { 
+            background: white; padding: 30px; border: 2px dashed #ccc; width: 700px; min-width: 700px; 
+            font-family: 'Noto Sans TC', Arial, sans-serif; color: black; box-sizing: border-box; 
+        }
+
+        .header-cupones { border-bottom: 3px solid #1a73e8; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .titulo-hoja { color: #1a73e8; font-size: 24px; font-weight: bold; margin: 0 0 5px 0; }
+        .subtitulo-hoja { font-size: 15px; color: #555; margin: 0; }
+        
+        .datos-reserva { background: #fafafa; padding: 15px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 20px; font-size: 16px; display: flex; justify-content: space-between;}
+        
+        /* Tarjetas de comida vistosas */
+        .food-card {
+            display: flex;
+            border: 2px solid #1a73e8;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background: #fff;
+            overflow: hidden;
+            height: 110px;
+            page-break-inside: avoid;
+        }
+        
+        .food-img {
+            width: 140px;
+            background-size: cover;
+            background-position: center;
+            border-right: 2px dashed #ccc;
+        }
+        
+        .food-details {
+            flex: 1;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .food-title { margin: 0; font-size: 19px; color: #333; font-weight: bold; }
+        .food-zh { margin: 5px 0 0 0; font-size: 15px; color: #666; }
+        
+        .food-qty-box {
+            width: 110px;
+            background: #f4f6f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-left: 2px dashed #ccc;
+        }
+        
+        .qty-label { font-size: 12px; color: #777; font-weight: bold; margin-bottom: 2px; }
+        .qty-number { font-size: 34px; font-weight: bold; color: #1a73e8; line-height: 1; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #hoja_imprimible, #hoja_imprimible * { visibility: visible; }
+            #hoja_imprimible { position: absolute; left: 0; top: 0; width: 100%; border: none; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="panel">
+        <h2>🍔 1. Pegar mensaje de WhatsApp</h2>
+        <textarea id="texto_wa" placeholder="Pegá acá el mensaje completo de la inscripción..."></textarea>
+        <button onclick="generarCupones()">⚡ Generar Vouchers de Comida</button>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button class="btn-green" onclick="descargarImagen()">💾 Descargar Imagen</button>
+            <button class="btn-dark" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+        </div>
+    </div>
+
+    <div class="panel ticket-wrapper">
+        <div id="hoja_imprimible">
+            <div class="header-cupones">
+                <div>
+                    <h1 class="titulo-hoja">🎟️ VOUCHERS DE COMIDA</h1>
+                    <p class="subtitulo-hoja">Tivoli Park Family Day - 餐點兌換券</p>
+                </div>
+                <div style="text-align: right;">
+                    <p style="margin: 0; font-size: 14px; color: #555;" id="tk_fecha">Fecha: --/--/----</p>
+                </div>
+            </div>
+            
+            <div class="datos-reserva">
+                <div>
+                    <strong>Titular (報名者):</strong> <span id="tk_titular" style="color: #1a73e8; font-size: 18px;">-</span>
+                </div>
+                <div>
+                    <strong>N° Reserva:</strong> <span id="tk_num" style="color: #d93025; font-size: 18px; font-weight: bold;">TIV-XXXX</span>
+                </div>
+            </div>
+
+            <div id="contenedor_cupones">
+                <div style="text-align: center; color: #999; margin: 40px 0; font-size: 16px;">
+                    Pegá el texto de WhatsApp arriba y hacé clic en "Generar Vouchers".
+                </div>
+            </div>
+            
+            <div style="margin-top: 25px; text-align: center; font-size: 12px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
+                Por favor presentar esta hoja en el sector del Buffet para retirar los menús correspondientes.<br>
+                請將此兌換券交給餐飲部工作人員以領取您的餐點。
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.fonts.ready.then(function() { console.log('Fuentes cargadas para PDF'); });
+    const hoy = new Date(); document.getElementById('tk_fecha').innerText = "Fecha: " + hoy.toLocaleDateString('es-AR');
+
+    function generarCupones() {
+        const txt = document.getElementById('texto_wa').value; 
+        if (!txt) { alert("¡Falta pegar el texto de WhatsApp!"); return; }
+
+        const matchComp = txt.match(/TIV-[A-Z0-9]+/i); 
+        const comp = matchComp ? matchComp[0] : "TIV-XXXX";
+
+        // Detecta al responsable con o sin asteriscos
+        const matchNombre = txt.match(/(?:Responsable|負責人|Encargado|Nombre|姓名)[^:]*:\s*\*?\s*([^\n]+)/i); 
+        const responsable = matchNombre ? matchNombre[1].replace(/\*/g, '').trim() : "No especificado";
+
+        let hambu = 0, bondi = 0, mila = 0;
+        
+        // Busca cantidades de comida en el texto
+        const mHambu = txt.match(/Hamburguesa\s*x\s*(\d+)/i); if (mHambu) hambu = parseInt(mHambu[1]);
+        const mBondi = txt.match(/Bondiola\s*x\s*(\d+)/i); if (mBondi) bondi = parseInt(mBondi[1]);
+        
+        // Retrocompatible: lee tanto la palabra vieja "Milanesa" como la nueva "Suprema"
+        const mMila = txt.match(/(?:Suprema|Milanesa)\s*x\s*(\d+)/i); if (mMila) mila = parseInt(mMila[1]);
+
+        document.getElementById('tk_titular').innerText = responsable;
+        document.getElementById('tk_num').innerText = comp;
+
+        const contenedor = document.getElementById('contenedor_cupones'); 
+        contenedor.innerHTML = '';
+
+        function agregarVoucher(nombreES, nombreZH, cantidad, archivoImg) {
+            if (cantidad > 0) {
+                contenedor.innerHTML += `
+                    <div class="food-card">
+                        <div class="food-img" style="background-image: url('${archivoImg}');"></div>
+                        <div class="food-details">
+                            <h3 class="food-title">${nombreES}</h3>
+                            <p class="food-zh">${nombreZH}</p>
+                        </div>
+                        <div class="food-qty-box">
+                            <span class="qty-label">CANTIDAD</span>
+                            <span class="qty-number">x${cantidad}</span>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        agregarVoucher('Hamburguesa completa + Papas', '牛肉漢堡 + 薯條', hambu, 'hamburguesa.jpg');
+        agregarVoucher('Sándwich de Bondiola + Papas', '梅花肉三明治 + 薯條', bondi, 'bondiola.jpg');
+        agregarVoucher('Sándwich de Milanesa de Pollo + Papas', '炸雞排三明治 + 薯條', mila, 'milanesa.jpg');
+
+        if (contenedor.innerHTML === '') {
+            contenedor.innerHTML = `
+                <div style="text-align: center; background: #fff3cd; color: #856404; padding: 20px; border-radius: 8px; border: 1px solid #ffeeba;">
+                    <strong>No se registraron combos de comida.</strong><br>
+                    (Este grupo o individuo no adquirió menú).
+                </div>`;
+        }
+    }
+
+    function descargarImagen() {
+        const hoja = document.getElementById('hoja_imprimible');
+        html2canvas(hoja, { scale: 2, backgroundColor: "#ffffff", useCORS: true }).then(canvas => {
+            canvas.toBlob(function(blob) {
+                const comp = document.getElementById('tk_num').innerText; 
+                const file = new File([blob], `Comida_${comp}.jpg`, { type: 'image/jpeg' });
+                
+                if (navigator.canShare && navigator.canShare({ files: [file] })) { 
+                    navigator.share({ files: [file], title: `Vouchers de Comida ${comp}`, text: '¡Acá tenés tus vouchers de comida!' }).catch(e => console.log(e)); 
+                } else { 
+                    const link = document.createElement('a'); 
+                    link.download = `Comida_${comp}.jpg`; 
+                    link.href = canvas.toDataURL('image/jpeg', 0.9); 
+                    link.click(); 
+                }
+            }, 'image/jpeg', 0.9);
+        });
+    }
+</script>
+</body>
+</html>
