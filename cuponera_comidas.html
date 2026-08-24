@@ -20,34 +20,40 @@
         .btn-dark { background: #333; }
         .btn-dark:hover { background: #111; }
         
-        /* Contenedor imprimible de los cupones */
+        /* Contenedor imprimible de los cupones - TAMAÑO 1/4 A4 */
         .ticket-wrapper { overflow-x: auto; background: #e8eaed; padding: 15px; border-radius: 8px; display: flex; justify-content: center; }
         
         #hoja_imprimible { 
-            background: white; padding: 30px; border: 2px dashed #ccc; width: 700px; min-width: 700px; 
-            font-family: 'Noto Sans TC', Arial, sans-serif; color: black; box-sizing: border-box; 
+            background: white; 
+            padding: 15px; 
+            border: 2px dashed #ccc; 
+            width: 420px; /* Ancho reducido para ocupar 1/4 de página */
+            min-width: 420px; 
+            font-family: 'Noto Sans TC', Arial, sans-serif; 
+            color: black; 
+            box-sizing: border-box; 
         }
 
-        .header-cupones { border-bottom: 3px solid #1a73e8; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .titulo-hoja { color: #1a73e8; font-size: 24px; font-weight: bold; margin: 0 0 5px 0; }
-        .subtitulo-hoja { font-size: 15px; color: #555; margin: 0; }
+        .header-cupones { border-bottom: 2px solid #1a73e8; padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .titulo-hoja { color: #1a73e8; font-size: 18px; font-weight: bold; margin: 0 0 3px 0; }
+        .subtitulo-hoja { font-size: 12px; color: #555; margin: 0; }
         
-        .datos-reserva { background: #fafafa; padding: 15px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 20px; font-size: 16px; display: flex; justify-content: space-between;}
+        .datos-reserva { background: #fafafa; padding: 10px; border-radius: 6px; border: 1px solid #eee; margin-bottom: 15px; font-size: 13px; display: flex; justify-content: space-between;}
         
-        /* Tarjetas de comida vistosas */
+        /* Tarjetas de comida vistosas COMPACTAS */
         .food-card {
             display: flex;
             border: 2px solid #1a73e8;
-            border-radius: 12px;
-            margin-bottom: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
             background: #fff;
             overflow: hidden;
-            height: 110px;
+            height: 85px;
             page-break-inside: avoid;
         }
         
         .food-img-container {
-            width: 140px;
+            width: 100px;
             border-right: 2px dashed #ccc;
             flex-shrink: 0;
             display: flex;
@@ -61,22 +67,21 @@
         
         .food-details {
             flex: 1;
-            padding: 15px 20px;
+            padding: 8px 12px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
         
-        .food-title { margin: 0; font-size: 19px; color: #333; font-weight: bold; }
-        .food-zh { margin: 5px 0 0 0; font-size: 15px; color: #666; }
+        .food-title { margin: 0; font-size: 14px; color: #333; font-weight: bold; line-height: 1.2; }
+        .food-zh { margin: 4px 0 0 0; font-size: 12px; color: #666; }
         
-        /* SISTEMA ANTI-PHOTOSHOP */
+        /* SISTEMA ANTI-PHOTOSHOP COMPACTO */
         .food-qty-box {
-            width: 120px;
+            width: 90px;
             background-color: #f4f6f9;
-            /* Patrón de puntitos de fondo para que sea difícil clonar o borrar */
             background-image: radial-gradient(#cbd2d9 1px, transparent 1px);
-            background-size: 10px 10px;
+            background-size: 8px 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -85,39 +90,38 @@
         }
         
         .qty-label { 
-            font-size: 11px; 
+            font-size: 10px; 
             color: #555; 
             font-weight: bold; 
-            margin-bottom: 6px; 
-            background: rgba(255,255,255,0.85); /* Fondo semitransparente para que se lea bien sobre los puntos */
-            padding: 2px 8px;
-            border-radius: 10px;
+            margin-bottom: 4px; 
+            background: rgba(255,255,255,0.85); 
+            padding: 2px 6px;
+            border-radius: 8px;
         }
         
         .qty-number { 
-            font-size: 28px; 
+            font-size: 22px; 
             font-weight: bold; 
             color: white; 
-            /* Círculo con degradado, borde y sombra */
             background: linear-gradient(135deg, #1a73e8 0%, #1152a3 100%);
             border: 2px solid #aecbfa;
             border-radius: 50%;
-            width: 55px;
-            height: 55px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
         }
 
         @media print {
             body * { visibility: hidden; }
             #hoja_imprimible, #hoja_imprimible * { visibility: visible; }
-            #hoja_imprimible { position: absolute; left: 0; top: 0; width: 100%; border: none; }
+            /* Se ubica arriba a la izquierda para ocupar su cuartito de hoja natural */
+            #hoja_imprimible { position: absolute; left: 0; top: 0; border: 1px dashed #ccc; }
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -141,29 +145,25 @@
                     <p class="subtitulo-hoja">Tivoli Park Family Day - 餐點兌換券</p>
                 </div>
                 <div style="text-align: right;">
-                    <p style="margin: 0; font-size: 14px; color: #555;" id="tk_fecha">Fecha: --/--/----</p>
+                    <p style="margin: 0; font-size: 11px; color: #555;" id="tk_fecha">Fecha: --/--/----</p>
                 </div>
             </div>
             
             <div class="datos-reserva">
                 <div>
-                    <strong>Titular (報名者):</strong> <span id="tk_titular" style="color: #1a73e8; font-size: 18px;">-</span>
+                    <strong>Titular:</strong> <span id="tk_titular" style="color: #1a73e8; font-size: 14px;">-</span>
                 </div>
                 <div>
-                    <strong>N° Reserva:</strong> <span id="tk_num" style="color: #d93025; font-size: 18px; font-weight: bold;">TIV-XXXX</span>
+                    <strong>N° Reserva:</strong> <span id="tk_num" style="color: #d93025; font-size: 14px; font-weight: bold;">TIV-XXXX</span>
                 </div>
             </div>
 
             <div id="contenedor_cupones">
-                <div style="text-align: center; color: #999; margin: 40px 0; font-size: 16px;">
+                <div style="text-align: center; color: #999; margin: 20px 0; font-size: 13px;">
                     Pegá el texto de WhatsApp arriba y hacé clic en "Generar Vouchers".
                 </div>
             </div>
-            
-            <div style="margin-top: 25px; text-align: center; font-size: 12px; color: #777; border-top: 1px solid #eee; padding-top: 10px;">
-                Por favor presentar esta hoja en el sector del Buffet para retirar los menús correspondientes.<br>
-                請將此兌換券交給餐飲部工作人員以領取您的餐點。
-            </div>
+            <!-- SE ELIMINÓ LA LEYENDA FINAL SOLICITADA -->
         </div>
     </div>
 </div>
@@ -188,8 +188,6 @@
         // Busca cantidades de comida en el texto
         const mHambu = txt.match(/Hamburguesa\s*x\s*(\d+)/i); if (mHambu) hambu = parseInt(mHambu[1]);
         const mBondi = txt.match(/Bondiola\s*x\s*(\d+)/i); if (mBondi) bondi = parseInt(mBondi[1]);
-        
-        // Retrocompatible: lee tanto la palabra vieja "Milanesa" como la nueva "Suprema"
         const mMila = txt.match(/(?:Suprema|Milanesa)\s*x\s*(\d+)/i); if (mMila) mila = parseInt(mMila[1]);
 
         document.getElementById('tk_titular').innerText = responsable;
@@ -223,7 +221,7 @@
 
         if (contenedor.innerHTML === '') {
             contenedor.innerHTML = `
-                <div style="text-align: center; background: #fff3cd; color: #856404; padding: 20px; border-radius: 8px; border: 1px solid #ffeeba;">
+                <div style="text-align: center; background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; border: 1px solid #ffeeba; font-size: 13px;">
                     <strong>No se registraron combos de comida.</strong><br>
                     (Este grupo o individuo no adquirió menú).
                 </div>`;
